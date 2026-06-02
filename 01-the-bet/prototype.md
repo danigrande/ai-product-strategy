@@ -6,7 +6,7 @@ A functional prototype of the World Cup pool with an AI agent
 
 ## Tool Used
 <!-- v0 / Cursor / Lovable / other -->
-Antigravity
+Antigravity IDE
 
 ## Prototype Link
 <!-- Paste the shareable URL -->
