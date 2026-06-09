@@ -12,8 +12,8 @@
 | **Domain Context** | Does usage in one area improve quality in adjacent areas? | Siloed | Cross-domain transfer | _4_/5 |
 | **Network** | Does each new user / team make the product better for everyone? | Isolated | Strong network effects | _1_/5 |
 
-### Correction Loop - _1_/5
-**What you capture today:Users are not fixing any AI outputs**
+### Correction Loop - _3_/5
+**What you capture today: Users can thumbsup or thumbsdown the messages from the Agent. When thumbsdown they can also select the reason.**
 **How it compounds:**
 
 ### Preference Loop - _4_/5
@@ -25,10 +25,10 @@
 **How it compounds:**
 
 ### Network Loop - _1_/5
-**What you capture today: The Agent does not improve over time because more people use it.**
+**What you capture today: The Agent does not improve over time because more people use it. It would tkae development effort to make the messages better.**
 **How it compounds:**
 
-**Total Flywheel Score: _10_/20**
+**Total Flywheel Score: _14_/20**
 **Weakest Loop: Network Loop**
 **Fix for weakest loop: **
 
