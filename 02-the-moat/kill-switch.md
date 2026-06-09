@@ -4,16 +4,16 @@
 
 | Dimension | Current State | Risk Level | 48-Hour Action |
 |-----------|--------------|------------|---------------|
-| **Provider** | | H / M / L | |
-| **Abstraction** | | H / M / L | |
-| **Routing** | | H / M / L | |
-| **Eval** | | H / M / L | |
+| **Provider** | Groq | L | Fallback to HuginggFace |
+| **Abstraction** | Fallback mechanism | H / M / L | |
+| **Routing** |  | H / M / L | |
+| **Eval** | There are no Evals currently | H | Create golden date set to evaluate models before moving |
 
 ## Portability Score
-<!-- Ready / Partial / Locked -->
+<!-- Ready -->
 
 ## If [primary vendor] doubles pricing tomorrow:
-<!-- What's your 48-hour response? -->
+<!-- I will switch to another one instantly -->
 
 ## If [primary vendor] ships a competing product:
 <!-- What's defensible that they can't replicate? -->
