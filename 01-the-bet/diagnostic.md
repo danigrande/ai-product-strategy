@@ -10,12 +10,12 @@
 
 ## Scores
 
-### Contextual Moat — _4_/5
+### Contextual Moat — _3_/5
 *Workflow depth × switching cost. Would users leave in a weekend if a competitor showed up?*
 
-**Score rationale: Existing customers from other competitors won't be able to migrate. I would have to wait until a new start of a season.**
+**Score rationale: If users are already in my app and the tournament has started, they won't leave mid tournament, as it isn't possible to migrate. However before the start of a new season / tournament it would be easy for customers to move to a competitor.**
 
-**Named attacker (from partner challenge): Fantasy league equivalents**
+**Named attacker (from partner challenge): Fantasy league equivalents, online Spreadsheets**
 
 ---
 
