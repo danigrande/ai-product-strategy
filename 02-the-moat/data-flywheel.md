@@ -9,26 +9,26 @@
 |------|------------------|---------|---------|-------|
 | **Correction** | Do users fix AI outputs? Is that signal captured and reused? | No capture | Automated retraining | _3_/5 |
 | **Preference** | Does the product learn individual / team preferences over time? | Stateless | Deep personalization | _4_/5 |
-| **Domain Context** | Does usage in one area improve quality in adjacent areas? | Siloed | Cross-domain transfer | _4_/5 |
-| **Network** | Does each new user / team make the product better for everyone? | Isolated | Strong network effects | _1_/5 |
+| **Domain Context** | Does usage in one area improve quality in adjacent areas? | Siloed | Cross-domain transfer | _3_/5 |
+| **Network** | Does each new user / team make the product better for everyone? | Isolated | Strong network effects | _2_/5 |
 
 ### Correction Loop - _3_/5
 **What you capture today: Users can thumbsup or thumbsdown the messages from the Agent. When thumbsdown they can also select the reason.**
 **How it compounds:**
 
 ### Preference Loop - _4_/5
-**What you capture today: In the chat, I capture the las 100 messages from each user and with a RAG I pass them over to the Agent to provide tailored responses**
+**What you capture today: In the chat, I capture the las 100 messages from each user and with a RAG I pass them over to the Agent to provide tailored responses. Users can also select preferences on the tone & personality of the Agent.**
 **How it compounds: The more the users interact with each other, the more knowledge I get from them and can pick specific topics to generate engagement**
 
-### Domain Context Loop - _4_/5
-**What you capture today: Based on users conversations I can "push" notifications that are "breaking news" for them. i.e. they mention they are Brasil supporters -> I send push notifications about Neymar news from RSS feeds.**
+### Domain Context Loop - _3_/5
+**What you capture today: Based on users conversations I can "push" notifications that are "breaking news" for them. i.e. they mention they are Brasil supporters -> I send push notifications about Neymar news from RSS feeds. However it does not affect the "gameplay" rules.**
 **How it compounds:**
 
 ### Network Loop - _2_/5
 **What you capture today: The Agent does not improve by itself over time because more people use it. It would take development effort to analyse the signals and understand how to make the messages better.**
 **How it compounds:**
 
-**Total Flywheel Score: _14_/20**
+**Total Flywheel Score: _12_/20**
 **Weakest Loop: Network Loop**
 **Fix for weakest loop: **
 
