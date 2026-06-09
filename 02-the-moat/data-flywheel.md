@@ -7,7 +7,7 @@
 
 | Loop | What It Measures | Score 1 | Score 5 | Score |
 |------|------------------|---------|---------|-------|
-| **Correction** | Do users fix AI outputs? Is that signal captured and reused? | No capture | Automated retraining | _1_/5 |
+| **Correction** | Do users fix AI outputs? Is that signal captured and reused? | No capture | Automated retraining | _3_/5 |
 | **Preference** | Does the product learn individual / team preferences over time? | Stateless | Deep personalization | _4_/5 |
 | **Domain Context** | Does usage in one area improve quality in adjacent areas? | Siloed | Cross-domain transfer | _4_/5 |
 | **Network** | Does each new user / team make the product better for everyone? | Isolated | Strong network effects | _1_/5 |
@@ -24,8 +24,8 @@
 **What you capture today: Based on users conversations I can "push" notifications that are "breaking news" for them. i.e. they mention they are Brasil supporters -> I send push notifications about Neymar news from RSS feeds.**
 **How it compounds:**
 
-### Network Loop - _1_/5
-**What you capture today: The Agent does not improve over time because more people use it. It would tkae development effort to make the messages better.**
+### Network Loop - _2_/5
+**What you capture today: The Agent does not improve by itself over time because more people use it. It would take development effort to analyse the signals and understand how to make the messages better.**
 **How it compounds:**
 
 **Total Flywheel Score: _14_/20**
