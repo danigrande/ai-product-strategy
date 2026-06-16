@@ -2,7 +2,7 @@
 
 ## What I Built
 <!-- One sentence: what does this prototype demonstrate? -->
-A functional prototype of the World Cup pool with an AI agent
+A functional prototype of the World Cup pool with an AI agent.
 
 ## Tool Used
 <!-- v0 / Cursor / Lovable / other -->
@@ -19,7 +19,7 @@ Copilot
 
 ## The Bet in One Sentence
 <!-- What you're building, for whom, why now -->
-I'm building platform to make world cup predictions in which users can interact between each other and an AI agent. 
+The "AI product" is a gamified, multi-personality social chatbot called "Agente Mundial" (World Agent). It acts as a fun, dramatic, and highly contextual commentator for groups of friends competing in a 2026 World Cup Prediction Pool. 
 
 ## Kill Criteria
 <!-- When would you stop? What evidence would kill this bet? --> When the cost of infrastructure is higher than expected revenue.
