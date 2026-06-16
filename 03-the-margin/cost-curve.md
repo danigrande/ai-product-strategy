@@ -40,6 +40,38 @@ If went "enterprise" pricing - Assuming 100k users
 ## Cascading Strategy
 <!-- Cheap model → frontier model routing logic -->
 
+A Cascading Strategy (or Model Routing) absolutely makes sense for your product, but you need to invert the traditional approach.
+
+Because your app is primarily a real-time social chat interface, speed and cost are vastly more important than deep reasoning for 95% of your interactions.
+
+Here is exactly how a Triage/Cascading model should be implemented for "Agente Mundial":
+
+The Cascading Strategy
+Triage (Primary) Model: Llama 3.1 8B (via Groq).
+Frontier Model: GPT-4o-mini or Claude 3.5 Haiku. (Do not use heavy models like GPT-4o or Opus; they are too slow and expensive for consumer social apps).
+The Routing Rules
+You don't need a complex semantic router to determine difficulty. You can route strictly based on the Feature Set (Synchronous vs. Asynchronous):
+
+1. Route to Triage Model (Groq Llama 3):
+
+Target: generateResponse (Real-time group chat banter).
+Why: When a user tags the bot in the chat, they expect an immediate response. Groq's 500+ tokens/second speed is a massive UI advantage. A 7B/8B model is perfectly capable of looking at a user's stats and throwing a quick, 3-sentence insult in the voice of Tomás Roncero. You do not need frontier-level reasoning to make a football joke.
+2. Route to Frontier Model (GPT-4o-mini / Claude 3.5 Haiku):
+
+Target: generateDailySummary and Data Extraction.
+Why: At the end of the day, your cron job passes a JSON leaderboard of 15 players and their exact stats to the LLM and asks it to synthesize a coherent, error-free summary. Smaller models (8B) are notorious for "hallucinating" numbers or failing at complex formatting when given large data arrays. Because this is an asynchronous background task (a cron job), the user doesn't care if it takes 4 seconds to generate. You need high accuracy here.
+Expected Cascade Ratio
+95% / 5%
+
+95% of Volume (Triage): Chat interactions. In a group of 10 friends, the bot might be triggered 20 times during a 90-minute match.
+5% of Volume (Frontier): Summaries and background tasks. The daily summary only runs once per group, per day.
+Why this is the ultimate strategic move:
+By adopting this 95/5 cascade ratio, you achieve the "Holy Trinity" of AI consumer apps:
+
+Near-zero latency where the user feels it most (chat).
+High reasoning and zero hallucinations where it matters most (daily leaderboard summaries).
+Blended COGS (Cost of Goods Sold) that remain effectively as cheap as if you were running the entire app on open-source models, because the expensive frontier model is only firing once a day per group.
+
 **Triage model:**
 **Frontier model:**
 **Routing rule:**
