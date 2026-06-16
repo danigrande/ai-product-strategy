@@ -179,15 +179,46 @@ By doing this, every new user who makes a prediction anywhere in the world makes
 **Time-to-threat:**
 **% of value at risk:**
 
+1. Platform Encroachment
+Attacker: Meta (WhatsApp) / Apple (Apple Intelligence)
+Vector: Native, multimodal AI agents embedded directly into the OS or default group chats. A user simply types in their existing WhatsApp group: "@MetaAI, we are doing a World Cup pool. Keep track of our scores and roast us like Andrés Montes."
+Time-to-threat: 1-2 years. (The agents are rolling out now, but prompt-engineering a stateful, math-heavy game with perfect recall in a chaotic group chat is still highly error-prone).
+% of value at risk: 30% - 40%. You survive because of your UI/UX. People want a visual, clickable leaderboard and dedicated prediction screens, not an endless wall of text trying to verify if the AI did the math right.
+
+3. Vertical Competitor
+Attacker: Sleeper (or ESPN/Yahoo Fantasy)
+Vector: The massive incumbent in social fantasy sports. They already own the exact social graph (friend groups who play sports games together), the real-time sports data feeds, and the group chat infrastructure. They simply integrate the Groq API to create an "AI Commish" that roasts their existing users.
+Time-to-threat: 6-12 months. (Sleeper has the engineering velocity to build this in a single sprint if they identify the trend).
+% of value at risk: 90% - 100%. This is an existential threat. If your target audience is already on Sleeper for NFL or Premier League, and Sleeper launches an identical AI-banter World Cup pool, the friction for users to download your standalone app becomes insurmountable.
+
+5. Adjacent Expansion
+Attacker: Telegram (via Mini-App / Bot Developers)
+Vector: Frictionless distribution. An indie developer builds exactly what you have built, but as a "Telegram Mini App." Because friend groups already talk on Telegram, they don't have to convince their friends to download a new app or create new accounts. They just add the bot to the group, and the UI opens instantly within the chat.
+Time-to-threat: 3-6 months. (Telegram's bot and WebApp APIs are extremely mature, and developers are flooding the ecosystem right now).
+% of value at risk: 70% - 80%. This attacks your biggest weakness: Go-To-Market Friction. In a B2B2C/Multiplayer app, the hardest part is getting 10 friends to install the same app. By expanding into the chat app where the friends already live, the adjacent attacker bypasses your entire acquisition funnel.
+
+
+
+
 ---
 
 ## 90-Day Encroachment Plan
 
 *Your partner played the Big Tech attacker. What was their plan to kill you?*
 
-**Attacker:**
-**Attack vector (target the weakest loop):**
-**Weeks 1-4 - what they ship:**
-**Weeks 5-8 - how they poach users:**
-**Weeks 9-12 - why users don't come back:**
-**Your defense:**
+
+Attacker: Meta (WhatsApp + Meta AI)
+
+Attack vector (target the weakest loop): Your weakest loop is Go-To-Market Friction. In a multiplayer app, the "Alpha" friend has to convince 10 lazy friends to download a brand new app, create accounts, and learn a new UI. Meta attacks this friction by launching the feature exactly where the friend group already lives.
+
+Weeks 1-4 - what they ship: Meta rolls out "WhatsApp Sports Bots" natively in the app, powered by Llama 3. Any user can type @MetaAI start a World Cup prediction pool in this chat. WhatsApp instantly pins a lightweight, native leaderboard to the top of the group chat. The AI is programmed to automatically announce the daily matches and gently roast whoever is in last place.
+
+Weeks 5-8 - how they poach users: The World Cup is one week away. The "Alpha" friend in the group tries to get everyone to download "Agente Mundial," but three friends complain about downloading another app. The Alpha friend gives up, types @MetaAI in their existing group, and the pool is set up in 4 seconds. You lose the entire group before the first match kicks off.
+
+Weeks 9-12 - why users don't come back: The tournament is now in the knockout stages. The game is highly stateful. The friends have accumulated points, a rich history of banter in the chat, and established rivalries. Moving a live, mid-tournament prediction pool to a third-party app is impossible. They are permanently locked into WhatsApp for the duration of the event.
+
+Your defense: Meta is a massive, horizontal monopoly. They build tools that must work safely for 3 billion people. Your defense relies entirely on being hyper-vertical, gamified, and culturally unhinged.
+
+The "Brand Safety" Moat: Meta AI is heavily RLHF'd to be polite, safe, and universally inoffensive. Your AI (Tomás Roncero, Darth Vader) is specifically prompted to be dramatic, aggressive, and highly culturally specific. People play these games to laugh at their friends; Meta won't let their AI be mean enough to be genuinely funny. You win on the humor quality.
+Dedicated UX: A WhatsApp chat thread is a terrible interface for viewing complex stats. Your app has a beautiful, dedicated UI for tracking plenos (exact hits), honor points, and group rankings that a simple pinned chat message can't replicate.
+The "Sanctuary" Argument: Many friend groups actually want a dedicated app for their betting pools to separate the noise of the game from their daily life/work WhatsApp messages. You position Agente Mundial as the dedicated "Sports Bar" away from the noise of their main inbox.
