@@ -10,8 +10,8 @@ Current MVP (10 users/month)
 | Inference (cascading/triage) | 0$ | Llama-3.1-8B-Instant Free tier  on Groq  |
 | Infrastructure | 0$ | Free tier Render |
 | Data/storage | 0$ | MongoDB Atlas Free tier |
-| Human-in-the-loop | 2000$ | Very difficult to tell, the cost will decrease with volume of users |
-| **Total AI COGS** | 2000$ | Very dependable on scalability |
+| Human-in-the-loop | 0$ | Eliminated. Replaced by the automated ChatbotFeedback (Thumbs Up/Down) system inside the app. |
+| **Total AI COGS** | 0$ | It's currently at cost 0. |
 
 
 Real MVP (1000 users/month)
