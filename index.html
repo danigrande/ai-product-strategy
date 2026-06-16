@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worldcup Pool — AI Product Strategy</title>
+  <style>
+    /* ========== Reset & Base ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --green-900: #0D3B1E;
+      --green-800: #14532D;
+      --green-700: #1B6B3A;
+      --green-600: #228B44;
+      --green-500: #2EA85A;
+      --gold: #D4A017;
+      --gold-light: #F0D080;
+      --gold-pale: #FFF8E7;
+      --cream: #FDFBF7;
+      --white: #FFFFFF;
+      --gray-50: #F8F7F4;
+      --gray-100: #F0EEE9;
+      --gray-200: #D9D6CE;
+      --gray-400: #8C887E;
+      --gray-600: #5C5952;
+      --gray-800: #2D2B26;
+      --gray-900: #1A1916;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.07), 0 2px 6px rgba(0,0,0,.04);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,.1);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--gray-800);
+      background: var(--cream);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========== Typography ========== */
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--gray-900);
+    }
+    h1 { font-size: 2.75rem; letter-spacing: -0.02em; }
+    h2 { font-size: 1.75rem; letter-spacing: -0.01em; }
+    h3 { font-size: 1.25rem; }
+    h4 { font-size: 1rem; }
+
+    /* ========== Nav ========== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--green-800);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    nav .logo svg { width: 22px; height: 22px; }
+    nav .nav-links {
+      display: flex;
+      gap: 0.25rem;
+      list-style: none;
+    }
+    nav .nav-links a {
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      transition: var(--transition);
+    }
+    nav .nav-links a:hover,
+    nav .nav-links a:focus {
+      color: var(--green-700);
+      background: var(--gray-50);
+    }
+
+    /* ========== Hero ========== */
+    .hero {
+      margin-top: 60px;
+      background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 60%, var(--green-600) 100%);
+      color: white;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,.03) 60px, rgba(255,255,255,.03) 61px),
+        repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(255,255,255,.03) 60px, rgba(255,255,255,.03) 61px);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to top, rgba(0,0,0,.15), transparent);
+      pointer-events: none;
+    }
+    .hero h1 {
+      color: white;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    .hero .subtitle {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,.8);
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+    }
+    .hero .pitch-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,.15);
+      padding: 0.5rem 1.5rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      position: relative;
+    }
+    .hero .pitch-icon svg { width: 18px; height: 18px; fill: var(--gold-light); }
+
+    /* ========== Container ========== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ========== Section ========== */
+    .section {
+      scroll-margin-top: 80px;
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .section:last-of-type { border-bottom: none; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--green-700);
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.15rem;
+    }
+    .section-meta {
+      font-size: 0.85rem;
+      color: var(--gray-400);
+    }
+
+    /* ========== Cards ========== */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+    }
+    .card:hover { box-shadow: var(--shadow-md); }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--gold-pale);
+    }
+    .card-header h3 {
+      font-size: 1.1rem;
+      color: var(--green-800);
+    }
+    .card-header .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      background: var(--gray-50);
+      color: var(--gray-600);
+    }
+
+    /* ========== Summary Table (At a Glance) ========== */
+    .glance-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-100);
+      background: var(--white);
+    }
+    .glance-table thead th {
+      background: var(--green-800);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.9rem 1.2rem;
+      text-align: left;
+    }
+    .glance-table tbody td {
+      padding: 0.85rem 1.2rem;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .glance-table tbody tr:last-child td { border-bottom: none; }
+    .glance-table tbody tr:hover { background: var(--gray-50); }
+    .glance-table .status-empty {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid var(--gray-200);
+      border-radius: 4px;
+      vertical-align: middle;
+    }
+    .glance-table .mod-link {
+      color: var(--green-700);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .glance-table .mod-link:hover { text-decoration: underline; }
+
+    /* ========== Score Cards (M1) ========== */
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .score-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .score-card .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gray-400);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .score-card .value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--green-700);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .score-card .value.low { color: #C0392B; }
+    .score-card .value.medium { color: var(--gold); }
+    .score-card .bar {
+      height: 5px;
+      border-radius: 4px;
+      background: var(--gray-100);
+      overflow: hidden;
+      margin-top: 0.4rem;
+    }
+    .score-card .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--green-600);
+      transition: width 0.6s ease;
+    }
+    .score-card .bar-fill.low { background: #C0392B; }
+    .score-card .bar-fill.medium { background: var(--gold); }
+    .score-card .rationale {
+      font-size: 0.8rem;
+      color: var(--gray-600);
+      margin-top: 0.6rem;
+      text-align: left;
+      font-style: italic;
+    }
+
+    /* ========== Data Table ========== */
+    .data-table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-100);
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .data-table thead th {
+      background: var(--gray-50);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--gray-600);
+      padding: 0.7rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .data-table tbody td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: top;
+    }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .data-table tbody tr:hover { background: var(--gray-50); }
+    .data-table .blank { color: var(--gray-400); font-style: italic; }
+    .blank-inline { color: var(--gray-400); font-style: italic; }
+
+    /* ========== Detail / Proto Row ========== */
+    .detail-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .detail-row .detail-item label {
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gray-400);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .detail-row .detail-item p {
+      font-size: 0.9rem;
+      color: var(--gray-800);
+    }
+    .proto-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-700);
+      color: white !important;
+      padding: 0.4rem 1.2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    .proto-link:hover { background: var(--green-800); transform: translateY(-1px); }
+
+    /* ========== Kill Criteria ========== */
+    .kill-list {
+      list-style: none;
+      padding: 0;
+    }
+    .kill-list li {
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+    }
+    .kill-list li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0.85rem;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    /* ========== Confidence Pill ========== */
+    .pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.6rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .pill-m { background: var(--gold-pale); color: #8B7300; }
+    .pill-h { background: #E8F5E9; color: #2E7D32; }
+    .pill-l { background: #FFEBEE; color: #C62828; }
+
+    /* ========== KPI Box ========== */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .kpi-box {
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      text-align: center;
+    }
+    .kpi-box .kpi-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--green-700);
+    }
+    .kpi-box .kpi-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gray-400);
+      margin-top: 0.15rem;
+    }
+
+    /* ========== Placeholder Block ========== */
+    .placeholder-note {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      color: var(--gray-400);
+      font-size: 0.85rem;
+      font-style: italic;
+      border: 1px dashed var(--gray-200);
+    }
+    .placeholder-note strong { color: var(--gray-600); font-style: normal; }
+
+    /* ========== Footer ========== */
+    footer {
+      background: var(--gray-900);
+      color: rgba(255,255,255,.6);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+    }
+    footer a { color: var(--gold-light); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ========== Sections for M2-M6 empty tables ========== */
+    .empty-table-note {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      text-align: center;
+      padding: 2rem 1rem;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px dashed var(--gray-200);
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      nav .nav-links { display: none; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero .subtitle { font-size: 1rem; }
+      .detail-row { grid-template-columns: 1fr; }
+      .score-grid { grid-template-columns: 1fr; }
+      .section-header { flex-wrap: wrap; }
+      .container { padding: 0 1.25rem; }
+      .section { padding: 2.5rem 0; }
+      .card { padding: 1.25rem; }
+    }
+
+    @media (max-width: 480px) {
+      .glance-table thead th,
+      .glance-table tbody td { padding: 0.6rem 0.8rem; font-size: 0.8rem; }
+    }
+
+    /* ========== Print ========== */
+    @media print {
+      nav { display: none; }
+      .hero { margin-top: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== NAV ==================== -->
+  <nav>
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="12" cy="12" r="4"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <line x1="12" y1="2" x2="12" y2="22"/>
+      </svg>
+      AI Product Strategy
+    </div>
+    <ul class="nav-links">
+      <li><a href="#at-a-glance">Overview</a></li>
+      <li><a href="#the-bet">Bet</a></li>
+      <li><a href="#the-moat">Moat</a></li>
+      <li><a href="#the-margin">Margin</a></li>
+      <li><a href="#the-contract">Contract</a></li>
+      <li><a href="#the-guardrails">Guardrails</a></li>
+      <li><a href="#the-pitch">Pitch</a></li>
+    </ul>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <header class="hero">
+    <h1>Worldcup Pool</h1>
+    <p class="subtitle">A living AI product strategy — version-controlled, board-ready, and built across six strategic modules.</p>
+    <div class="pitch-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+      </svg>
+      Worldcup · AI Copilot · Product Strategy
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- ==================== AT A GLANCE ==================== -->
+    <section id="at-a-glance" class="section">
+      <div class="section-header">
+        <div class="section-number">0</div>
+        <div>
+          <h2 class="section-title">Strategy at a Glance</h2>
+          <p class="section-meta">The six components of the Worldcup Pool strategy</p>
+        </div>
+      </div>
+
+      <table class="glance-table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Module</th>
+            <th>Status</th>
+            <th>Key Artifact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>The Bet</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">What we're building, for whom, why now</span></td>
+            <td>M1</td>
+            <td><span class="status-empty"></span></td>
+            <td><a href="#the-bet" class="mod-link">01-the-bet/</a></td>
+          </tr>
+          <tr>
+            <td><strong>The Moat</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Why this won't get copied in 6 months</span></td>
+            <td>M2</td>
+            <td><span class="status-empty"></span></td>
+            <td><a href="#the-moat" class="mod-link">02-the-moat/</a></td>
+          </tr>
+          <tr>
+            <td><strong>The Margin</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Will this make money or bleed it?</span></td>
+            <td>M3</td>
+            <td><span class="status-empty"></span></td>
+            <td><a href="#the-margin" class="mod-link">03-the-margin/</a></td>
+          </tr>
+          <tr>
+            <td><strong>The Contract</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Why users trust a probabilistic system</span></td>
+            <td>M4</td>
+            <td><span class="status-empty"></span></td>
+            <td><a href="#the-contract" class="mod-link">04-the-contract/</a></td>
+          </tr>
+          <tr>
+            <td><strong>The Guardrails</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">What breaks at scale — and what compounds</span></td>
+            <td>M5</td>
+            <td><span class="status-empty"></span></td>
+            <td><a href="#the-guardrails" class="mod-link">05-the-guardrails/</a></td>
+          </tr>
+          <tr>
+            <td><strong>The Pitch</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Funding, shipping &amp; adoption narrative</span></td>
+            <td>M6</td>
+            <td><span class="status-empty"></span></td>
+            <td><a href="#the-pitch" class="mod-link">06-the-pitch/</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ==================== M1: THE BET ==================== -->
+    <section id="the-bet" class="section">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <div>
+          <h2 class="section-title">The Bet</h2>
+          <p class="section-meta">What we're building, for whom, and why now</p>
+        </div>
+      </div>
+
+      <!-- === Diagnostic Card === -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Three-Axis Vulnerability Diagnostic</h3>
+          <span class="badge">M1 · diagnostic.md</span>
+        </div>
+
+        <div style="margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:0.75rem;">
+          <div><strong>Product:</strong> Worldcup Pool</div>
+          <div><strong>Role:</strong> Product Manager</div>
+        </div>
+
+        <div class="score-grid">
+          <div class="score-card">
+            <div class="label">Contextual Moat</div>
+            <div class="value">4 <span style="font-size:1rem;font-weight:400;color:var(--gray-400)">/ 5</span></div>
+            <div class="bar"><div class="bar-fill" style="width:80%"></div></div>
+            <div class="rationale">Existing customers from other competitors won't be able to migrate. Would have to wait until a new season start.</div>
+            <div style="margin-top:0.4rem;font-size:0.75rem;color:var(--gray-400)">Attacker: Fantasy league equivalents</div>
+          </div>
+
+          <div class="score-card">
+            <div class="label">Data Advantage</div>
+            <div class="value">5 <span style="font-size:1rem;font-weight:400;color:var(--gray-400)">/ 5</span></div>
+            <div class="bar"><div class="bar-fill" style="width:100%"></div></div>
+            <div class="rationale">In-app chat where users interact. All chat context is mine to learn about users.</div>
+            <div style="margin-top:0.4rem;font-size:0.75rem;color:var(--gray-400)">Risk: Relies on third-party APIs for results</div>
+          </div>
+
+          <div class="score-card">
+            <div class="label">Platform Exposure</div>
+            <div class="value low">1 <span style="font-size:1rem;font-weight:400;color:var(--gray-400)">/ 5</span></div>
+            <div class="bar"><div class="bar-fill low" style="width:20%"></div></div>
+            <div class="rationale">They won't be interested in shipping my feature.</div>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <div class="detail-item">
+            <label>Top Vulnerability</label>
+            <p>Revenue strategy undecided — Freemium with paid capabilities vs. free with ads + data exploitation.</p>
+          </div>
+          <div class="detail-item">
+            <label>Confidence Level</label>
+            <p><span class="pill pill-m">M</span> <span style="font-size:0.85rem;color:var(--gray-600);margin-left:0.5rem;">Medium</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- === Prototype Card === -->
+      <div class="card">
+        <div class="card-header">
+          <h3>The Prototype Bet</h3>
+          <span class="badge">M1 · prototype.md</span>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="kpi-value">Copilot</div>
+            <div class="kpi-label">AI Value Archetype</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-value">Antigravity IDE</div>
+            <div class="kpi-label">Primary Tool</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-value">Opencode</div>
+            <div class="kpi-label">Secondary Tool</div>
+          </div>
+        </div>
+
+        <p style="font-size:0.9rem;margin-bottom:1rem;"><strong>What it demonstrates:</strong> A functional prototype of the World Cup pool with an AI agent.</p>
+
+        <div style="margin-bottom:1.5rem;">
+          <label style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);font-weight:600;">Prototype Links</label>
+          <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:0.4rem;">
+            <a href="https://porra-mundial-six.vercel.app/" target="_blank" rel="noopener" class="proto-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Web App
+            </a>
+            <a href="https://testflight.apple.com/join/dm43b6bp" target="_blank" rel="noopener" class="proto-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16.5A3.5 3.5 0 0 1 7.5 13h9a3.5 3.5 0 0 1 0 7h-9A3.5 3.5 0 0 1 4 16.5z"/><path d="M4 7.5A3.5 3.5 0 0 1 7.5 4h9a3.5 3.5 0 0 1 0 7h-9A3.5 3.5 0 0 1 4 7.5z"/></svg>
+              TestFlight (iOS)
+            </a>
+          </div>
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <strong style="font-size:0.9rem;">The Bet in One Sentence:</strong>
+          <p style="font-size:0.9rem;margin-top:0.2rem;font-style:italic;">"I'm building a platform to make world cup predictions in which users can interact between each other and an AI agent."</p>
+        </div>
+
+        <div class="card" style="background:var(--gold-pale);border-color:var(--gold-light);margin-bottom:0;">
+          <h4 style="display:flex;align-items:center;gap:6px;margin-bottom:0.75rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Kill Criteria
+          </h4>
+          <ul class="kill-list">
+            <li>When the cost of infrastructure is higher than expected revenue.</li>
+            <li>If the GTM cost exceeds &euro;500.</li>
+            <li>If the user base is less than 2,000 after X time with no clear traction.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== M2: THE MOAT ==================== -->
+    <section id="the-moat" class="section">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <div>
+          <h2 class="section-title">The Moat</h2>
+          <p class="section-meta">Why this won't get copied in 6 months</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Data Flywheel Map</h3>
+          <span class="badge">M2 · data-flywheel.md</span>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Loop</th>
+                <th>What It Measures</th>
+                <th>Score 1</th>
+                <th>Score 5</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Correction</strong></td>
+                <td>Do users fix AI outputs? Is that signal captured &amp; reused?</td>
+                <td>No capture</td>
+                <td>Automated retraining</td>
+                <td><span class="blank-inline">&mdash;</span></td>
+              </tr>
+              <tr>
+                <td><strong>Preference</strong></td>
+                <td>Does the product learn individual/team preferences over time?</td>
+                <td>Stateless</td>
+                <td>Deep personalization</td>
+                <td><span class="blank-inline">&mdash;</span></td>
+              </tr>
+              <tr>
+                <td><strong>Domain Context</strong></td>
+                <td>Does usage in one area improve quality in adjacent areas?</td>
+                <td>Siloed</td>
+                <td>Cross-domain transfer</td>
+                <td><span class="blank-inline">&mdash;</span></td>
+              </tr>
+              <tr>
+                <td><strong>Network</strong></td>
+                <td>Does each new user/team make the product better for everyone?</td>
+                <td>Isolated</td>
+                <td>Strong network effects</td>
+                <td><span class="blank-inline">&mdash;</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:1rem;display:flex;gap:2rem;flex-wrap:wrap;">
+          <div><strong>Total Flywheel Score:</strong> <span class="blank-inline">&mdash;</span> / 20</div>
+          <div><strong>Weakest Loop:</strong> <span class="blank-inline">&mdash;</span></div>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+          <h4 style="margin-bottom:0.5rem;">Correction Loop</h4>
+          <p class="blank-inline" style="font-size:0.85rem;">Not yet scored</p>
+          <h4 style="margin:1rem 0 0.5rem;">Preference Loop</h4>
+          <p class="blank-inline" style="font-size:0.85rem;">Not yet scored</p>
+          <h4 style="margin:1rem 0 0.5rem;">Domain Context Loop</h4>
+          <p class="blank-inline" style="font-size:0.85rem;">Not yet scored</p>
+          <h4 style="margin:1rem 0 0.5rem;">Network Loop</h4>
+          <p class="blank-inline" style="font-size:0.85rem;">Not yet scored</p>
+        </div>
+
+        <div class="placeholder-note" style="margin-top:1.5rem;">
+          <strong>Encroachment Threat Assessment</strong> &amp; <strong>90-Day Encroachment Plan</strong> sections are ready for completion.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Kill Switch Audit</h3>
+          <span class="badge">M2 · kill-switch.md</span>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Dimension</th>
+                <th>Current State</th>
+                <th>Risk Level</th>
+                <th>48-Hour Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Provider</strong></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+              </tr>
+              <tr>
+                <td><strong>Abstraction</strong></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+              </tr>
+              <tr>
+                <td><strong>Routing</strong></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+              </tr>
+              <tr>
+                <td><strong>Eval</strong></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:1rem;">
+          <p><strong>Portability Score:</strong> <span class="blank-inline">&mdash;</span></p>
+          <div class="placeholder-note" style="margin-top:0.75rem;">
+            Vendor contingency plans are ready to be documented.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== M3: THE MARGIN ==================== -->
+    <section id="the-margin" class="section">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <div>
+          <h2 class="section-title">The Margin</h2>
+          <p class="section-meta">Will this make money or bleed it?</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Cost Curve &amp; Pricing Strategy</h3>
+          <span class="badge">M3 · cost-curve.md</span>
+        </div>
+
+        <h4 style="margin-bottom:0.75rem;">Cost Model</h4>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Cost Category</th>
+                <th>Per-User / Month</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Inference (primary model)</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>Inference (cascading/triage)</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>Infrastructure</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>Data/storage</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>Human-in-the-loop</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr style="font-weight:600;background:var(--gray-50);">
+                <td>Total AI COGS</td>
+                <td><span class="blank-inline">&mdash;</span></td>
+                <td><span class="blank-inline">&mdash;</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+          <h4 style="margin-bottom:0.5rem;">Cascading Strategy</h4>
+          <p style="font-size:0.85rem;color:var(--gray-400);font-style:italic;">Cheap model &rarr; frontier model routing logic not yet defined.</p>
+          <div class="detail-row" style="margin-top:0.75rem;">
+            <div class="detail-item">
+              <label>Triage model</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Frontier model</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Routing rule</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Expected cascade ratio</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+          <h4 style="margin-bottom:0.5rem;">Pricing Model</h4>
+          <div class="detail-row">
+            <div class="detail-item">
+              <label>Current pricing</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Proposed AI pricing</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Model</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-table-wrap" style="margin-top:1.5rem;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Stress Scenario</th>
+                <th>Impact on Margin</th>
+                <th>Response</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Inference costs 3x</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>Heaviest segment doubles</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>Model provider raises prices 50%</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="placeholder-note" style="margin-top:1.5rem;">
+          <strong>Board One-Pager</strong> — before/after SaaS vs. AI revenue comparison — ready to complete.
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== M4: THE CONTRACT ==================== -->
+    <section id="the-contract" class="section">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <div>
+          <h2 class="section-title">The Contract</h2>
+          <p class="section-meta">Why users will trust a probabilistic system</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Golden Dataset &amp; Reliability Contract</h3>
+          <span class="badge">M4 · golden-dataset.md</span>
+        </div>
+
+        <h4 style="margin-bottom:0.75rem;">Golden Dataset Spec</h4>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Input</th>
+                <th>Expected Output</th>
+                <th>Edge Case?</th>
+                <th>Judge Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>2</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>3</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>4</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td>5</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="detail-row" style="margin-top:1rem;">
+          <div class="detail-item">
+            <label>Adversarial rows included</label>
+            <p class="blank-inline">&mdash;</p>
+          </div>
+          <div class="detail-item">
+            <label>Coverage gaps identified</label>
+            <p class="blank-inline">&mdash;</p>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+          <h4 style="margin-bottom:0.75rem;">Confidence UX Design</h4>
+          <div class="detail-row">
+            <div class="detail-item">
+              <label>Approach</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>High confidence (&gt;90%)</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Medium confidence (70&ndash;90%)</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Low confidence (&lt;70%)</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item" style="grid-column:1/-1;">
+              <label>User control surface</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+          <h4 style="margin-bottom:0.75rem;">Reliability Contract</h4>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Target</th>
+                  <th>Measurement</th>
+                  <th>Alert Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Accuracy</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+                <tr><td>Hallucination rate</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+                <tr><td>Latency (p95)</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+                <tr><td>Drift velocity</td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="placeholder-note" style="margin-top:1.5rem;">
+          <strong>HITL Architecture</strong> (human escalation path) and <strong>Red-Team Findings</strong> ready for completion.
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== M5: THE GUARDRAILS ==================== -->
+    <section id="the-guardrails" class="section">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <div>
+          <h2 class="section-title">The Guardrails</h2>
+          <p class="section-meta">What breaks when this scales — and what compounds</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Compounding System Design</h3>
+          <span class="badge">M5 · compounding-system.md</span>
+        </div>
+
+        <h4 style="margin-bottom:0.75rem;">Feedback Loops</h4>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Loop</th>
+                <th>Input</th>
+                <th>Output</th>
+                <th>Compounds?</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="placeholder-note" style="margin-top:1rem;">
+          <strong>Context Connectivity</strong> — knowledge flow across teams — ready to map.
+        </div>
+
+        <div style="margin-top:1.5rem;">
+          <h4 style="margin-bottom:0.75rem;">Governance Policy</h4>
+          <div class="detail-row">
+            <div class="detail-item">
+              <label>Scope</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Autonomy boundaries</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Escalation triggers</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item">
+              <label>Audit cadence</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+            <div class="detail-item" style="grid-column:1/-1;">
+              <label>Regulatory exposure (EU AI Act / other)</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="placeholder-note" style="margin-top:1.5rem;">
+          <strong>Agent Topology</strong> &amp; <strong>Shadow AI Audit</strong> sections are ready for completion.
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== M6: THE PITCH ==================== -->
+    <section id="the-pitch" class="section">
+      <div class="section-header">
+        <div class="section-number">6</div>
+        <div>
+          <h2 class="section-title">The Pitch</h2>
+          <p class="section-meta">How you get this funded, shipped, and adopted</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Three-Horizon Roadmap &amp; Board Pitch</h3>
+          <span class="badge">M6 · roadmap.md</span>
+        </div>
+
+        <h4 style="margin-bottom:0.75rem;">Horizon 1 &mdash; Now (0&ndash;3 months)</h4>
+        <p style="font-size:0.8rem;color:var(--gray-400);font-style:italic;margin-bottom:0.75rem;">Quick wins. Ship with existing capabilities.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Initiative</th><th>Metric</th><th>Confidence</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin:1.5rem 0 0.75rem;">Horizon 2 &mdash; Next (3&ndash;9 months)</h4>
+        <p style="font-size:0.8rem;color:var(--gray-400);font-style:italic;margin-bottom:0.75rem;">Bets. Requires new capabilities or integrations.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Initiative</th><th>Metric</th><th>Confidence</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+              <tr><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin:1.5rem 0 0.75rem;">Horizon 3 &mdash; Bet (9&ndash;18 months)</h4>
+        <p style="font-size:0.8rem;color:var(--gray-400);font-style:italic;margin-bottom:0.75rem;">Moonshots. High uncertainty, high potential.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Initiative</th><th>Metric</th><th>Confidence</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td><td><span class="blank-inline">&mdash;</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top:2rem;padding-top:1.5rem;border-top:2px solid var(--gold-pale);">
+          <h4 style="margin-bottom:1rem;">Board Pitch</h4>
+
+          <div class="detail-row">
+            <div class="detail-item" style="grid-column:1/-1;">
+              <label>Thesis (1 sentence)</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+          </div>
+
+          <h5 style="font-size:0.9rem;margin-bottom:0.5rem;color:var(--green-800);">The Case</h5>
+          <div class="detail-row">
+            <div class="detail-item"><label>1. Why now</label><p class="blank-inline">&mdash;</p></div>
+            <div class="detail-item"><label>2. What's defensible</label><p class="blank-inline">&mdash;</p></div>
+            <div class="detail-item" style="grid-column:1/-1;"><label>3. The economics</label><p class="blank-inline">&mdash;</p></div>
+          </div>
+
+          <h5 style="font-size:0.9rem;margin:1rem 0 0.5rem;color:var(--green-800);">The Risks</h5>
+          <div class="detail-row">
+            <div class="detail-item"><label>1. Trust / failure modes</label><p class="blank-inline">&mdash;</p></div>
+            <div class="detail-item"><label>2. Scale / governance</label><p class="blank-inline">&mdash;</p></div>
+            <div class="detail-item"><label>3. Competitive</label><p class="blank-inline">&mdash;</p></div>
+          </div>
+
+          <div class="detail-row" style="margin-top:0.5rem;">
+            <div class="detail-item" style="grid-column:1/-1;">
+              <label>The Ask</label>
+              <p class="blank-inline">&mdash;</p>
+            </div>
+          </div>
+
+          <div style="margin-top:1.5rem;padding:1rem;background:var(--gold-pale);border-radius:var(--radius-sm);">
+            <h5 style="font-size:0.85rem;color:var(--green-800);">M1 Baseline vs. Now</h5>
+            <div class="detail-row" style="margin-top:0.5rem;">
+              <div class="detail-item">
+                <label>M1 Baseline</label>
+                <p class="blank-inline">&mdash;</p>
+              </div>
+              <div class="detail-item">
+                <label>Now</label>
+                <p class="blank-inline">&mdash;</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <p>Worldcup Pool &middot; AI Product Strategy</p>
+    <p style="margin-top:0.25rem;">Built with the &nbsp;<a href="https://github.com/your-org/ai-product-strategy" target="_blank" rel="noopener">AI Product Strategy</a>&nbsp; framework</p>
+  </footer>
+
+</body>
+</html>
