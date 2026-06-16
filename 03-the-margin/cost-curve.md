@@ -86,9 +86,14 @@ Right now, your app appears to be 100% Free (or pre-monetization). You are absor
 2. Which Pricing Model Should You Use?
 Let's evaluate the standard SaaS models against your consumer social app:
 
-Seat-based (e.g., $1 per user/month): FAIL. If a group of 10 friends wants to play, and 1 friend refuses to pay $1, the entire group will abandon your app and go back to a free Excel sheet on WhatsApp. You cannot have individual paywalls in a multiplayer social game.
-Usage-based (e.g., Buy "AI Tokens"): FAIL. Consumers hate micro-transactions for basic chat. Nobody wants to calculate if they have enough credits left to ask the bot a question.
-Outcome-based: N/A. Unless you pivot to real-money sports betting (which has massive legal/compliance barriers), this doesn't apply.
+Seat-based (e.g., $1 per user/month): FAIL. 
+If a group of 10 friends wants to play, and 1 friend refuses to pay $1, the entire group will abandon your app and go back to a free Excel sheet on WhatsApp. You cannot have individual paywalls in a multiplayer social game.
+
+Usage-based (e.g., Buy "AI Tokens"): FAIL. 
+Consumers hate micro-transactions for basic chat. Nobody wants to calculate if they have enough credits left to ask the bot a question.
+Outcome-based: N/A.
+Unless you pivot to real-money sports betting (which has massive legal/compliance barriers), this doesn't apply.
+
 3. The Proposed AI Pricing: The "Admin-Sponsored" Hybrid Model
 You should use a Freemium + Admin-Sponsored Group Pass model.
 
