@@ -13,8 +13,37 @@
 | **Network** | Does each new user / team make the product better for everyone? | Isolated | Strong network effects | _2_/5 |
 
 ### Correction Loop - _3_/5
+
+
+Based on the current architecture of your codebase (specifically chat.tsx, AILog.js, and ChatbotFeedback.js), here is the honest assessment of your feedback loop:
+
+Do users "fix" AI outputs?
+No. Users do not have the ability to directly edit or rewrite the AI's output to show it what it should have said. They can only provide a binary rating (👍 or 👎) and optionally type a reason via the ChatbotFeedbackSheet in chat.tsx.
+
+Is that signal captured and reused?
+Captured: Yes. Reused: No (not automatically). Every time a user votes, the signal is securely saved to your MongoDB ChatbotFeedback collection, linked directly to the message, the user, and the original prompt (via AILog). However, the AI Engine (groqEngine.js) does not currently look up past "upvoted" interactions to improve its future answers (few-shot prompting), nor is there an automated script that fine-tunes the model on this data.
+
+Score: 3 out of 5
+I would rate your current system a 3 (Captured for Manual Review).
+
+Here is what the 1-to-5 scale looks like, and where you stand:
+
+1 - No Capture: The bot speaks into the void. (You are past this)
+2 - Passive Capture: You log the prompts, but users can't rate them. (You are past this)
+3 - Active Capture for Manual Review (YOU ARE HERE): You successfully capture human preference (RLHF data) alongside the exact prompts and context. You, as the developer, can look at a dashboard, see that users are downvoting Tomás Roncero for being too repetitive, and manually tweak the system prompt in groqEngine.js.
+4 - Dynamic Reuse (Prompt Injection): The engine dynamically searches the database for the 3 most highly-upvoted past interactions for that specific group, and injects them into the prompt as examples. (You are not doing this yet).
+5 - Automated Retraining: An automated pipeline periodically takes all upvoted outputs, formats them into a JSONL dataset, and runs a DPO (Direct Preference Optimization) fine-tuning job on a local model, deploying the new weights automatically. (You are not doing this yet).
+How to get to a 4 easily:
+If you want to immediately increase your moat without building a complex retraining pipeline, you can update groqEngine.js to do Dynamic Few-Shot Prompting. When generating a response for a user, query the database for 1 or 2 messages to that specific user that received an "Upvote", and inject them into the prompt: "Here are examples of past jokes this user found funny: [Insert past upvoted outputs]. Match this tone."
+
+
+
 **What you capture today: Users can thumbsup or thumbsdown the messages from the Agent. When thumbsdown they can also select the reason.**
 **How it compounds:**
+
+
+
+
 
 ### Preference Loop - _4_/5
 **What you capture today: In the chat, I capture the las 100 messages from each user and with a RAG I pass them over to the Agent to provide tailored responses. Users can also select preferences on the tone & personality of the Agent.**
