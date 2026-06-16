@@ -6,13 +6,12 @@ A functional prototype of the World Cup pool with an AI agent
 
 ## Tool Used
 <!-- v0 / Cursor / Lovable / other -->
-Antigravity IDE
-Opencode
+Antigravity IDE + Opencode
 
 ## Prototype Link
 <!-- Paste the shareable URL -->
-https://porra-mundial-six.vercel.app/
 https://testflight.apple.com/join/dm43b6bp
+https://porra-mundial-six.vercel.app/
 
 ## AI Value Archetype
 <!-- Automator / Copilot / Oracle / Creator / Orchestrator -->
