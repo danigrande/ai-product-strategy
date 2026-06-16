@@ -79,6 +79,33 @@ Blended COGS (Cost of Goods Sold) that remain effectively as cheap as if you wer
 
 ## Pricing Model
 
+
+1. Current Pricing
+Right now, your app appears to be 100% Free (or pre-monetization). You are absorbing all the API inference and database costs to build the user base. This is standard for an MVP, but it will burn cash rapidly as you scale to thousands of active groups during the World Cup.
+
+2. Which Pricing Model Should You Use?
+Let's evaluate the standard SaaS models against your consumer social app:
+
+Seat-based (e.g., $1 per user/month): FAIL. If a group of 10 friends wants to play, and 1 friend refuses to pay $1, the entire group will abandon your app and go back to a free Excel sheet on WhatsApp. You cannot have individual paywalls in a multiplayer social game.
+Usage-based (e.g., Buy "AI Tokens"): FAIL. Consumers hate micro-transactions for basic chat. Nobody wants to calculate if they have enough credits left to ask the bot a question.
+Outcome-based: N/A. Unless you pivot to real-money sports betting (which has massive legal/compliance barriers), this doesn't apply.
+3. The Proposed AI Pricing: The "Admin-Sponsored" Hybrid Model
+You should use a Freemium + Admin-Sponsored Group Pass model.
+
+Here is exactly how it works:
+
+The Free Tier (The Core Game): Any user can create a group, invite friends, enter predictions, and see the basic leaderboard for free. This guarantees zero friction for user acquisition and viral growth.
+The "Agente Mundial" Group Pass ($4.99 One-Time Fee per Tournament): The Group Admin (the "Alpha" friend who organized the pool) pays a single $4.99 fee.
+What it unlocks: This single payment unlocks the AI features for the entire group for the duration of the 30-day tournament. It activates the AI Personalities (Tomás Roncero, Darth Vader), the Daily Summaries, and the Breaking News RSS broadcasts in their group chat.
+Why this is the ultimate pricing strategy for your app:
+Zero Friction for the Masses: 9 out of 10 users never hit a paywall. They just click the invite link and play.
+Targeting the Highest Intent User: The "Group Admin" is already the most invested person in the friend group. They took the time to organize the game. They are highly likely to drop $5 (the price of a beer) to make their month-long group chat hilarious and engaging for their friends.
+Phenomenal Margins: As we calculated earlier, the actual AI COGS for a group of 10 people for the entire month is roughly $0.35. If you charge the Admin $4.99, you are operating at a 93% Gross Margin while looking like a hero to the other 9 friends who get to use the AI for free.
+
+
+
+
+
 **Current pricing:**
 **Proposed AI pricing:**
 **Model:** seat-based / usage-based / outcome-based / hybrid
