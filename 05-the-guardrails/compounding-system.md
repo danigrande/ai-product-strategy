@@ -25,6 +25,8 @@ Feedback Voting	All users	Feedback items with most upvotes rise in priority → 
 ⏳ Epidemic Alert	Group network + sensitive topic detection	If 3+ groups report a similar response as "rude" → global flag, bot corrects across all groups	🔲 Planned
 
  How They Connect
+
+
 Recursive Learning      Cross-Domain Transfer       Network Intelligence
        │                        │                           │
        │  Quality Gate retries   │                           │
@@ -51,11 +53,6 @@ Recursive Learning      Cross-Domain Transfer       Network Intelligence
                           The system improves with
                           every message, every review,
                           every benchmark run
-                          
-
-
-
-
 
 
 | Loop | Input | Output | Compounds? | Status |
