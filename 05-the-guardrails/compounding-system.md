@@ -23,7 +23,8 @@ Feedback Voting	All users	Feedback items with most upvotes rise in priority → 
 ⏳ Cross-User Pattern Mining	All groups and users	If ≥70% of Spanish groups prefer high energy in groups, system learns it as a general rule	🔲 Planned
 ⏳ Social Graph + Bot	User A mentions @agente + User B replies	Bot learns social dynamics: "A and B always argue → moderate tone"	🔲 Planned
 ⏳ Epidemic Alert	Group network + sensitive topic detection	If 3+ groups report a similar response as "rude" → global flag, bot corrects across all groups	🔲 Planned
-🔗 How They Connect
+
+ How They Connect
 Recursive Learning      Cross-Domain Transfer       Network Intelligence
        │                        │                           │
        │  Quality Gate retries   │                           │
@@ -50,6 +51,7 @@ Recursive Learning      Cross-Domain Transfer       Network Intelligence
                           The system improves with
                           every message, every review,
                           every benchmark run
+                          
 
 
 
