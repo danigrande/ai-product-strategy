@@ -58,7 +58,7 @@ Recursive Learning      Cross-Domain Transfer       Network Intelligence
 
 | Loop | Input | Output | Compounds? | Status |
 |------|-------|--------|-----------|--------|
-| | | | Y/N | active / broken / missing |
+| Quality Gate | Judge gives feedback → response corrected | Judge feedback from n-1 refines prompt for n | ✅ Yes — each attempt learns from the last | ✅ Live |
 | | | | Y/N | active / broken / missing |
 | | | | Y/N | active / broken / missing |
 
