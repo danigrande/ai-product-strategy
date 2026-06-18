@@ -190,3 +190,45 @@ _Not shipping agents this version._
 **Total tools found:**
 **Tools after triage:**
 **Estimated hidden spend:**
+
+
+
+## Discover — User-Side Workarounds
+- Export weekly report CSV → ChatGPT for exec summary | source: Support ticket | signal: Workflow gap | freq: H | spend: $20/mo | decision: Build
+- Pipe API output through Claude to clean tone before client send | source: User interview | signal: Trust gap | freq: M | spend: $20/mo | decision: Build
+- Zapier recipe: our webhook → OpenAI → Slack alert summarizer | source: Zapier/Make | signal: Capability gap | freq: M | spend: $15/mo | decision: Partner
+- Users running our exports through ChatGPT to translate to non-English markets | source: Forum/Reddit | signal: Capability gap | freq: L | spend: $20/mo | decision: Partner
+- CS team manually runs Perplexity on customer domain to enrich onboarding | source: Sales call | signal: Workflow gap | freq: H | spend: $20/mo | decision: Build
+- Users asking ChatGPT to interpret our pricing page before buying | source: Social media | signal: Trust gap | freq: L | spend: $0/mo | decision: Ignore
+
+## Pattern Assessment
+- Workarounds found: 6
+- Build candidates: 3
+- Partner candidates: 2
+- Ignore decisions: 1
+- Adjacent spend: $95/mo
+- Dominant signal: Workflow gap
+
+## Action Plan
+### Build
+CSV export → exec summary (high freq, clear capability gap)
+CS onboarding domain enrichment (high freq, internal workflow)
+Tone-cleanup for client-facing API output (M4 trust gap — pair with reliability contract refresh)
+
+### Partner
+Zapier webhook → OpenAI summarizer recipe → ship an official Zapier integration with templated recipes
+Translation workflow → partner with one localization-AI provider with a deep link from the export screen
+
+### Ignore + Monitor
+Users running ChatGPT on our pricing page → not strategic to absorb; monitor sentiment and improve pricing page clarity instead.
+
+## Roadmap Brief
+Based on your audit: 6 user-side workarounds discovered.
+Decisions: 3 build · 2 partner · 1 ignore · 0 TBD.
+Estimated adjacent spend: $95/mo across surveyed users.
+Dominant signal: Workflow gap.
+
+Recommended next step: Workflow gaps dominate — your users are stitching your product into multi-step pipelines. Strongest near-term move is partner integrations with the AI tools they already chain in.
+
+Sequence the Build column by frequency × strategic relevance. Confirm Partner candidates with the external tools' partnership teams. Re-run this audit each quarter — workarounds shift fast.
+
