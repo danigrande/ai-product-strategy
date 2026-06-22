@@ -70,17 +70,17 @@
 
 ### Current (10 users/month) — AS-IS TODAY
 
-| Field | Value | 
+| Field | Value |
 |---|---|
 | **Triage model** | **None.** No cascade exists. Only one primary model for all paths. |
-| **Frontier model** | **None.** Same model for chat, summaries, transcreation. | 
+| **Frontier model** | **None.** Same model for chat, summaries, transcreation. |
 | **Primary model** | `llama-3.3-70b-versatile` via Groq |
 | **Judge model** | `llama-3.1-8b-instant` via Groq |
 | **Routing rule** | **None.** Every path → 70B. No feature-based routing. |
 | **Cascade ratio** | N/A (100% 70B) | — |
 | **Fallback (not cascade)** | `Qwen/Qwen2.5-7B-Instruct` via HuggingFace (only when Groq errors) |
-| **Transcreation** | 70B Groq + 8B Judge retry loop | 
-| **Total AI COGS** | **$0/mo** (all free tier) | 
+| **Transcreation** | 70B Groq + 8B Judge retry loop |
+| **Total AI COGS** | **$0/mo** (all free tier) |
 
 ### Future (100k users/month)
 
