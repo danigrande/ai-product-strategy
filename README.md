@@ -37,10 +37,14 @@
 
 **Why this won't get copied in 6 months.**
 
-- **Data Flywheel Score:**
+- **Data Flywheel Score: 10/20**
 - **Weakest Loop:** Domain Context + Network (tied at 2/5)
-- **Top Encroachment Threat:** Meta (WhatsApp) / Apple (Apple Intelligence)
-- **Encroachment Defense:**
+- **Top Encroachment Threat:** Attacker: Meta (WhatsApp) / Apple (Apple Intelligence) Vector: Native, multimodal AI agents embedded directly into the OS or default group chats. Vertical Competitor
+Attacker: Sleeper (or ESPN / Yahoo Fantasy) Vector: The incumbent in social fantasy sports. Adjacent Expansion
+Attacker: Telegram (via Mini-App / Bot Developers) Vector: Frictionless distribution. An indie developer builds your product as a "Telegram Mini App."
+- **Encroachment Defense: Platform Encroachment (Meta/Apple/Telegram): Dedicated UI + culturally unhinged personalities that brand-safe horizontal platforms literally cannot replicate due to RLHF constraints.
+Vertical Competitor (Sleeper/ESPN/Yahoo): Your audience is Spanish-speaking football fans in WhatsApp groups, not the American multi-sport Sleeper user — and your personality anchors (Roncero, Pedrerol, Andrés Montes) are culturally specific to this audience in ways a general fantasy platform cannot replicate without building the same 7 personalities from scratch.
+Adjacent Expansion (Telegram indie dev): The scoring engine (bracket resolution, tiebreakers, exact hit calculation) plus the transcreation pipeline for 14 languages plus the 7 personality anchors is a multi-month build even for a skilled indie dev — and by the time they ship it, your golden dataset has already compounded beyond what a fresh clone can match. **
 - **Vendor Portability:** 85% Ready
 
 → Details: [`02-the-moat/`](02-the-moat/)
