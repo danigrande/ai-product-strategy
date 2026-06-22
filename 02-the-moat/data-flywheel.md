@@ -1,195 +1,207 @@
 # Data Flywheel Map
 
 > Score each loop 1-5. Your weakest loop is where competitors attack first.
-> The four loops below are the M2 starting point - adapt if your product has 2 or 6 loops instead of 4.
 
 ## Flywheel Loops
 
-| Loop | What It Measures | Score 1 | Score 5 | Score |
-|------|------------------|---------|---------|-------|
-| **Correction** | Do users fix AI outputs? Is that signal captured and reused? | No capture | Automated retraining | _3_/5 |
-| **Preference** | Does the product learn individual / team preferences over time? | Stateless | Deep personalization | _4_/5 |
-| **Domain Context** | Does usage in one area improve quality in adjacent areas? | Siloed | Cross-domain transfer | _3_/5 |
-| **Network** | Does each new user / team make the product better for everyone? | Isolated | Strong network effects | _2_/5 |
+| Loop | What It Measures | Score | Key Reasoning |
+|------|------------------|-------|---------------|
+| **Correction** | Do users fix AI outputs? Is that signal captured and reused? | **3/5** | Multiple capture mechanisms exist (thumbs, corrections, HITL, golden dataset promotion) but all are manual. No automated retraining. |
+| **Preference** | Does the product learn individual / team preferences over time? | **3/5** | Static profiles + short-term RAG memory. No automated fact extraction from chat. Preferences are set once, never updated. |
+| **Domain Context** | Does usage in one area improve quality in adjacent areas? | **2/5** | Only unidirectional injection (News → Chat, Game → Chat). No reverse loops. Chat data does not improve News or Game domains. |
+| **Network** | Does each new user / team make the product better for everyone? | **2/5** | Strong intra-group effects. Zero inter-group effects. Data is fully siloed. |
 
-### Correction Loop - _3_/5
+**Total Flywheel Score: 10/20**
 
+**Weakest Loop:** Domain Context + Network (tied at 2/5)
 
-Based on the current architecture of your codebase (specifically chat.tsx, AILog.js, and ChatbotFeedback.js), here is the honest assessment of your feedback loop:
+---
 
-Do users "fix" AI outputs?
-No. Users do not have the ability to directly edit or rewrite the AI's output to show it what it should have said. They can only provide a binary rating (👍 or 👎) and optionally type a reason via the ChatbotFeedbackSheet in chat.tsx.
+### Correction Loop — 3/5
 
-Is that signal captured and reused?
-Captured: Yes. Reused: No (not automatically). Every time a user votes, the signal is securely saved to your MongoDB ChatbotFeedback collection, linked directly to the message, the user, and the original prompt (via AILog). However, the AI Engine (groqEngine.js) does not currently look up past "upvoted" interactions to improve its future answers (few-shot prompting), nor is there an automated script that fine-tunes the model on this data.
+*Do users fix AI outputs? Is that signal captured and reused?*
 
-Score: 3 out of 5
-I would rate your current system a 3 (Captured for Manual Review).
+**What the system captures today:**
 
-Here is what the 1-to-5 scale looks like, and where you stand:
+The correction loop has **three capture mechanisms**, not one:
 
-1 - No Capture: The bot speaks into the void. (You are past this)
-2 - Passive Capture: You log the prompts, but users can't rate them. (You are past this)
-3 - Active Capture for Manual Review (YOU ARE HERE): You successfully capture human preference (RLHF data) alongside the exact prompts and context. You, as the developer, can look at a dashboard, see that users are downvoting Tomás Roncero for being too repetitive, and manually tweak the system prompt in groqEngine.js.
-4 - Dynamic Reuse (Prompt Injection): The engine dynamically searches the database for the 3 most highly-upvoted past interactions for that specific group, and injects them into the prompt as examples. (You are not doing this yet).
-5 - Automated Retraining: An automated pipeline periodically takes all upvoted outputs, formats them into a JSONL dataset, and runs a DPO (Direct Preference Optimization) fine-tuning job on a local model, deploying the new weights automatically. (You are not doing this yet).
-How to get to a 4 easily:
-If you want to immediately increase your moat without building a complex retraining pipeline, you can update groqEngine.js to do Dynamic Few-Shot Prompting. When generating a response for a user, query the database for 1 or 2 messages to that specific user that received an "Upvote", and inject them into the prompt: "Here are examples of past jokes this user found funny: [Insert past upvoted outputs]. Match this tone."
+1. **ChatbotFeedback (thumbs up/down).** Users rate bot responses 1-5 stars via `routes/chatbotFeedback.js`. Rating 1-2 optionally includes a reason (`incorrect`, `not_helpful`, `off_topic`, `rude`, `other`). Rating 1-2 auto-creates a `HumanReview` entry. Rating 4-5 where the Judge disagreed also creates a review (judge calibration signal).
 
+2. **Conversational Correction Detection.** `messageHandler.js:69-127` automatically detects when a user is correcting the bot in natural conversation. A fast pre-filter checks for correction markers (`"no es así"`, `"te equivocas"`, `"corrige"`). If triggered, a Groq call confirms whether this is a correction and extracts the corrected text. The result is saved to the `Correction` model with original response, corrected text, group, personality, judge scores, and detector confidence.
 
+3. **HumanReview Queue.** `routes/devDashboard.js:683-848` provides a full HITL workflow: pending queue, verdict submission (pass/fail with confidence), and promotion to golden dataset. `routes/corrections.js:132-162` provides the same promotion path for corrections.
 
-**What you capture today: Users can thumbsup or thumbsdown the messages from the Agent. When thumbsdown they can also select the reason.**
-**How it compounds:**
+**What the system does not do (why it stays at 3):**
 
+All reuse is **manual**. A developer must:
+- Open the HITL queue in the dev dashboard
+- Review each pending correction or feedback
+- Submit a verdict
+- Click "promote to golden dataset"
 
+There is no automated pipeline that:
+- Injects top upvoted past interactions into the prompt as few-shot examples (level 4)
+- Runs periodic DPO/LoRA fine-tuning on accumulated corrections (level 5)
+- Automatically deploys improved model weights
 
+**The scale:**
 
+| Level | Description | Status |
+|-------|-------------|--------|
+| 1 — No Capture | Bot speaks into the void | ✅ Past |
+| 2 — Passive Capture | Prompts are logged but users can't rate | ✅ Past |
+| **3 — Active Capture for Manual Review** | Thumbs up/down + correction detection + HITL + golden dataset promotion | **📍 Here** |
+| 4 — Dynamic Few-Shot Injection | Top upvoted interactions injected as prompt examples | ❌ Not done |
+| 5 — Automated Retraining | Periodic DPO/LoRA on accumulated data, auto-deployed | ❌ Not done (planned post-WC) |
 
-### Preference Loop - _4_/5
+---
 
+### Preference Loop — 3/5
 
-Based on the architecture of your application, here is the assessment of your current flywheel loop regarding individual and team preferences.
+*Does the product learn individual / team preferences over time?*
 
-Does the product learn preferences over time?
-Partially. The product has "memory" and "context," but it does not have an automated learning loop that updates its understanding of a user permanently.
+**What the system captures today:**
 
-Here is what your app currently does:
+1. **Static profile fields** (`User.js:7-11`): Each user has `likes: [String]`, `dislikes: [String]`, `humor_style: String` (sarcastic, friendly, epic, serious, troll), `ai_personality: String` (7 options). These are set manually by the user through the profile screen and read by the bot on every interaction.
 
-Manual Personalization: It pulls static data from User.js (like likes, dislikes, and humor_style) and injects it into the prompt.
-Short-Term RAG Memory: It pulls recent chat history (chatContext) via RAG, so the bot knows what was just discussed in the group.
-Repetition Avoidance: In groqEngine.js, you use recentBotOutputs to prevent the bot from repeating the same catchphrases.
-However, if a user jokes in the chat, "I absolutely hate the French team now," the bot will remember it for a few hours (via RAG), but it will not permanently append "Hates France" to that user's profile in the database.
+2. **Short-term RAG memory** (`ragService.js:43-104`): The last 30 messages in the group mentioning the player are retrieved as `chatContext` and injected into the bot's prompt. This gives the bot awareness of recent banter and inside jokes, but the context window is limited — older messages fall out.
 
-Score: 3 out of 5
-I would rate your current system a 3 (Short-term Contextual Personalization).
+3. **Repetition avoidance** (`groqEngine.js:30-38`): The last 3 bot outputs per personality are tracked to prevent catchphrase repetition. This is a local anti-spam mechanism, not a learning loop.
 
-Here is the scale to understand where you are and how to level up:
+**What the system does not do:**
 
-1 - Stateless: The bot has no idea who is talking. Every message is a blank slate. (You are past this).
-2 - Static Profiling: The bot uses predefined DB fields (Name, Points) but has no memory of the chat. (You are past this).
-3 - Short-Term RAG (YOU ARE HERE): The bot reads the recent chat window to inform its current response. It feels personalized in the moment, but the "learning" degrades as older messages fall out of the RAG context window.
-4 - Automated Fact Extraction (The Next Step): The bot actively extracts permanent preferences from the chat and updates the database. (e.g., A background task analyzes the daily chat logs and automatically updates a user's dislikes array in MongoDB with new things they complained about).
-5 - Deep Personalization (The Flywheel): The bot not only updates facts, but automatically adjusts its own systemPrompt weights based on user feedback. It learns that Group A loves dark humor and Group B prefers analytical sports stats, and it shifts its personality matrix permanently without developer intervention.
-How to get to a 4 (The easiest flywheel upgrade)
-To create a true learning flywheel, you can add a simple background cron job. At the end of every day, take the chat logs for a group, send them to Groq with a prompt like: "Analyze this chat log. Extract any new permanent facts, likes, or dislikes about the users. Output JSON." Then, automatically save those new facts directly into the likes and dislikes arrays in User.js. The next time the bot talks to them, it will reference a joke they made weeks ago, creating a deeply magical, compounding user experience.
+- **No automated fact extraction.** If a user says "I hate the French team" in chat, the bot remembers it via RAG for a few hours but does not permanently append `dislikes: ['France']` to that user's profile. A background cron job that analyzes daily chat logs and updates user profiles does not exist.
 
+- **No long-term preference learning.** Humor style and personality are set once during onboarding. They are never adjusted based on which responses the user upvotes or which personalities they interact with most.
 
+- **No group-level preference adaptation.** Group A might love dark humor while Group B hates it. The same system prompt is used for every group with the same personality. There is no per-group preference model.
 
+**The scale:**
 
-**What you capture today: In the chat, I capture the las 100 messages from each user and with a RAG I pass them over to the Agent to provide tailored responses. Users can also select preferences on the tone & personality of the Agent.**
-**How it compounds: The more the users interact with each other, the more knowledge I get from them and can pick specific topics to generate engagement**
+| Level | Description | Status |
+|-------|-------------|--------|
+| 1 — Stateless | Bot has no idea who is talking | ✅ Past |
+| 2 — Static Profiling | Bot reads DB fields (name, points) but has no chat memory | ✅ Past |
+| **3 — Short-Term RAG** | Bot reads recent chat window for context. Feels personalized but learning degrades as messages age out | **📍 Here** |
+| 4 — Automated Fact Extraction | Background task analyzes chat logs and permanently updates user profiles with new likes/dislikes | ❌ Not done |
+| 5 — Deep Personalization | Bot adjusts its own style per group based on accumulated feedback without developer intervention | ❌ Not done |
 
-### Domain Context Loop - _3_/5
+---
 
+### Domain Context Loop — 2/5
 
+*Does usage in one area improve quality in adjacent areas?*
 
+**Current data flows:**
 
-In the context of a Domain Context loop (where usage in one feature or domain actively improves the quality of another), here is the assessment of your current architecture:
+All flows are **unidirectional**. Data feeds into the Chat domain but never flows back out.
 
-Does usage in one area improve quality in adjacent areas?
-Mostly Unidirectionally. Your app currently acts as a funnel where data from adjacent areas flows into the Chatbot, but usage of the Chatbot does not flow back out to improve the other areas.
+```
+News Domain (RSS) ────► Chat Domain   ✅  Breaking news injected as webContext into bot prompt
+Game Domain (leaderboard) ──► Chat   ✅  Player stats, points, positions injected into bot prompt
+Chat Domain ──► News Domain          ❌  RSS uses static keywords (config.js:92-100). Chat discussions
+                                       about specific teams do not update RSS filters.
+Chat Domain ──► Game Domain          ❌  Banter does not affect predictions. No auto-fill, no prop bets,
+                                       no match recommendations based on chat history.
+Group A ──► Group B                  ❌  Data is fully siloed per group. An upvoted correction in Group A
+                                       does not improve the experience for Group B.
+```
 
-Here is the current flow of domains in your app:
+**The "personalized breaking news" feature is aspirational, not in the codebase.**
 
-News Domain (rssFeedService.js) $\rightarrow$ Chat Domain: Breaking news is injected into the chat and prompt (webContext).
-Game Domain (Leaderboard/Stats) $\rightarrow$ Chat Domain: Player points and exact hits are injected into the prompt.
-Chat Domain $\rightarrow$ Game Domain: [MISSING]. Bantering in the chat does not improve the prediction experience. The bot doesn't notice you always bet on Brazil and auto-fill your Brazil matches, nor does it generate prop bets based on chat debates.
-Chat Domain $\rightarrow$ News Domain: [MISSING]. The RSS feed searches globally for static keywords (like "España" or "World Cup"). It does not dynamically adjust its keyword search based on the teams your specific friend group is debating in the chat.
-Group A $\rightarrow$ Group B: [MISSING]. An upvoted interaction in one friend group does not currently improve the prompt or experience for a completely different friend group.
-Score: 2 out of 5
-I would rate your current Domain Context loop a 2 (Unidirectional Injection).
+The RSS feed (`rssFeedService.js`) searches for a hardcoded list of `worldCupKeywords` (`config.js:92-100`: 'mundial', 'world cup', 'fifa', 'selección', 'gol', 'lesión', 'favorito', etc.). It does not:
+- Read group chat data to identify which specific teams/users care about
+- Dynamically update its keyword filters based on group conversations
+- Send targeted news to Group A about Argentina because they talk about Argentina
 
-Here is the scale:
+To implement this, you would need a cron job that analyzes recent group chat for mentioned teams/players and updates a per-group keyword filter in the RSS service. This is feasible but does not exist today.
 
-1 - Siloed: Chat is just a chat. Predictions are just a spreadsheet. They don't talk to each other. (You are past this).
-2 - Unidirectional Injection (YOU ARE HERE): Data from Domain A (News) and Domain B (Scores) is dumped into Domain C (Chat) to make Domain C better. But Domain C doesn't make A or B better.
-3 - Basic Cross-Pollination: Usage in the chat begins to affect the UI. For example, if users argue about Mbappé in the chat, the app highlights France's upcoming matches on the Prediction screen.
-4 - Strong Cross-Domain Loop: The domains are mutually beneficial. If your group makes heavy predictions on Group C (Argentina/Mexico), the rssFeedService dynamically updates its filter to pull more news about those specific teams.
-5 - Deep Cross-Domain Transfer: The entire app becomes a personalized organism. Chatting improves the News algorithm; Making Predictions improves the Chatbot's personality matrix; Upvoting jokes in Group A improves the humor model for Group B globally.
-How to get to a 3 or 4 easily:
-You can build a strong Cross-Domain loop by tying the RSS Feed Engine directly to the Prediction Data. Instead of hardcoding global worldCupKeywords in your config, update rssFeedService.js to look at the database of predictions. If 80% of the app's users just bet heavily on a specific underdog team, have the RSS feed dynamically add that team to its search keywords so it broadcasts breaking news about them. Suddenly, making a prediction (Domain A) makes the News engine (Domain B) smarter.
+**The scale:**
 
+| Level | Description | Status |
+|-------|-------------|--------|
+| 1 — Siloed | Chat is chat. Predictions are a spreadsheet. They don't talk to each other | ✅ Past |
+| **2 — Unidirectional Injection** | Data from News and Game domains feeds Chat. Chat does not improve News or Game | **📍 Here** |
+| 3 — Basic Cross-Pollination | Chat usage affects the UI (e.g., debated teams highlighted on prediction screen) | ❌ Not done |
+| 4 — Strong Cross-Domain Loop | RSS dynamically adjusts filters based on group predictions. Chat upvotes improve game mechanics | ❌ Not done |
+| 5 — Deep Cross-Domain Transfer | Entire app is a personalized organism. All domains mutually improve each other | ❌ Not done |
 
+---
 
+### Network Loop — 2/5
 
+*Does each new user / team make the product better for everyone?*
 
-**What you capture today: Based on users conversations I can "push" notifications that are "breaking news" for them. i.e. they mention they are Brasil supporters -> I send push notifications about Neymar news from RSS feeds. However it does not affect the "gameplay" rules.**
-**How it compounds:**
+**Current state:**
 
-### Network Loop - _2_/5
+| Effect | Exists? | How |
+|--------|---------|-----|
+| Intra-group | ✅ Yes | Adding User B to a group makes the game better for that group (more competition, more chat context for the bot) |
+| Inter-group | ❌ No | 1,000 groups in Argentina and 1,000 groups in Spain are completely siloed. No data, no model improvements, no aggregated insights flow between groups |
 
+**Does the fine-tuning plan change this score? Not yet.**
 
-In the context of a Network Loop (where every new user on the platform makes the product inherently more valuable for all existing users), here is the assessment of your current architecture:
+The plan to fine-tune an 8B model on accumulated AILogs will eventually create inter-group effects — what Group A upvotes will improve the model for Group B. But:
+- Data collection only begins when the tournament starts
+- Fine-tuning requires 2,000+ quality entries, which will take most of the 40-day tournament to accumulate
+- Training and deployment happen after the World Cup
+- The improved model serves the next tournament, not this one
 
-Does each new user/team make the product better for everyone?
-Locally, yes. Globally, no.
+For the current tournament, the network loop remains at 2/5. It will move to 3/5 only when the fine-tuned model is deployed for a future event.
 
-Your product has strong Intra-group (local) network effects, but zero Inter-group (global) network effects.
+**The scale:**
 
-The Local Loop: When User A invites User B to their private "Porra" (prediction group), the game gets instantly better for that specific group. More competition, more points to fight over, and more context for the "Agente Mundial" to roast people.
-The Global Silo: If 1,000 new friend groups suddenly download your app in Argentina, does the app get any better for a friend group in Spain? No. The data is completely siloed. The Argentine groups do not improve the AI's prompts, they do not contribute to a global "wisdom of the crowds" statistic, and they do not interact.
-Score: 2 out of 5
-I would rate your current Network Loop a 2 (Local/Siloed Network Effects).
-
-Here is the scale to understand your position:
-
-1 - Isolated: A single-player tool (like a calculator or a solo habit tracker). Another user downloading the app does absolutely nothing. (You are past this).
-2 - Local Network Effects (YOU ARE HERE): A multiplayer game in private rooms. A new user makes the product better only for the specific friends in their room. Strangers add no value to each other.
-3 - Aggregated Network Effects (The Next Step): Strangers' data is anonymized and aggregated to provide value to everyone. (e.g., "75% of all users globally picked France to win this match. Are you sure you want to pick Germany?")
-4 - AI-Driven Network Effects: Every interaction from any user makes the core technology smarter for everyone else. (e.g., A group in Mexico upvotes a specific style of joke, and the central AI model updates its weights, making the bot funnier for a group in Spain).
-5 - Strong/Marketplace Network Effects: True exponential value. Every new user actively increases liquidity or matching (like Uber, Airbnb, or a global matchmaking video game).
-How to get to a 3 easily:
-You have all the prediction data in your MongoDB. You can instantly create a Global Pulse or "Wisdom of the Crowds" feature. Before a user locks in their prediction for Spain vs. Germany, show them a small UI element: "Across 15,000 active groups, 82% of players are predicting a Spain victory."
-
-By doing this, every new user who makes a prediction anywhere in the world makes the data slightly more accurate and interesting for every other user, instantly moving you from a 2 to a 3.
-
-
-
-
-
-
-
-
-**What you capture today: The Agent does not improve by itself over time because more people use it. It would take development effort to analyse the signals and understand how to make the messages better.**
-**How it compounds:**
-
-**Total Flywheel Score: _12_/20**
-**Weakest Loop: Network Loop**
-**Fix for weakest loop: **
+| Level | Description | Status |
+|-------|-------------|--------|
+| 1 — Isolated | Single-player tool. New users add zero value | ✅ Past |
+| **2 — Local Network Effects** | Multiplayer game in private rooms. A new user benefits only their group | **📍 Here** |
+| 3 — Aggregated Network Effects | Stranger data is anonymized and aggregated (e.g., "82% of users picked Spain to win") | ❌ Not done |
+| 4 — AI-Driven Network Effects | Every interaction from any user improves the model for everyone (fine-tuned model serving all groups) | ❌ Not done (planned post-WC) |
+| 5 — Marketplace Network Effects | True exponential value. Every user increases liquidity or matching | ❌ Not applicable |
 
 ---
 
 ## Encroachment Threat Assessment
 
 ### 1. Platform Encroachment
-**Attacker:**
-**Vector:**
-**Time-to-threat:**
-**% of value at risk:**
+**Attacker:** Meta (WhatsApp) / Apple (Apple Intelligence)
+**Vector:** Native, multimodal AI agents embedded directly into the OS or default group chats. A user types in their existing WhatsApp group: "@MetaAI, we are doing a World Cup pool. Keep track of our scores and roast us like Andrés Montes."
+**Time-to-threat:** 1-2 years. The agents are rolling out now, but prompt-engineering a stateful, math-heavy game with perfect recall in a chaotic group chat is still highly error-prone.
+**% of value at risk:** 30-40%. You survive because of dedicated UI. People want a visual, clickable leaderboard and dedicated prediction screens, not an endless wall of text trying to verify if the AI did the math right.
 
 ### 2. Vertical Competitor
-**Attacker:**
-**Vector:**
-**Time-to-threat:**
-**% of value at risk:**
+**Attacker:** Sleeper (or ESPN / Yahoo Fantasy)
+**Vector:** The incumbent in social fantasy sports. They already own the friend-group social graph, real-time sports data feeds, and group chat infrastructure. They integrate an AI API to create an "AI Commish" that roasts their users.
+**Time-to-threat:** 6-12 months. Sleeper has the engineering velocity to build this in a single sprint.
+**% of value at risk:** 90-100%. Existential. If your target audience is already on Sleeper and they launch an identical AI-banter World Cup pool, the friction for users to download your standalone app becomes insurmountable.
 
 ### 3. Adjacent Expansion
-**Attacker:**
-**Vector:**
-**Time-to-threat:**
-**% of value at risk:**
+**Attacker:** Telegram (via Mini-App / Bot Developers)
+**Vector:** Frictionless distribution. An indie developer builds your product as a "Telegram Mini App." Friend groups already talk on Telegram — they don't need to download a new app. They just add the bot to the group.
+**Time-to-threat:** 3-6 months. Telegram's bot and WebApp APIs are extremely mature.
+**% of value at risk:** 70-80%. This attacks your biggest weakness: Go-To-Market Friction. Getting 10 friends to install the same app is the hardest part of a multiplayer app. The adjacent attacker bypasses your entire acquisition funnel.
 
-1. Platform Encroachment
-Attacker: Meta (WhatsApp) / Apple (Apple Intelligence)
-Vector: Native, multimodal AI agents embedded directly into the OS or default group chats. A user simply types in their existing WhatsApp group: "@MetaAI, we are doing a World Cup pool. Keep track of our scores and roast us like Andrés Montes."
-Time-to-threat: 1-2 years. (The agents are rolling out now, but prompt-engineering a stateful, math-heavy game with perfect recall in a chaotic group chat is still highly error-prone).
-% of value at risk: 30% - 40%. You survive because of your UI/UX. People want a visual, clickable leaderboard and dedicated prediction screens, not an endless wall of text trying to verify if the AI did the math right.
+---
 
-3. Vertical Competitor
-Attacker: Sleeper (or ESPN/Yahoo Fantasy)
-Vector: The massive incumbent in social fantasy sports. They already own the exact social graph (friend groups who play sports games together), the real-time sports data feeds, and the group chat infrastructure. They simply integrate the Groq API to create an "AI Commish" that roasts their existing users.
-Time-to-threat: 6-12 months. (Sleeper has the engineering velocity to build this in a single sprint if they identify the trend).
-% of value at risk: 90% - 100%. This is an existential threat. If your target audience is already on Sleeper for NFL or Premier League, and Sleeper launches an identical AI-banter World Cup pool, the friction for users to download your standalone app becomes insurmountable.
+## 90-Day Encroachment Plan
+
+**Attacker:** Meta (WhatsApp + Meta AI)
+
+**Attack vector (targets your weakest loop):** Go-To-Market Friction. In a multiplayer app, the "Alpha" friend has to convince 10 friends to download a new app. Meta attacks this by launching the feature where the group already lives.
+
+**Weeks 1-4 — what they ship:** Meta rolls out "WhatsApp Sports Bots" powered by Llama 3. Any user types `@MetaAI start a World Cup pool` in their existing group chat. WhatsApp pins a lightweight native leaderboard to the top of the chat. The AI announces matches and roasts whoever is in last place.
+
+**Weeks 5-8 — how they poach users:** The World Cup is one week away. The "Alpha" friend tries to get everyone to download Agente Mundial. Three friends complain about downloading another app. The Alpha gives up, types `@MetaAI` in their existing group, and the pool is set up in 4 seconds. You lose the entire group before the first match.
+
+**Weeks 9-12 — why users don't come back:** The tournament is in the knockout stages. The game is stateful — accumulated points, banter history, and rivalries exist in WhatsApp. Moving a live prediction pool to a third-party is impossible. They are locked in.
+
+**Your defense:**
+
+- **The Brand Safety Moat.** Meta AI is RLHF'd to be polite and universally inoffensive. Your AI (Tomás Roncero, Darth Vader) is specifically prompted to be dramatic, aggressive, and culturally unhinged. Meta won't let their AI be mean enough to be genuinely funny. You win on humor quality.
+
+- **Dedicated UX.** A WhatsApp chat thread is a terrible interface for stats. Your app has a dedicated UI for tracking plenos, honor points, and group rankings that a pinned chat message cannot replicate.
+
+- **The Sanctuary Argument.** Many groups want a dedicated app for betting pools to separate game noise from daily life/work messages. Position Agente Mundial as the "Sports Bar" away from the main inbox.
 
 5. Adjacent Expansion
 Attacker: Telegram (via Mini-App / Bot Developers)
