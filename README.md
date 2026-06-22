@@ -23,8 +23,8 @@
 
 - **Product:**
 - **AI Value Archetype:** Copilot
-- **Vulnerability Scores:** _(add: Moat _/5 · Data _/5 · Platform _/5)_
-- **Top Risk:** The app faces five distinct vulnerabilities, ordered by severity.
+- **Vulnerability Scores:** _(Moat 2/5 · Data 2/5 · Platform 4/5)_
+- **Top Risk:** Post-Event Churn (Critical), Timing Vulnerability: No Data on Day One (High), Self-Hosted Infrastructure Risk (Medium), Revenue Model is Untested (Medium), LLM Unit Economics (Mitigated, Replaced by Infrastructure Risk).
 - **Confidence:** M
 - **Prototype:** https://testflight.apple.com/join/dm43b6bp
 - **Kill Criteria:** If the finantial loss exceeds 2000 euros and there are no evidences of growth revenue.
