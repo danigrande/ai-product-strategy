@@ -6,24 +6,24 @@
 
 ### MVP (10 users/month)
 
-| Cost Category | Per-User/Month | Corrected Notes |
+| Cost Category | Per-User/Month | Notes |
 |---|---|---|
-| Inference (primary model) | **$0** | **Primary: `llama-3.3-70b-versatile`** (not 8B). Free on Groq tier |
+| Inference (primary model) | **$0** | **Primary: `llama-3.3-70b-versatile`**. Free on Groq tier |
 | Inference (judge/quality gate) | **$0** | `llama-3.1-8b-instant` — free on Groq. **2 calls per response** (primary + judge), up to 3 retries |
 | Inference (daily summaries) | **$0** | Separate 70B call per group at 08:45 daily |
-| Infrastructure | **$0** | Render Free + Vercel Hobby (correct) |
-| Data/storage | **$0** | MongoDB Atlas M0 free tier (correct) |
+| Infrastructure | **$0** | Render Free + Vercel Hobby |
+| Data/storage | **$0** | MongoDB Atlas M0 free tier |
 | Web Search (Tavily) | **$0** | 1,000 free searches/mo — sufficient at 10 users |
 | Email (Brevo) | **$0** | 300 free emails/day — sufficient at 10 users |
-| Push Notifications | **$0** | Expo Push — free tier (correct) |
-| Human-in-the-loop | **$0** | "Eliminated" but still present in code (`HumanReview` model, 20 reviews/day cap). Not billed |
+| Push Notifications | **$0** | Expo Push — free tier |
+| Human-in-the-loop | **$0** | "Done by Developer" but still present in code (`HumanReview` model, 20 reviews/day cap). Not billed |
 | **Total AI COGS** | **$0** | **Accurate at this scale.** All services fit within free tiers |
 
 ---
 
 ### Real MVP (1,000 users/month)
 
-| Cost Category | Per-User/Month | Corrected Notes |
+| Cost Category | Per-User/Month | Notes |
 |---|---|---|
 | Inference (primary 70B) | **$25-35** | Groq free tier has ~30 req/min, 500K tokens/day — **will throttle at 1,000 users**. Partial move to paid Together.ai (Llama-3.3-70B: $0.59/M input, $0.79/M output). Not "$15 for 8B". |
 | Inference (judge 8B) | **$5-10** | Judge runs on every response (not sampling). 2x the call volume of primary. Still on Groq free can help, but rate limits bite here too. |
@@ -34,13 +34,13 @@
 | Infrastructure | **$7-14** | Render Standard ($14/mo) — correct. Free tier sleeps; WebSockets + cron jobs require paid plan. |
 | Data/storage | **$9** | MongoDB Atlas M2 ($9/mo, 2GB) — reasonable for 1k users. Add **~$3/mo for data transfer egress** |
 | Human-in-the-loop | **$0** | Auto-queued enforcement. Adds operational overhead (reviewing 20/day) but no direct API cost |
-| **Total AI COGS** | **~$55-95/mo (~$0.055-0.095/user)** | Roughly **2x your original estimate**. 70B model pricing is the dominant factor. |
+| **Total AI COGS** | **~$55-95/mo (~$0.055-0.095/user)** | 70B model pricing is the dominant factor. |
 
 ---
 
 ### Enterprise (100,000 users/month)
 
-| Cost Category | Per-User/Month | Corrected Notes |
+| Cost Category | Per-User/Month | Notes |
 |---|---|---|
 | Inference (primary 70B) | **$3,000-4,500** | **~3x your estimate.** Llama-3.3-70B at $0.59/M in + $0.79/M out. Linear scaling from 1k users at 70B pricing, not 8B. Negotiated throughput helps but doesn't 10x the price. |
 | Inference (judge 8B) | **$500-800** | Judge 8B call per response + retries. Bulk pricing could reduce this, but still significant. |
@@ -48,77 +48,22 @@
 | Transcreation | **$200-500** | If serving global markets. Each non-Latin response requires an extra 70B call. |
 | Web Search (Tavily) | **$150-300** | Scale plan for 100k users querying football news. |
 | Email (Brevo) | **$40-100** | Brevo Enterprise or similar. Password resets, notifications, marketing. |
-| Infrastructure | **$300-500** | Your estimate is close. 4-6 Render Pro instances + load balancer + Redis for Socket.IO scaling. Add **~$200-400 for bandwidth egress** (WebSocket messages, file uploads). |
+| Infrastructure | **$300-500** | 4-6 Render Pro instances + load balancer + Redis for Socket.IO scaling. Add **~$200-400 for bandwidth egress** (WebSocket messages, file uploads). |
 | Data/storage | **$600-900** | MongoDB Atlas M30/M40 is ~$350-700/mo + **$150-250 for data transfer + backups**. Your range is slightly low. |
 | RAG / Embeddings | **$200-500** | Vector embeddings at scale require dedicated endpoints (not free HF). Atlas Search add-on costs apply. |
-| Human-in-the-loop | **$5,000-15,000** | **Major omission.** At 100k users, auto-reviewing 20/day is useless. You need a real HITL team to review bot responses, feedback, and edge cases. Even a single part-time moderator is $500-1,000/mo. A small team of 3-5 in a low-cost market: $5,000-15,000/mo. |
-| Monitoring & Observability | **$300-800** | Not accounted for. Datadog/Grafana, Sentry, uptime monitoring, alerting at 100k users is mandatory. |
-| **Total AI COGS** | **~$10,500-24,300/mo (~$0.105-0.243/user)** | Roughly **4-10x your $1,900-2,500 estimate.** HITL alone dominates at true enterprise scale. |
+| Human-in-the-loop | **$5,000-15,000** | At 100k users, auto-reviewing 20/day is useless. You need a real HITL team to review bot responses, feedback, and edge cases. Even a single part-time moderator is $500-1,000/mo. A small team of 3-5 in a low-cost market: $5,000-15,000/mo. |
+| Monitoring & Observability | **$300-800** | Datadog/Grafana, Sentry, uptime monitoring, alerting at 100k users is mandatory. |
+| **Total AI COGS** | **~$10,500-24,300/mo (~$0.105-0.243/user)** |  HITL alone dominates at true enterprise scale. |
 
 ---
 
-### Summary of differences
-
-| Level | Your estimate | Corrected estimate | Variance |
-|---|---|---|---|
-| 10 users | $0 | $0 | ✅ |
-| 1,000 users | $35 | **$55-95** | ~2x under |
-| 100,000 users | $1,900-2,500 | **$10,500-24,300** | ~4-10x under |
-
-**Root causes of the gap:**
+**Root causes of cost scale:**
 1. **70B ≠ 8B** — primary model is `llama-3.3-70b-versatile`, not the 8B version. ~12x cost per token on paid tiers.
 2. **Double inference** — every response has 2 LLM calls (primary + judge), plus retries up to 3x.
-3. **Missing third-party services** — Tavily, Brevo, Zafronix at scale add recurring costs.
 4. **Missing HITL at scale** — Thumbs up/down replaces *technical* infrastructure but not the *human* cost of moderation at 100k users.
 5. **Transcreation** — 8 non-Latin languages require extra 70B calls per response.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Current MVP (10 users/month)
-
-| Cost Category | Per-User/Month | Notes |
-|--------------|----------------|-------|
-| Inference (primary model) | 0$  |  Llama-3.1-8B-Instant Free tier on Groq |
-| Inference (cascading/triage) | 0$ | Llama-3.1-8B-Instant Free tier  on Groq  |
-| Infrastructure | 0$ | Free tier Render |
-| Data/storage | 0$ | MongoDB Atlas Free tier |
-| Human-in-the-loop | 0$ | Eliminated. Replaced by the automated ChatbotFeedback (Thumbs Up/Down) system inside the app. |
-| **Total AI COGS** | 0$ | It's currently at cost 0. |
-
-
-Real MVP (1000 users/month)
-| Cost Category | Per 1000 User/Month | Notes |
-|--------------|----------------|-------|
-| Inference (primary model) | $15.00  |  Llama 3 8B is incredibly cheap (~$0.05 per 1M tokens). Assuming 1,000 users generate heavy banter and daily summaries, API costs on Groq/Together.ai will be minimal, but not zero due to rate limits. |
-| Inference (cascading/triage) | 0$ | HuggingFace free tier handles occasional fallback traffic. |
-| Infrastructure | $7.00 - $14.00 | Render "Starter" or "Standard" tier. You must pay for this so WebSockets don't sleep and background RSS cron jobs run reliably 24/7. |
-| Data/storage | $9.00$ | MongoDB Atlas M2 cluster (2GB storage, backups enabled). Required to store heavy AILogs, feedback matrices, and group chat histories without crashing. |
-| Human-in-the-loop | $0$ | Eliminated. Replaced by the automated ChatbotFeedback (Thumbs Up/Down) system inside the app. |
-| **Total AI COGS** | 35$ | Total. (Or roughly $0.035 per user / month).
-
-
-
-
-If went "enterprise" pricing - Assuming 100k users
-
-| Cost Category | Per-User/Month | Notes |
-|--------------|----------------|-------|
-| Inference (Llama 3 8B via Groq/Together) | ~$1,200 - $1,500  | Token usage scales linearly. If 1k users cost $15, 100k users cost ~$1,500. At this scale, you might actually negotiate a "Provisioned Throughput" tier with a provider to guarantee latency during peak World Cup matches rather than paying per-token. |
-| Infrastructure (Node.js/Socket.io Servers) | ~$300 - $400| You can no longer run on a single $7 Render instance. To handle 100,000 concurrent WebSocket connections during a Spain vs. Germany final, you will need a Load Balancer and multiple heavy compute instances (e.g., 4-6 Render 'Pro' instances) auto-scaling based on CPU. |
-| Data/Storage (MongoDB Atlas) | ~$400 - $600 | You are no longer paying for storage space; you are paying for IOPS (Read/Write speed). When a match ends, 10,000 groups will query their leaderboards and save new AI Logs simultaneously. You will need a dedicated cluster (e.g., Atlas M30 or M40) to prevent the database from locking up. |
-| Human-in-the-loop | 0$ | Eliminated. Replaced by the automated ChatbotFeedback (Thumbs Up/Down) system inside the app. |
-| **Total AI COGS** | ~$1,900 - $2,500 | Total. (Or roughly $0.025 per user / month). |
 
 ## Cascading Strategy
 <!-- Cheap model → frontier model routing logic -->
