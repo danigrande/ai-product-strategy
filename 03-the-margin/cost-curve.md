@@ -255,23 +255,37 @@ None of these are pricing risks. The margins are structurally protected.
 ## Board One-Pager
 <!-- Before/After: Old SaaS revenue vs. AI usage revenue for your product -->
 
-**Before (traditional SaaS):**
-**After (AI-enabled):**
-**Net margin shift:**
+## Board One-Pager
 
-Executive Summary: The AI Margin Expansion (Agente Mundial)
-📉 Before (Traditional Web2 / SaaS Model)
+**Before (Traditional Web2 / SaaS Model)**
+
 The Product: A static utility. A digital spreadsheet where users input predictions and view a math-based leaderboard.
+
 The Engagement Loop: Entirely dependent on the users. If the friend group is quiet or busy, the app feels dead. Engagement only spikes exactly when a match ends.
+
 The Retention Problem: Users who perform poorly (last place) churn immediately because checking a leaderboard where they are losing is not fun.
+
 Monetization: Extremely difficult. Users refuse to pay a subscription fee just to see a basic math leaderboard they could replicate in Excel.
-📈 After (AI-Enabled Entertainment Platform)
+
+---
+
+**After (AI-Enabled Entertainment Platform)**
+
 The Product: A dynamic, stateful game. The leaderboard is now commentated in real-time by unhinged, culturally tailored AI personas (Montes, Vader, Romano).
+
 The Engagement Loop: Automated and continuous. The AI proactively generates personalized content (Daily Summaries, direct roasts, breaking news broadcasts), creating notifications that pull users back into the app even when there are no live matches.
+
 The Retention Solution: Entertainment supersedes winning. Users in last place stick around simply because the AI's personalized roasting is funny and the group chat is active.
-Monetization: Unlocks the "Premium Group Pass." Users won't pay for math, but Group Admins will gladly pay $4.99 to unlock a hilariously aggressive AI referee to entertain their friends for a month.
-💰 Net Margin Shift
+
+Monetization: Unlocks the "Premium Group Pass." Users won't pay for math, but Group Admins will gladly pay $4.99 to unlock 7 AI personalities, cosmetics, and an ad-free experience to entertain their friends for the entire 40-day tournament. Free-tier banner ads add a second revenue stream.
+
+---
+
+**Net Margin Shift**
+
 Customer Acquisition Cost (CAC): Decreases. The AI's funny summaries are highly shareable screenshots, driving organic, viral top-of-funnel growth.
-Cost of Goods Sold (COGS): Marginal increase. API inference (Llama 3 via Groq) adds roughly $0.35 per group, per month.
-Net Margin Impact: Massive Expansion. By introducing a $4.99 one-time Admin Pass against a $0.35 AI cost, the business transforms from a free, un-monetizable utility into a premium entertainment product operating at >90% Gross Margins.
+
+Cost of Goods Sold (COGS): Structurally contained. Self-hosted 8B inference on GPU (covers 96% of traffic) + GPT-4o-mini for async summaries (4%) keeps AI cost at ~$0.30-0.50 per group for the full tournament. Fixed GPU cost means usage spikes don't increase COGS.
+
+Net Margin Impact: Massive Expansion. By introducing a $4.99 one-time Admin Pass against a ~$0.30-0.50 AI cost, the business transforms from a free, un-monetizable utility into a premium entertainment product operating at **~90-94% Gross Margins**. At 100k users, banner ads contribute another ~$10,000-17,000 in tournament revenue with zero marginal cost.
 
