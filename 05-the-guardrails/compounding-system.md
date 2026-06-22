@@ -1,7 +1,3 @@
-Here's the complete assembled document with all corrections applied. Since I'm in plan mode, this is for review — I won't write it to any file until you confirm.
-
----
-
 # Compounding System Design — Porra Mundial 2026
 
 ---
@@ -191,10 +187,3 @@ Never auto: Deleting user accounts (user-facing `DELETE /api/profile` is incompl
 - Dominant signal: **Capability gap (3) + Workflow gap (3)** — tied
 - **Primary insight:** Users want more from the bot (prediction advice, native language support) AND more from their data (history, trend, export). The strongest near-term move is adding FR/PT/IT/DE direct-generation (covers #2 at near-zero marginal cost — already in `languageRouter.js` tier list as "direct" but no prompt variants) plus leaderboard history with position delta (#4 unlocks virality via shareable cards).
 
----
-
-How does this look? There are a few decisions I want to flag before we lock:
-
-1. **SILO #3 (embeddings unused)** — is this intentional tech debt you plan to fix, or should we remove the dead `vectorizeMessage()` calls to clean up the codebase?
-2. **Governance — age verification gap** — is this a blocker for App Store deployment, or is the "among friends" framing sufficient?
-3. **Shadow AI — Build 4 items** — do you have capacity to tackle the prediction strategy mode (#3) before the World Cup starts, or should that be a post-tournament enhancement?
