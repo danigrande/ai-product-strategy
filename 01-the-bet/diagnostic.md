@@ -177,3 +177,125 @@ If a partner asks you for your biggest strategic risk, you should proactively ow
 
 ## Confidence Level
 <!-- H / M / L — how confident are you in this bet after the diagnostic? --> M
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Here is the updated `diagnostic.md` reflecting our entire conversation. Since I'm in read-only mode, I'll present the changes inline for you to apply.
+
+---
+
+### Changes needed
+
+| Section | What changed |
+|---|---|
+| **Contextual Moat** | No structural changes needed — the Weekend Test verdict still holds |
+| **Data Advantage** | Update "Long term" paragraph to reflect the fine-tuning plan we discussed (AILog → golden dataset → LoRA on Qwen2.5-7B, not just "Llama 3") |
+| **Platform Exposure** | Minor — add note that self-hosted cascade eliminates provider dependency |
+| **Top Vulnerability** | **Major rewrite needed** — revenue strategy is no longer undecided; LLM unit economics are solved by self-hosted cascade; 30-day → 40-day tournament |
+| **Confidence Level** | M → **H** (after building a full cost model, pricing strategy, cascade architecture, and fine-tuning plan) |
+
+---
+
+### Line-by-line updates
+
+**Line "30-day event" (appears 2-3x)** → `40-day event (June 11 — July 20)`
+
+**Top Vulnerability section — rewrite the revenue/LLM economics paragraph:**
+
+Current:
+```
+2. The Secondary Vulnerability: Broken LLM Unit Economics
+You are relying on LLMs (Groq / HuggingFace) to process context...
+Rate limiting: The bot only speaks when explicitly @mentioned or only 3 times per match.
+Model routing: You use the ultra-fast, cheap Groq API for simple banter...
+Monetization: You introduce a "Premium Admin" tier where the group creator pays $5 for the month...
+```
+
+Replace with:
+```
+2. The Secondary Vulnerability (Mitigated): LLM Unit Economics
+The original architecture relied on per-token API pricing (Groq 70B for everything),
+meaning cost scaled linearly with usage — a death sentence for a free social app.
+
+Current mitigation (solved via self-hosted cascade):
+- Self-hosted 8B inference on GPU: covers 96% of traffic (chat + judge + transcreation)
+  at fixed cost (~$600-900/mo). Marginal cost per message is near zero.
+- GPT-4o-mini API: only the remaining 4% (async summaries), ~$200-500/mo.
+- This inverts the cost structure: inference drops from ~40% of OpEx to ~8%.
+- Usage spikes (3x more chat, viral growth) don't increase COGS — the GPU is a fixed cost.
+
+Revenue strategy (formerly undecided, now defined):
+- Freemium model: free tier with 4 personalities + ads; paid tier removes ads,
+  unlocks 7 personalities + cosmetics + RSS news, at $4.99/group one-time.
+- Banner ads at ~$0.75 CPM add a second revenue stream that scales with free users.
+- At 100k users: ~$15,000-22,000 revenue per tournament; gross margin ~55-65%
+  including HITL costs, or ~90-94% on pass revenue alone.
+```
+
+**Top Vulnerability summary paragraph — update:**
+
+Current:
+```
+"Our biggest risk is that we are building a viral product for a 30-day event..."
+```
+
+Replace with:
+```
+"Our biggest risk is that we are building a viral product for a 40-day event,
+meaning we risk 100% churn after the final whistle. We are mitigating this by
+treating the World Cup strictly as our Top-of-Funnel user acquisition strategy.
+Once we capture the social graph and lock friend groups into our platform, we
+roll over their profiles, AI banter history, and rivalries into the upcoming
+regular football season (La Liga, Premier League, Champions League). The second
+tournament cycle has zero CapEx — the $27k one-time investment in self-hosted
+infrastructure + fine-tuning is already paid, so margins improve dramatically
+in year 2 and beyond."
+```
+
+**Data Advantage — update the "Long term" paragraph (around line "Long term: Once you have 10,000+ rated interactions..."):**
+
+Current:
+```
+Long term: Once you have 10,000+ rated interactions, you don't need Groq or GPT-4 anymore.
+You can take an open-source 8B parameter model (like Llama 3), fine-tune it exclusively
+on your "Upvoted" Agente Mundial logs, and host it yourself for pennies.
+```
+
+Replace with:
+```
+Long term: Once you have ~2,000+ high-quality AILog entries (wasTranscreated=true,
+evalPassed=true) plus corrections and HumanReview verdicts, you fine-tune an
+open-source 8B model (recommended: Qwen2.5-7B — already the HuggingFace fallback,
+best multilingual support). Using QLoRA on a single GPU (~$5-15 for training),
+the fine-tuned model replaces the 70B for both chat and transcreation. The 8 golden
+datasets (101 test cases across 7 personalities, 4 scripts) serve as the evaluation
+benchmark. Your fine-tuned model is vastly superior at this specific task (roasting
+friends about football in 14 languages) than a massive frontier model — creating a
+permanent margin and quality advantage that no competitor using standard APIs can match.
+```
+
+**Confidence Level (bottom):**
+
+`M` → `H`
+
+The confidence increased because: full cost model built, pricing strategy defined, cascade architecture validated against codebase, fine-tuning data sources identified, and CapEx payback period calculated.
+
+---
+
+Would you like me to refine any of these blocks before you apply them?
+
+
