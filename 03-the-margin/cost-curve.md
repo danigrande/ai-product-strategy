@@ -114,40 +114,66 @@ The jump from 10 to 100k users changes the **hosting** (API → self-hosted), no
 ## Pricing Model
 
 
-1. Current Pricing
-Right now, your app appears to be 100% Free (or pre-monetization). You are absorbing all the API inference and database costs to build the user base. This is standard for an MVP, but it will burn cash rapidly as you scale to thousands of active groups during the World Cup.
+## Pricing Model
 
-2. Which Pricing Model Should You Use?
-Let's evaluate the standard SaaS models against your consumer social app:
+### 1. Current Pricing
 
-Seat-based (e.g., $1 per user/month): FAIL. 
-If a group of 10 friends wants to play, and 1 friend refuses to pay $1, the entire group will abandon your app and go back to a free Excel sheet on WhatsApp. You cannot have individual paywalls in a multiplayer social game.
+Right now, the app is **100% free** (pre-monetization). All API inference, database, and infrastructure costs are absorbed to build the user base. Standard for an MVP, but not sustainable at scale during the World Cup.
 
-Usage-based (e.g., Buy "AI Tokens"): FAIL. 
-Consumers hate micro-transactions for basic chat. Nobody wants to calculate if they have enough credits left to ask the bot a question.
-Outcome-based: N/A.
-Unless you pivot to real-money sports betting (which has massive legal/compliance barriers), this doesn't apply.
+### 2. Why Standard SaaS Models Fail
 
-3. The Proposed AI Pricing: The "Admin-Sponsored" Hybrid Model
-You should use a Freemium + Admin-Sponsored Group Pass model.
+**Seat-based** (e.g., $1/user/month) — **FAIL.** A group of 10 friends plays together. If one refuses to pay $1, the entire group abandons the app for a free Excel sheet on WhatsApp. Individual paywalls kill multiplayer social games.
 
-Here is exactly how it works:
+**Usage-based** (e.g., buy "AI Tokens") — **FAIL.** Consumers hate micro-transactions for chat. Nobody wants to calculate if they have enough credits to ask the bot a question.
 
-The Free Tier (The Core Game): Any user can create a group, invite friends, enter predictions, and see the basic leaderboard for free. This guarantees zero friction for user acquisition and viral growth.
-The "Agente Mundial" Group Pass ($4.99 One-Time Fee per Tournament): The Group Admin (the "Alpha" friend who organized the pool) pays a single $4.99 fee.
-What it unlocks: This single payment unlocks the AI features for the entire group for the duration of the 30-day tournament. It activates the AI Personalities (Tomás Roncero, Darth Vader), the Daily Summaries, and the Breaking News RSS broadcasts in their group chat.
-Why this is the ultimate pricing strategy for your app:
-Zero Friction for the Masses: 9 out of 10 users never hit a paywall. They just click the invite link and play.
-Targeting the Highest Intent User: The "Group Admin" is already the most invested person in the friend group. They took the time to organize the game. They are highly likely to drop $5 (the price of a beer) to make their month-long group chat hilarious and engaging for their friends.
-Phenomenal Margins: As we calculated earlier, the actual AI COGS for a group of 10 people for the entire month is roughly $0.35. If you charge the Admin $4.99, you are operating at a 93% Gross Margin while looking like a hero to the other 9 friends who get to use the AI for free.
+**Outcome-based** — **N/A.** Requires real-money sports betting, which has massive legal/compliance barriers.
+
+### 3. Proposed Pricing: The Admin-Sponsored Group Pass
+
+A **Freemium + Admin-Sponsored** model.
+
+**The Free Tier** — Any user creates a group, invites friends, enters predictions, sees the leaderboard for free. Zero friction for acquisition and viral growth. Free groups keep all engagement loops to generate chat data for AI training.
+
+**The "Agente Mundial" Group Pass** — **$4.99 one-time fee per tournament.** The Group Admin pays once, unlocking premium features for the entire group for the tournament duration (~40 days, June 11 — July 20).
+
+### 4. Feature Split
+
+| Free Tier | Paid Tier (+$4.99/group) |
+|---|---|
+| 4 AI personalities (2 ES + 2 EN) | 7 AI personalities (all) |
+| Banner ads in leaderboard/chat | No banner ads |
+| — | Breaking news RSS broadcasts |
+| Push notifications | Push notifications |
+| Daily AI summaries | Daily AI summaries |
+| Image/audio/GIF/file sharing | Image/audio/GIF/file sharing |
+| Full tournament message history | Full tournament message history |
+| Custom scoring rules | Custom scoring rules |
+| — | Custom player avatar |
+| — | Nickname color |
+| — | Player banner |
+| — | VIP badge |
+| — | Group avatar |
+| — | Chat theme / accent color |
+| — | Custom group tagline |
+| — | Animated leaderboard effects |
+| — | Premium emoji reactions |
+| — | "Goal" celebration splash |
+| — | Custom bot intro (personalized greeting per group) |
+
+Paid tier sells **personality** (more bot variety) and **polish** (cosmetics, no ads, real-time news) — not functionality gates that split the user base.
+
+### 5. Why This Works
+
+- **Zero friction for the masses** — 9 out of 10 users never hit a paywall. They click the invite link and play.
+- **Targets the highest-intent user** — The Group Admin organized the pool. They're highly likely to drop $5 (price of a beer) to make the group chat hilarious and polished.
+- **Free tier stays engaging** — Push notifications, daily summaries, rich media, and full history keep users coming back, generating more AILogs for model fine-tuning.
+- **Phenomenal margins** — With the proposed cascade architecture (self-hosted 8B triage + GPT-4o-mini frontier), the AI COGS for a group of 10 for the entire tournament is ~$0.30-0.50. At $4.99, that's a **90-94% gross margin**.
 
 
+**Model:** seat-based 
 
-
-
-**Current pricing:**
-**Proposed AI pricing:**
-**Model:** seat-based / usage-based / outcome-based / hybrid
+**Important:**
+I'm selling a flat-rate pass but the COGS is usage-based. The only way that math works at scale is to cap my marginal cost via self-hosting. The cascade strategy isn't just an optimization — it's the condition that makes the $4.99 price point viable.
 
 ## Stress Tests
 
