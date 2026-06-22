@@ -73,11 +73,13 @@ Attacker: Telegram (via Mini-App / Bot Developers) Vector: Frictionless distribu
 
 **Why users will trust a probabilistic system.**
 
-- **Reliability Target:**
-- **Golden Dataset:** 13 rows, 5 adversarial
-- **Confidence UX:** **Current state: Not implemented.** No confidence indicator exists in the user-facing UI. The Judge scores are stored in AILog and visible in the dev dashboard, but never shown to users.
-- **HITL Architecture:** **Current implementation (as coded):**
-- **Failure Mode Coverage:** *What failure mode did your partner find that you missed?*
+- **Reliability Target:** 92% accuracy, <1% hallucination rate, p95 <800ms latency, <0.5%/wk drift velocity
+- **Golden Dataset:** 101 test cases across 6 files (13 sample rows shown, 5 adversarial). Covers: intent classification (32), personality responses (29), language purity (16), transcreation (8), edge cases (10), daily summaries (6)
+- **Confidence UX:** Not implemented. Judge scores exist in AILog + dev dashboard but never shown to users. Proposed: high (>90%) = no indicator, medium (70-90%) = subtle badge, low (<70%) = bot qualifies response ("No estoy seguro, pero...")
+- **HITL Architecture:** Auto-triggered on downvote (1-2), calibration signal (4-5 + Judge failed), or force-approved (3 retries exhausted). Daily cap: 20. Dedup: 3 per personality+language per 7 days. Reviewer: developer via dev dashboard. Promotion: manual click → `local_overrides.json` (gitignored). Gaps: no on-call rotation, no auto-retrain, no auto-rollback.
+- **Failure Mode Coverage:** Partner found: messages mixing languages and being cringe instead of funny (especially in Spanish). Codebase analysis adds: (1) golden dataset too small for statistical significance, (2) no latency SLO enforcement, (3) no data freshness gate for production edge cases.
+
+
 
 → Details: [`04-the-contract/`](04-the-contract/)
 
@@ -87,14 +89,14 @@ Attacker: Telegram (via Mini-App / Bot Developers) Vector: Frictionless distribu
 
 **What breaks when this scales — and what compounds.**
 
-- **Compounding System:** | Loop | Iteration 1 → Iteration n | Compounds? | Status | Correction vs Original | |------|--------------------------|-----------|--------|----------------------| | **Quality Gate** | Judge gives feedback → response cor…
-- **Governance Posture:** AI features in Agente Mundial — personality-driven match commentary, web search (Tavily) for factual queries, transcreation to 8 non-Latin scripts, daily AI summaries, RSS news rebroadcasts.…
-- **Autonomy Boundaries:** | OK Solo | Needs Human |
-- **Escalation Triggers:**
-- **Audit Cadence:** | Cadence | Activity | Owner | Status |
-- **Shadow AI Audit (user-side):**
-- **Agent Boundaries:**
-- **Regulatory Exposure:** | Regime | Applies? | Risk Tier | Key Gaps |
+- **Compounding System:** Quality Gate compounds each retry (max 3) with Judge feedback injected into user prompt. HITL→Golden Dataset is manual, gitignored, lost on redeploy. RAG stores embeddings but never queries them (regex-only). Catchphrase→Prompt is a cross-group in-memory FIFO (3 full responses per personality, not catchphrase tokens). Per-personality eval thresholds planned to close SILO #5.
+- **Governance Posture:** AI covers personality commentary, web search, transcreation, summaries, RSS. Excludes peer-to-peer chat (report/block system) and deterministic prediction engine.
+- **Autonomy Boundaries:** Bot runs solo for standard responses, web search, transcreation, summaries, RSS, correction detection. Needs human: force-approved responses, downvotes, calibration signals, user reports (no moderation UI — gap). Never auto: account deletion, impersonation.
+- **Escalation Triggers:** Judge fail → retry (max 3). Exhausted → force-approve + HITL. Downvote (1-2) → HITL. Calibration signal (4-5 + Judge fail) → HITL. User report → pending record. User block → filtered. Gaps: no profanity/PII detection, no human transfer, no turn limits.
+- **Audit Cadence:** Weekly golden eval (manual CLI, no cron). Daily HITL (cap 20, dev dashboard). Monthly LangFlow→PRD (not configured). Quarterly policy review (not implemented).
+- **Shadow AI Audit (user-side):** 7 workarounds ($85/mo adj. spend). Build 4 (what-if sim, FR/PT/IT/DE languages, prediction strategy, leaderboard history). Partner 1 (roast templates). Govern 1 (rate limiting). Ignore 1. Dominant signal: capability + workflow gap tied.
+- **Agent Boundaries:** No multi-agent system. Single stateless chatbot + Judge service. LangFlow agent export is a design artifact — not deployed.
+- **Regulatory Exposure:** EU AI Act (minimal — entertainment only). GDPR/LOPDGDD (limited — email/name, no PII in LLM calls; gaps: no lawful basis, no processor register, no portability, incomplete deletion, no retention). COPPA (high — no age gate, no parental consent).
 
 → Details: [`05-the-guardrails/`](05-the-guardrails/)
 
