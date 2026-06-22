@@ -17,7 +17,7 @@
 | Email (Brevo) | **$0** | 300 free emails/day — sufficient at 10 users |
 | Push Notifications | **$0** | Expo Push — free tier |
 | Human-in-the-loop | **$0** | "Done by Developer" but still present in code (`HumanReview` model, 20 reviews/day cap). Not billed |
-| **Total AI COGS** | **$0** | **Accurate at this scale.** All services fit within free tiers |
+| **Total AI COGS** | **$0** |  All services fit within free tiers |
 
 ---
 
@@ -34,7 +34,7 @@
 | Infrastructure | **$7-14** | Render Standard ($14/mo) — correct. Free tier sleeps; WebSockets + cron jobs require paid plan. |
 | Data/storage | **$9** | MongoDB Atlas M2 ($9/mo, 2GB) — reasonable for 1k users. Add **~$3/mo for data transfer egress** |
 | Human-in-the-loop | **$0** | Auto-queued enforcement. Adds operational overhead (reviewing 20/day) but no direct API cost |
-| **Total AI COGS** | **~$55-95/mo (~$0.055-0.095/user)** | 70B model pricing is the dominant factor. |
+| **Total AI COGS** | **$55-95/mo ($0.055-0.095/user)** | 70B model pricing is the dominant factor. |
 
 ---
 
@@ -53,7 +53,7 @@
 | RAG / Embeddings | **$200-500** | Vector embeddings at scale require dedicated endpoints (not free HF). Atlas Search add-on costs apply. |
 | Human-in-the-loop | **$5,000-15,000** | At 100k users, auto-reviewing 20/day is useless. You need a real HITL team to review bot responses, feedback, and edge cases. Even a single part-time moderator is $500-1,000/mo. A small team of 3-5 in a low-cost market: $5,000-15,000/mo. |
 | Monitoring & Observability | **$300-800** | Datadog/Grafana, Sentry, uptime monitoring, alerting at 100k users is mandatory. |
-| **Total AI COGS** | **~$10,500-24,300/mo (~$0.105-0.243/user)** |  HITL alone dominates at true enterprise scale. |
+| **Total AI COGS** | **$10,500-24,300/mo ($0.105-0.243/user)** |  HITL alone dominates at true enterprise scale. |
 
 ---
 
