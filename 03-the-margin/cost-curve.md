@@ -68,42 +68,49 @@
 ## Cascading Strategy
 <!-- Cheap model → frontier model routing logic -->
 
-A Cascading Strategy (or Model Routing) absolutely makes sense for your product, but you need to invert the traditional approach.
+## Cascading Strategy — Before vs After
 
-Because your app is primarily a real-time social chat interface, speed and cost are vastly more important than deep reasoning for 95% of your interactions.
+### Current (10 users/month)
 
-Here is exactly how a Triage/Cascading model should be implemented for "Agente Mundial":
+At this scale, everything fits on Groq free tier. The cascade is about **latency and architecture**, not cost.
 
-The Cascading Strategy
-Triage (Primary) Model: Llama 3.1 8B (via Groq).
-Frontier Model: GPT-4o-mini or Claude 3.5 Haiku. (Do not use heavy models like GPT-4o or Opus; they are too slow and expensive for consumer social apps).
-The Routing Rules
-You don't need a complex semantic router to determine difficulty. You can route strictly based on the Feature Set (Synchronous vs. Asynchronous):
+| Field | Value |
+|---|---|
+| **Triage model** | `llama-3.1-8b-instant` via Groq — faster throughput, higher free-tier rate limits, sufficient for 3-sentence jokes with player stats |
+| **Frontier model** | `llama-3.3-70b-versatile` via Groq — only for async summaries where number accuracy + personality depth matter |
+| **Routing rule** | Feature-based: `generateResponse` (chat, sync) → **8B triage**; `generateDailySummary` / `generatePersonalitySummary` (cron, async) → **70B frontier** |
+| **Expected cascade ratio** | ~95% triage / ~5% frontier (20-30 chat calls per group per match day vs 1 summary) |
+| **Transcreation** | Not needed at 10 users (unlikely to have non-Latin users in the initial group), but architecture should point to triage model when it is |
 
-1. Route to Triage Model (Groq Llama 3):
+**Cost consequence:** All $0. Same as today, but you get faster chat responses (8B is ~800 tokens/s vs 70B's ~500 tokens/s) and preserve 70B rate limits for when they matter.
 
-Target: generateResponse (Real-time group chat banter).
-Why: When a user tags the bot in the chat, they expect an immediate response. Groq's 500+ tokens/second speed is a massive UI advantage. A 7B/8B model is perfectly capable of looking at a user's stats and throwing a quick, 3-sentence insult in the voice of Tomás Roncero. You do not need frontier-level reasoning to make a football joke.
-2. Route to Frontier Model (GPT-4o-mini / Claude 3.5 Haiku):
+### Future (100k users/month)
 
-Target: generateDailySummary and Data Extraction.
-Why: At the end of the day, your cron job passes a JSON leaderboard of 15 players and their exact stats to the LLM and asks it to synthesize a coherent, error-free summary. Smaller models (8B) are notorious for "hallucinating" numbers or failing at complex formatting when given large data arrays. Because this is an asynchronous background task (a cron job), the user doesn't care if it takes 4 seconds to generate. You need high accuracy here.
-Expected Cascade Ratio
-95% / 5%
+At this scale, Groq free tier is unusable. The cascade becomes a **pricing architecture**.
 
-95% of Volume (Triage): Chat interactions. In a group of 10 friends, the bot might be triggered 20 times during a 90-minute match.
-5% of Volume (Frontier): Summaries and background tasks. The daily summary only runs once per group, per day.
-Why this is the ultimate strategic move:
-By adopting this 95/5 cascade ratio, you achieve the "Holy Trinity" of AI consumer apps:
+| Field | Value |
+|---|---|
+| **Triage model** | **Self-hosted fine-tuned 8B** (recommend Qwen2.5-7B — already the HF fallback, best multilingual support, LoRA fine-tunable on one GPU). Handles chat + transcreation + Judge on a single GPU instance. |
+| **Frontier model** | `GPT-4o-mini` via API — async summaries where number hallucination must be avoided and latency doesn't matter. Only ~4% of traffic. |
+| **Routing rule** | Feature-based: <br>• `generateResponse` (chat, sync) → **self-hosted 8B**<br>• transcreation pipeline (sync, triggered per-response for non-Latin languages) → **same self-hosted 8B** (fine-tuned)<br>• `generateDailySummary` / `generatePersonalitySummary` (cron, async) → **GPT-4o-mini** |
+| **Expected cascade ratio** | ~96% self-hosted 8B / ~4% GPT-4o-mini <br>(150k chat calls + 30k transcreation calls vs 10k summaries + 5k personality summaries per day) |
+| **Cost consequence** | Self-hosted 8B: ~**$500-1,000/mo** (single GPU). GPT-4o-mini: ~**$400-700/mo** (4% of 200k daily calls). No per-token pricing for the bulk of traffic. |
 
-Near-zero latency where the user feels it most (chat).
-High reasoning and zero hallucinations where it matters most (daily leaderboard summaries).
-Blended COGS (Cost of Goods Sold) that remain effectively as cheap as if you were running the entire app on open-source models, because the expensive frontier model is only firing once a day per group.
+---
 
-**Triage model:**
-**Frontier model:**
-**Routing rule:**
-**Expected cascade ratio:**
+### Summary table
+
+| | 10 users/mo | 100k users/mo |
+|---|---|---|
+| **Triage** | Llama 3.1 8B (Groq free) | Self-hosted fine-tuned 8B (Qwen2.5-7B) |
+| **Frontier** | Llama 3.3 70B (Groq free) | GPT-4o-mini (API) |
+| **Routing rule** | Feature-based (sync/async) | Feature-based (sync/async) |
+| **Cascade ratio** | 95/5 | 96/4 |
+| **Transcreation** | Not active (no setup needed) | Integrated into triage (fine-tuned) |
+| **Total AI COGS** | **$0/mo** | **~$900-1,700/mo** |
+
+The jump from 10 to 100k users changes the **hosting** (API → self-hosted), not the **strategy** (triage/frontier split remains feature-based). The fine-tuned 8B is the key enabler — it keeps 96% of traffic off per-token APIs entirely.
+
 
 ## Pricing Model
 
