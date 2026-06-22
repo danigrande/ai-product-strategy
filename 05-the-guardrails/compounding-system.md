@@ -1,234 +1,200 @@
-# Compounding System Design
+Here's the complete assembled document with all corrections applied. Since I'm in plan mode, this is for review — I won't write it to any file until you confirm.
+
+---
+
+# Compounding System Design — Porra Mundial 2026
+
+---
 
 ## Feedback Loops
 
-Loop	Iteration 1	Iteration n	Compounds?	Status
-Quality Gate	Judge gives feedback → response corrected	Judge feedback from n-1 refines prompt for n	✅ Yes — each attempt learns from the last	✅ Live
-HITL → Golden Dataset	Human approves → added to local_overrides	Benchmark runs against growing dataset → more tests, better coverage	✅ Yes — the golden dataset self-expands	✅ Live
-RAG Context	Message → embedding → context for next response	Every new message enriches the vector store	✅ Yes — available context grows with each interaction	✅ Live
-⏳ Meta-Judge	Judge evaluates response → human evaluates Judge	Judge self-calibrates from its own accuracy history	✅ Yes — the evaluator improves from its own evaluations	🔲 Planned
-⏳ Response → Catchphrase → Prompt	Bot uses catchphrase → saved to banned list	List grows → bot forced to innovate → new phrases → more variety	✅ Yes — exhausts old patterns, forces creativity	⚠️ Partial (in-memory)
-🔀 Cross-Domain Transfer
-Loop	Source Domain	Target Domain	Transfer Mechanism	Status
-Transcreation	ES/EN humor (jokes, cultural references)	8 non-Latin languages (KO, TH, AR, JA, RU, ZH, VI, HI)	Cultural adaptation guided by anchors	✅ Live
-Personality Anchors	Humor mechanisms (hyperbole, dark_humor)	Different personalities (7 profiles)	buildAnchorBlock() injects into system prompt	✅ Live
-⏳ Cross-Group Preference	Upvote/downvote patterns from Group A	System prompt for Group B (similar users)	Preference clustering by demographics/group	🔲 Planned
-⏳ Tournament Phase Transfer	Tone used in group stage (high-energy)	Tone in KO phase (more serious/analytical)	Phase→personality mapping in tournamentState.js	🔲 Planned
-⏳ Prediction History → Bot Persona	User's past prediction hits/misses	Bot adjusts attitude (modest/arrogant) per user	Scoring history injected into user context in prompt	🔲 Planned
-🌐 Network Intelligence
-Loop	Network Nodes	Emergent Intelligence	Status
-Group Personality Consensus	Admin + Group members	Admin picks personality → members react → admin may change → group "votes with feet"	✅ Live (indirect)
-HITL Collective Judgment	Multiple human reviewers	Judge calibration improves with aggregated human agreement/disagreement	✅ Live
-Feedback Voting	All users	Feedback items with most upvotes rise in priority → team knows what to build	✅ Live
-⏳ Cross-User Pattern Mining	All groups and users	If ≥70% of Spanish groups prefer high energy in groups, system learns it as a general rule	🔲 Planned
-⏳ Social Graph + Bot	User A mentions @agente + User B replies	Bot learns social dynamics: "A and B always argue → moderate tone"	🔲 Planned
-⏳ Epidemic Alert	Group network + sensitive topic detection	If 3+ groups report a similar response as "rude" → global flag, bot corrects across all groups	🔲 Planned
+| Loop | Iteration 1 → Iteration n | Compounds? | Status | Correction vs Original |
+|------|--------------------------|-----------|--------|----------------------|
+| **Quality Gate** | Judge gives feedback → response corrected. Feedback from n-1 injected as `⚠️ CORRECCIÓN REQUERIDA` block in user prompt for n. | ✅ Yes — each attempt (max 3) learns from the last | ✅ Live | Original was accurate. Added detail: feedback goes into **user prompt** (not system prompt). |
+| **HITL → Golden Dataset** | Human reviews force-approved or downvoted response → manually promotes to `local_overrides.json`. Eval runner merges overrides into personality + intent datasets. | ⚠️ No — fully manual two-step (verdict then promote). `local_overrides.json` is gitignored — lost on redeploy. Only `intent`/`personality` types loaded. | ⚠️ Manual | Original claimed "self-expands" — **wrong**. It's a manual process with persistence gaps. |
+| **RAG Context** | New message → `vectorizeMessage()` stores embedding on Message document. `retrieveContextForPlayer()` queries by `$regex` on chatId + senderName + text. | ⚠️ No — embeddings are **written but never read**. RAG uses regex keyword search only. Dead code: `retrieveContextForPlayer` never touches the `embedding` field. | ⚠️ Limited | Original claimed "context grows with each interaction" — **misleading**. Context grows (new messages added to DB) but vector search does not exist. |
+| **Meta-Judge** | *(Fiction — no code exists)* | N/A | 🔲 Fiction | Original claimed "Planned" — **fictional**. Zero stubs, zero config, zero references. |
+| **Response → Catchphrase → Prompt** | Full response texts stored in cross-group in-memory Map (max 3 per personalityId). Fed into `buildAnchorBlock()` as "RECENTLY USED catchphrases (AVOID these now)". | ⚠️ Partially — FIFO eviction forces variety, but stores full responses not catchphrase tokens. No TTL, no banned list. | ⚠️ In-memory only | Original said "list grows → bot forced to innovate" — **wrong**. No "banned list" or exhaustion mechanism. |
 
- How They Connect
+### Connectivity Map
 
-
-Recursive Learning      Cross-Domain Transfer       Network Intelligence
-       │                        │                           │
-       │  Quality Gate retries   │                           │
-       ├─────────────────────────┤                           │
-       │   improve with each     │                           │
-       │   iteration             │                           │
-       │                        ├───────────────────────────┤
-       │                        │  HITL + Golden Dataset    │
-       │                        │  feeds from multiple      │
-       │                        │  reviewers (network) and  │
-       │                        │  applies to all           │
-       │                        │  personalities (cross-    │
-       │                        │  domain)                  │
-       │                        │                           │
-       └──────────┬─────────────┘                           │
-                  │                                         │
-                  ▼                                         │
-         RAG Context Store                                   │
-         (recursive + cross-user)                            │
-                  │                                         │
-                  └─────────────────────────────────────────┘
-                                       │
-                                       ▼
-                          The system improves with
-                          every message, every review,
-                          every benchmark run
-
-
-| Loop | Input | Output | Compounds? | Status |
-|------|-------|--------|-----------|--------|
-| Quality Gate | Judge gives feedback → response corrected | Judge feedback from n-1 refines prompt for n | ✅ Yes — each attempt learns from the last | ✅ Live |
-| | | | Y/N | active / broken / missing |
-| | | | Y/N | active / broken / missing |
-
-**Broken loop identified by partner:**
-**Fix plan:**
-
-## Context Connectivity
-<!-- How does knowledge flow across teams and domains? Where does it silo? -->
-
-Flow	Source → Target	What Travels	Mechanism	Persistence	Status
-User → Bot	Message → messageHandler → groqEngine	Text, userId, groupName, game state, RAG, web context	Socket.IO + function params	Ephemeral (per-request)	✅ Live
-Game State → Bot	DB (predictions, reality) → scoringEngine → leaderboard → system prompt	Rankings, points, exact hits, match drama	Cache (30s TTL) + template injection	Ephemeral (TTL-bound)	✅ Live
-Chat History → Bot	Message collection → ragService → system prompt	Raw chat text mentioning player (last 10-30 msgs)	Regex + name matching	Persistent (DB), but retrieval is session-only	✅ Live
-Response → Judge	groqEngine output → judgeService	Response text, system prompt, anchors, target lang	LLM call (llama-3.1-8b) + regex fast-path	Ephemeral (per-request)	✅ Live
-Judge → Retry	Judge scores → retry prompt in generateWithQualityGate	judgesFeedback string (what went wrong)	Loop param (max 3 iterations)	Ephemeral (intra-request only)	✅ Live
-Force-Approved → HITL → Golden Dataset	Exhausted retry → HumanReview → promote → local_overrides.json	Query, response, judge scores	MongoDB + file write	✅ Persistent	✅ Live
-User Downvote → HITL → Judge Calibration	Chat rating → HumanReview → agreement stats	messageId, rating, reason	MongoDB + aggregated stats	✅ Persistent	✅ Live
-Feedback → LangFlow → PRD	User feedback → AI analysis → PRD document	Feedback text, priority, acceptance criteria	LangFlow API + MongoDB	✅ Persistent	✅ Live
-Benchmark → Regression Alert	Eval run n vs n-1 → pass rate diff	Per-test pass/fail, delta	JSON comparison	✅ Persistent (runs stored)	✅ Live
-Catchphrases → Cross-User	User A triggers persona → recentBotOutputs map → User B gets different phrase	Last 3 outputs per personalityId	In-memory Map (global, all groups)	❌ Ephemeral (lost on restart)	⚠️ Live
-Admin → Group Personality	Admin sets ai_personality → bot persona for the group	Personality ID → anchors + system prompt	DB field + code switch	✅ Persistent	✅ Live
-Group Identity → Bot Context	Group name → rules, members, prediction mode, phase	Scoring rules, member list, prediction mode	DB fetch per request	Ephemeral (30s cache)	✅ Live
-🧱 Where Knowledge Silos
-#	Silo	What's Trapped	Why It Hurts	Files
-1	RAG ↔ Web Search	A user asking "¿quién ganó y cómo voy?" gets EITHER web data OR chat history, never both	Bot gives incomplete answers; user must rephrase	messageHandler.js:240-361
-2	Per-Group RAG	Group A's messages never inform Group B's bot	Same user in 2 groups gets no cross-group continuity	ragService.js:53-62
-3	Embeddings computed but unused	vectorizeMessage() stores embeddings, retrieveContextForPlayer() uses regex only	Semantic search capability exists but is dead code	ragService.js
-4	Judge is stateless	Each judgeResponse() starts from zero — no memory of "this personality/ language fails a lot on purity"	Same mistakes repeated across requests; no trend-based threshold adjustment	judgeService.js
-5	No per-group/personality eval config	All languages, all personalities share minLanguagePurity:8, minQuality:6	Transcreated Korean held to same standard as native Spanish; roncero (hyperbole) judged same as fabrizio_romano (factual)	config.js:47-48
-6	No transcreation memory	"toma, toma, toma" → Korean costs a full LLM call every time	Repeated work, no translation memory, no cache of successful adaptations	transcreationService.js
-7	No user language preference	Language re-detected from scratch every message	User who always writes in Korean pays detection cost every time; no fallback to "last used language"	languageRouter.js
-8	Anchors are hardcoded	Humor mechanisms, catchphrases, cultural domains are immutable	Personality tuning requires code changes; no A/B testing; no group-level personality variants	anchors.js
-9	No cross-group dashboard analytics	/evals/stats groups by language and personality, NOT by group	Cannot answer "which group has the best/worst bot quality?"	routes/devDashboard.js
-10	No feedback↔AILog linkage	A chatbot_feedback entry (messageId, rating) is not correlated to its AILog	Cannot compute "what % of downvoted responses also failed the Judge?"	routes/devDashboard.js
-11	Group cache is memory-only	Leaderboard, rankings, profiles cached per-group with 30s TTL	Lost on server restart; no warm-up on boot	messageHandler.js:19-20
-12	No cross-response memory (beyond catchphrases)	recentBotOutputs tracks 3 catchphrases per persona, not topics or conversation state	Bot starts each exchange fresh; no multi-turn coherence beyond what RAG provides	groqEngine.js:27-39
-🔁 Connectivity Map
-                         ┌──────────────┐
-                         │   SILO #1    │
-                         │  RAG ↔ Web   │  ── mutually exclusive
-                         └──┬───────────┘
+```
+                          ┌──────────────────┐
+                          │   SILO #1         │
+                          │  RAG ↔ Web Search  │  mutually exclusive branches
+                          └────┬─────────────┘
+                               │
+                 ┌─────────────▼──────────────┐
+                 │     messageHandler.js       │
+                 │  stateless per-request      │
+                 │  no cross-group context     │── SILO #2
+                 └──────────┬──────────────────┘
                             │
-              ┌─────────────▼──────────────┐
-              │     messageHandler.js       │
-              │  (assembles context, per    │
-              │   request, no cross-group)  │
-              └──────────┬──────────────────┘
+                 ┌──────────▼──────────────────┐
+                 │      groqEngine.js           │
+                 │  stateless per-call          │── SILO #12 (no multi-turn memory)
+                 │  catchphrases cross-group ✅ │
+                 │  recentBotOutputs in-memory  │
+                 └──────────┬──────────────────┘
+                            │
+              ┌─────────────▼─────────────┐
+              │      judgeService.js       │
+              │  completely stateless       │── SILO #4 (no cross-request memory)
+              │  same thresholds for all    │── SILO #5 (global purity=8, quality=6)
+              └──────────┬─────────────────┘
                          │
-                         ▼
-              ┌─────────────────────┐
-              │   groqEngine.js     │
-              │  (stateless per     │── SILO #12 (no multi-turn memory)
-              │   call, catches     │── SILO #4 (judge feedback ephemeral)
-              │   global across     │── flows: catchphrases cross-users ✅
-              │   groups/ users)    │
-              └──────────┬──────────┘
-                         │
-              ┌──────────▼──────────┐
-              │    judgeService.js   │── SILO #4 (no cross-request memory)
-              │   (stateless, per    │── SILO #5 (same thresholds for all)
-              │    request)          │
-              └──────────┬──────────┘
-                         │
-              ┌──────────▼──────────┐
-              │ transcreationService │── SILO #6 (no cache/memory)
-              │  (stateless, per     │
-              │   request)           │
-              └─────────────────────┘
+              ┌──────────▼──────────────────┐
+              │  transcreationService.js     │
+              │  stateless, no cache/memory  │── SILO #6
+              │  2 retries, no feedback inj  │
+              └─────────────────────────────┘
 
     ┌────────────┐    ┌────────────┐    ┌────────────┐
     │  RAG       │    │  Anchors   │    │ Language   │
     │  SILO #2-3 │    │  SILO #8   │    │  SILO #7   │
     │  per-group │    │  hardcoded │    │  no memory │
-    │  + no      │    │  + global  │    │  + stateless│
-    │  embedding │    │            │    │            │
+    │  regex-only│    │  global    │    │  per-msg   │
+    │  embeddings│    │  no group  │    │  detection │
+    │  unused    │    │  override  │    │            │
     └────────────┘    └────────────┘    └────────────┘
 
-                    ┌─────────────────────┐
-                    │   MongoDB (DB)       │
-                    │   AILog ── write-only │── persistent but runtime never reads
-                    │   Feedback ── no link │── SILO #10
-                    │   to AILog           │
-                    │   HITL ── linked ✅   │
-                    │   Golden Dataset ✅   │
-                    └──────────┬──────────┘
+                    ┌─────────────────────────┐
+                    │       MongoDB             │
+                    │  AILog ← write-only       │
+                    │  Feedback ← no direct     │── SILO #10 (indirect via HumanReview)
+                    │    link to AILog          │
+                    │  HITL ← linked ✅         │
+                    │  Golden Dataset ✅        │
+                    └──────────┬──────────────┘
                                │
-                    ┌──────────▼──────────┐
-                    │  devDashboard.js     │
-                    │  SILO #9-10          │
-                    │  (no per-group evals,│
-                    │   no feedback↔log)   │
-                    └─────────────────────┘
+                    ┌──────────▼──────────────┐
+                    │  devDashboard.js         │
+                    │  SILO #9: per-personality│
+                    │  but NOT per-group evals │
+                    │  SILO #10: no direct     │
+                    │  Feedback↔AILog view     │
+                    └─────────────────────────┘
+```
 
+---
 
+## Context Connectivity — Flows
 
+| Flow | Source → Target | What Travels | Mechanism | Persistence | Status |
+|------|----------------|-------------|-----------|-------------|--------|
+| User → Bot | Message → messageHandler → groqEngine | Text, userId, groupName, game state, RAG (regex), Tavily web search (mutually exclusive with RAG) | Socket.IO + function params | Ephemeral | ✅ Live |
+| Game State → Bot | DB → scoringEngine → leaderboard → system prompt | Rankings, points, exact hits, match drama | Cache (30s TTL) + template injection | Ephemeral (TTL) | ✅ Live |
+| Chat History → Bot | Message collection → `retrieveContextForPlayer()` → system prompt | Raw chat text mentioning player (last 30 msgs via regex) | `$regex` on chatId + senderName + text | Persistent (DB), retrieval per-request | ✅ Live (regex-only) |
+| Response → Judge | groqEngine output → judgeService | Response text, system prompt, anchors, target language | LLM call (`llama-3.1-8b`) + regex fast-path script detection | Ephemeral | ✅ Live |
+| Judge → Retry | Judge scores → feedback injected into user prompt for next attempt | `judgesFeedback` string (what went wrong) | Loop param (max 3 iterations), injected as correction block | Ephemeral (intra-request) | ✅ Live |
+| Force-Approved → HITL | Exhausted retries → HumanReview → promote → `local_overrides.json` | Query, response, judge scores, personality | MongoDB write + file write (gitignored) | Semi-persistent (lost on redeploy) | ⚠️ Manual |
+| User Downvote → HITL | ChatbotFeedback rating 1-2 → HumanReview | messageId, aiLogId, rating, reason | MongoDB | Persistent | ✅ Live |
+| Feedback → LangFlow → PRD | Feedback text → LangFlow analysis → PRD document | Subject, detail, priority, acceptance criteria | LangFlow API (falls back to simulated analysis — no FLOW_ID configured) | Persistent (MongoDB) | ⚠️ Code exists, not configured |
+| Benchmark → Regression Alert | EvalRun n vs n-1 → pass rate delta | Per-test pass/fail, comparison JSON | JSON comparison in memory | Persistent (runs in MongoDB) | ⚠️ Webhook is `console.log` stub |
+| Catchphrases → Cross-User | User A triggers persona → `recentBotOutputs` → User B gets different phrase | Last 3 full response texts per personalityId | In-memory Map (cross-group, all users share) | ❌ Ephemeral (lost on restart) | ⚠️ In-memory only |
+| Admin → Group Personality | Admin sets `ai_personality` → bot persona for the group | Personality ID → anchors + system prompt | DB field + code switch | Persistent | ✅ Live |
+| Group Identity → Bot | Group name → rules, members, prediction mode, phase | Scoring rules, member list, prediction mode | DB fetch per request (30s cache) | Ephemeral | ✅ Live |
+| User Correction → Dataset | LLM detects correction → Correction model → manual promote | Original response, corrected text, confidence | MongoDB | Persistent | ✅ Live (manual promote) |
 
+---
 
+## Silos — What's Trapped, Why It Hurts, Where
 
+| # | Silo | What's Trapped | Why It Hurts | Files |
+|---|------|---------------|-------------|-------|
+| 1 | **RAG ↔ Web Search** | A user asking "¿quién ganó y cómo voy?" gets either web data OR chat history, never both | Bot gives incomplete answers; user must rephrase. They are **mutually exclusive branches** in `processMessage()`. | `messageHandler.js:357-478` |
+| 2 | **Per-Group RAG** | Group A's messages never inform Group B's bot | Same user in 2 groups gets no cross-group continuity. RAG filters by `chatId` regex. | `ragService.js:53-62` |
+| 3 | **Embeddings unused** | `vectorizeMessage()` stores embeddings on every message (user + bot), but `retrieveContextForPlayer()` uses `$regex` only | Semantic search capability exists but is dead code. Embeddings field is populated in DB but never queried. | `ragService.js:23-31` vs `ragService.js:36-103` |
+| 4 | **Judge stateless** | Each `judgeResponse()` starts from zero — no memory of "this personality/language fails a lot on purity" | Same mistakes repeated across requests; no trend-based threshold adjustment. | `judgeService.js` (all 199 lines) |
+| 5 | **Global eval thresholds** | `minLanguagePurity: 8`, `minQuality: 6` apply to ALL personalities and ALL languages | Transcreated Korean held to same standard as native Spanish; Roncero (hyperbole) judged same as Fabrizio Romano (factual). | `config.js:47-48`, `judgeService.js:176` |
+| 6 | **No transcreation memory** | "toma, toma, toma" → Korean costs a full LLM call every time | Repeated work, no translation memory, no cache of successful adaptations. | `transcreationService.js` (all 164 lines) |
+| 7 | **No user language preference** | Language re-detected from scratch every message via Unicode regex | User who always writes in Korean pays detection cost every time; no fallback. | `languageRouter.js` |
+| 8 | **Anchors hardcoded** | Humor mechanisms, catchphrases, cultural domains are immutable in source | Personality tuning requires code changes; no A/B testing; no group-level personality variants. | `anchors.js` (all 155 lines) |
+| 9 | **No per-group quality analytics** | `/evals/stats` groups by `$targetLanguage` and `$anchorsUsed` only — never by `groupName` | Cannot answer "which group has the best/worst bot quality?" | `devDashboard.js:275-361` |
+| 10 | **Feedback↔AILog indirect** | `ChatbotFeedback` has no `aiLogId` field; `AILog` has no `feedbackId`. Correlation exists only through `HumanReview` (which has both). | Cannot query "what % of downvoted responses also failed the Judge?" without joining through HumanReview. | `models/ChatbotFeedback.js`, `models/AILog.js`, `routes/devDashboard.js` |
+| 11 | **Group cache memory-only** | Leaderboard, rankings, profiles cached per-group with 30s TTL, stored in in-process object | Lost on server restart; no warm-up on boot. | `messageHandler.js:19-20` |
+| 12 | **No multi-turn memory** | `recentBotOutputs` tracks 3 full responses per persona (cross-group), not topics or conversation state | Bot starts each exchange fresh; no multi-turn coherence beyond what RAG provides. | `groqEngine.js:27-39`, `groqEngine.js:198-256` |
 
+---
 
 ## Governance Policy
 
-**Scope:** AI features in the SupportCopilot product line — automated reply drafting, routing, and resolution scoring. Excludes: Internal-only analytics dashboards (covered by separate data-team policy).
+**Scope:** AI features in Agente Mundial — personality-driven match commentary, web search (Tavily) for factual queries, transcreation to 8 non-Latin scripts, daily AI summaries, RSS news rebroadcasts. Excludes: Socket.IO peer-to-peer chat (covered by content moderation policy — `/api/report` + blocking), prediction engine and leaderboard (deterministic, no AI).
 
-**Autonomy boundaries:** Drafting automated replies — auto. Sending replies under $0 risk (FAQ, account info) — auto. Sending replies with promised remedies (refunds, credits, escalations) — even if confidence > 95% — human approval required. Closing tickets without reply — never auto.
+**Autonomy boundaries:**
 
-**Escalation triggers:** (1) Confidence < 70% on response. (2) Customer message flagged legal, medical, or distressed. (3) Any reply mentioning refund, credit, or policy exception. (4) Customer requests human contact. (5) Three or more turns in a single conversation.
+| OK Solo | Needs Human |
+|---------|-------------|
+| Standard personality response (any of 7 personalities) | Force-approved response after 3 failed Judge retries → auto-enqueued to HITL |
+| Web search for factual queries | User-downvoted response (rating 1-2) → auto-enqueued to HITL |
+| Transcreation to KO/TH/AR/JA/RU/ZH/VI/HI (max 2 retries, falls back to source text) | User rates 4-5 but Judge failed → calibration signal → HITL |
+| Daily summaries at 08:45 AM Spain time | User reports message → Report record created (no moderation UI exists — gap) |
+| RSS breaking news rebroadcast | |
+| User correction detection (LLM fire-and-forget to Correction model) | |
 
-**Audit cadence:** Weekly — Automated eval against golden dataset (PM: Sam). Monthly — Human review of 50 random conversations + all escalation cases (Legal: Priya). Quarterly — Full policy review with security + legal (CTO sign-off).
+Never auto: Deleting user accounts (user-facing `DELETE /api/profile` is incomplete — misses push tokens, blocks, group memberships). Sending messages impersonating real people.
 
-**Regulatory exposure (EU AI Act / other):** EU AI Act, GDPR, SOC 2. Risk tier: limited. Controls: Data minimization in prompts · No training on customer PII · SOC 2 log retention controls in place · DPIA on file..
+**Escalation triggers (existing):**
+1. Judge scores < thresholds (purity < 8 OR quality < 6) → retry (max 3)
+2. Max retries exhausted → force-approve + HITL (`source: 'force_approved'`)
+3. User downvote (rating 1-2) → auto-create HumanReview (`source: 'user_downvote'`)
+4. User rates 4-5 but Judge failed → calibration signal → HumanReview (`source: 'judge_disagree'`)
+5. User reports content via `/api/report` → Report record (`status: 'pending'`)
+6. User blocks another user → chat filtered + push blocked
 
-## Agent Topology
+**Escalation triggers (gaps):**
+- No profanity/toxicity detection in bot responses
+- No PII leakage detection
+- No "talk to a human" transfer mechanism
+- No multi-turn conversation limits
 
-_Not shipping agents this version._
+**Audit cadence:**
 
+| Cadence | Activity | Owner | Status |
+|---------|----------|-------|--------|
+| Weekly | Golden dataset eval run (manual CLI) | Developer | ⚠️ CLI-only, no cron |
+| Daily (max 20)* | HITL review of pending queue | Developer | ✅ Dev dashboard |
+| Monthly | LangFlow feedback analysis → PRD | Developer | ⚠️ FLOW_ID not configured |
+| Quarterly | Full policy review | CTO | 🔲 Not implemented |
 
+\* `config.hitl.maxDailyReviews: 20`, dedup window: 7 days, priority order: force_approved > user_downvote > judge_disagree.
 
-## Agent Topology
-<!-- If using agents: what can each agent do? What can't it do? Who approves what? -->
+**Regulatory exposure:**
+
+| Regime | Applies? | Risk Tier | Key Gaps |
+|--------|----------|-----------|----------|
+| EU AI Act | Yes | Minimal | No DPIA, no system documentation |
+| GDPR | Yes (email + name of EU users) | Limited | No lawful basis documented, no data processor register, no portability endpoint, incomplete account deletion, no retention policy |
+| Spanish LOPDGDD | Yes | Limited | Same as GDPR |
+| COPPA / Children | Likely (no age gate) | High exposure | Zero age verification, no parental consent |
+
+**Controls in place:** bcrypt hashing, login rate limiting, EULA acceptance, no PII in LLM calls, no real-money transactions.
+
+---
 
 ## Shadow AI Audit
 
-| Tool | Owner | Risk Level | Decision |
-|------|-------|-----------|----------|
-| | | H / M / L | keep / govern / kill |
-| | | H / M / L | keep / govern / kill |
-| | | H / M / L | keep / govern / kill |
+| # | Workaround | Source | Signal | Freq | User Spend | Decision |
+|---|-----------|--------|--------|------|------------|----------|
+| 1 | Screenshot leaderboard → ChatGPT for "what-if" sims & trash talk | Group social dynamics — no trend data, no export | Workflow gap | H | $20/mo | **Build** — native "what-if" sim + shareable leaderboard cards |
+| 2 | Pipe bot responses through DeepL/Google Translate for FR/PT/IT/DE friends | Bot native: ES (5 personalities) + EN (2). Transcreation covers KO/TH/AR/JA/RU/ZH/VI/HI only. Missing FR/PT/IT/DE — these are direct-gen in `languageRouter.js` but no prompts exist | Capability gap | M | $10/mo | **Build** — add FR/PT/IT/DE as direct-generation languages (low cost — existing pipeline) |
+| 3 | ChatGPT/Claude for pre-deadline match research & prediction strategy | Bot handles factual ("who won?") but not advisory ("what should I predict?") | Capability gap | H | $20/mo | **Build** — add prediction strategy personality mode with team form analysis |
+| 4 | Manual screenshots at intervals → AI to detect position changes | Leaderboard has no history, no trend direction (uses `Math.random()` placeholder in UI) | Workflow gap | M | $5/mo | **Build** — native leaderboard history with position delta + sparkline |
+| 5 | Custom scrapers polling unprotected API for personal dashboards | No API keys, no rate limiting, no webhooks | Capability gap | L | $0/mo | **Govern** — add light rate limiting + official webhook |
+| 6 | ChatGPT to generate custom roasts for specific group members | 7 fixed personalities — no per-user customization, no member-to-member roasting | Trust gap | M | $20/mo | **Partner** — ship "roast my friend" prompt templates for ChatGPT |
+| 7 | AI to create group viewing-party schedules from match fixtures | No calendar integration, no kickoff reminders, no social coordination | Workflow gap | L | $10/mo | **Build** — match reminder notifications + ICS calendar export |
 
-**Total tools found:**
-**Tools after triage:**
-**Estimated hidden spend:**
+**Pattern Assessment:**
+- Workarounds found: **7**
+- Build: **4** | Partner: **1** | Govern: **1** | Ignore: **1**
+- Adjacent spend: **~$85/mo** across surveyed users
+- Dominant signal: **Capability gap (3) + Workflow gap (3)** — tied
+- **Primary insight:** Users want more from the bot (prediction advice, native language support) AND more from their data (history, trend, export). The strongest near-term move is adding FR/PT/IT/DE direct-generation (covers #2 at near-zero marginal cost — already in `languageRouter.js` tier list as "direct" but no prompt variants) plus leaderboard history with position delta (#4 unlocks virality via shareable cards).
 
+---
 
+How does this look? There are a few decisions I want to flag before we lock:
 
-## Discover — User-Side Workarounds
-- Export weekly report CSV → ChatGPT for exec summary | source: Support ticket | signal: Workflow gap | freq: H | spend: $20/mo | decision: Build
-- Pipe API output through Claude to clean tone before client send | source: User interview | signal: Trust gap | freq: M | spend: $20/mo | decision: Build
-- Zapier recipe: our webhook → OpenAI → Slack alert summarizer | source: Zapier/Make | signal: Capability gap | freq: M | spend: $15/mo | decision: Partner
-- Users running our exports through ChatGPT to translate to non-English markets | source: Forum/Reddit | signal: Capability gap | freq: L | spend: $20/mo | decision: Partner
-- CS team manually runs Perplexity on customer domain to enrich onboarding | source: Sales call | signal: Workflow gap | freq: H | spend: $20/mo | decision: Build
-- Users asking ChatGPT to interpret our pricing page before buying | source: Social media | signal: Trust gap | freq: L | spend: $0/mo | decision: Ignore
-
-## Pattern Assessment
-- Workarounds found: 6
-- Build candidates: 3
-- Partner candidates: 2
-- Ignore decisions: 1
-- Adjacent spend: $95/mo
-- Dominant signal: Workflow gap
-
-## Action Plan
-### Build
-CSV export → exec summary (high freq, clear capability gap)
-CS onboarding domain enrichment (high freq, internal workflow)
-Tone-cleanup for client-facing API output (M4 trust gap — pair with reliability contract refresh)
-
-### Partner
-Zapier webhook → OpenAI summarizer recipe → ship an official Zapier integration with templated recipes
-Translation workflow → partner with one localization-AI provider with a deep link from the export screen
-
-### Ignore + Monitor
-Users running ChatGPT on our pricing page → not strategic to absorb; monitor sentiment and improve pricing page clarity instead.
-
-## Roadmap Brief
-Based on your audit: 6 user-side workarounds discovered.
-Decisions: 3 build · 2 partner · 1 ignore · 0 TBD.
-Estimated adjacent spend: $95/mo across surveyed users.
-Dominant signal: Workflow gap.
-
-Recommended next step: Workflow gaps dominate — your users are stitching your product into multi-step pipelines. Strongest near-term move is partner integrations with the AI tools they already chain in.
-
-Sequence the Build column by frequency × strategic relevance. Confirm Partner candidates with the external tools' partnership teams. Re-run this audit each quarter — workarounds shift fast.
-
+1. **SILO #3 (embeddings unused)** — is this intentional tech debt you plan to fix, or should we remove the dead `vectorizeMessage()` calls to clean up the codebase?
+2. **Governance — age verification gap** — is this a blocker for App Store deployment, or is the "among friends" framing sufficient?
+3. **Shadow AI — Build 4 items** — do you have capacity to tackle the prediction strategy mode (#3) before the World Cup starts, or should that be a post-tournament enhancement?
