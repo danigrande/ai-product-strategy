@@ -80,7 +80,7 @@
 5. **Transcreation** — 8 non-Latin languages require extra 70B calls per response.
 
 
-## Root causes of cost scale
+## Finantial impact of self-hosting
 
 1. **70B ≠ 8B** — primary model is `llama-3.3-70b-versatile`, not the 8B version. ~12x cost per token on paid tiers. **Mitigated by self-hosted cascade: 96% of traffic moves to a self-hosted 8B GPU, eliminating per-token pricing.**
 2. **Double inference** — every response has 2 LLM calls (primary + judge), plus retries up to 3x. **Mitigated: both run on the same GPU at no extra marginal cost.**
