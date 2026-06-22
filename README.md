@@ -99,11 +99,11 @@
 
 **How you get this funded, shipped, and adopted.**
 
-- **Horizon 1 (Now):**
-- **Horizon 2 (Next):**
-- **Horizon 3 (Bet):**
-- **Board Narrative:** **The case:**
-- **Ask:** ## M1 Baseline vs. Now
-- **Key Strategic Change:**
+- **Horizon 1 (Now):** Per-personality eval thresholds (closes SILO #5) · Leaderboard history with position delta + sparkline · Add FR/PT/IT/DE as direct-generation languages · Match reminder notifications + ICS calendar export
+- **Horizon 2 (Next):** "What-if" simulation + bracket playback · Prediction strategy personality mode · Fix RAG embeddings (use vector search in `retrieveContextForPlayer`) · Native "what-if" sim + shareable leaderboard cards
+- **Horizon 3 (Bet):** Generic league support (La Liga, Premier League) · Custom personality creator / per-group anchor overrides · Cross-group leaderboard / global rankings
+- **Board Narrative:** Personality-driven AI commentary turns a static World Cup prediction pool into a daily social ritual — and the 50-day tournament generates enough data to validate a year-round product before the next major event.
+- **Ask:** $27k CapEx for monetization infrastructure + $5k/month OpEx for self-hosted GPU (3-month minimum = $15k). Total: **$42k**.
+- **Key Strategic Change:** Dropped fine-tuning from all horizons. Reclassified Data Flywheel score from 5/5 to 2/5. Fine-tuning is Year 2 — it improves the next event, not this one.…
 
 → Details: [`06-the-pitch/`](06-the-pitch/)
