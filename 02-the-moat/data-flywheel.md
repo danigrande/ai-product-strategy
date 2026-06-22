@@ -62,11 +62,11 @@ There is no automated pipeline that:
 
 **What the system captures today:**
 
-1. **Static profile fields** (`User.js:7-11`): Each user has `likes: [String]`, `dislikes: [String]`, `humor_style: String` (sarcastic, friendly, epic, serious, troll), `ai_personality: String` (7 options). These are set manually by the user through the profile screen and read by the bot on every interaction.
+1. **Static profile fields**: Each user has `likes: [String]`, `dislikes: [String]`, `humor_style: String` (sarcastic, friendly, epic, serious, troll), `ai_personality: String` (7 options). These are set manually by the user through the profile screen and read by the bot on every interaction.
 
-2. **Short-term RAG memory** (`ragService.js:43-104`): The last 30 messages in the group mentioning the player are retrieved as `chatContext` and injected into the bot's prompt. This gives the bot awareness of recent banter and inside jokes, but the context window is limited — older messages fall out.
+2. **Short-term RAG memory**: The last 30 messages in the group mentioning the player are retrieved as `chatContext` and injected into the bot's prompt. This gives the bot awareness of recent banter and inside jokes, but the context window is limited — older messages fall out.
 
-3. **Repetition avoidance** (`groqEngine.js:30-38`): The last 3 bot outputs per personality are tracked to prevent catchphrase repetition. This is a local anti-spam mechanism, not a learning loop.
+3. **Repetition avoidance**: The last 3 bot outputs per personality are tracked to prevent catchphrase repetition. This is a local anti-spam mechanism, not a learning loop.
 
 **What the system does not do:**
 
@@ -109,7 +109,7 @@ Group A ──► Group B                  ❌  Data is fully siloed per group. 
 
 **The "personalized breaking news" feature is aspirational, not in the codebase.**
 
-The RSS feed (`rssFeedService.js`) searches for a hardcoded list of `worldCupKeywords` (`config.js:92-100`: 'mundial', 'world cup', 'fifa', 'selección', 'gol', 'lesión', 'favorito', etc.). It does not:
+The RSS feed searches for a hardcoded list of `worldCupKeywords` ('mundial', 'world cup', 'fifa', 'selección', 'gol', 'lesión', 'favorito', etc.). It does not:
 - Read group chat data to identify which specific teams/users care about
 - Dynamically update its keyword filters based on group conversations
 - Send targeted news to Group A about Argentina because they talk about Argentina
