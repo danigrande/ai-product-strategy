@@ -68,21 +68,19 @@
 ## Cascading Strategy
 <!-- Cheap model → frontier model routing logic -->
 
-## Cascading Strategy — Before vs After
+### Current (10 users/month) — AS-IS TODAY
 
-### Current (10 users/month)
-
-At this scale, everything fits on Groq free tier. The cascade is about **latency and architecture**, not cost.
-
-| Field | Value |
-|---|---|
-| **Triage model** | `llama-3.1-8b-instant` via Groq — faster throughput, higher free-tier rate limits, sufficient for 3-sentence jokes with player stats |
-| **Frontier model** | `llama-3.3-70b-versatile` via Groq — only for async summaries where number accuracy + personality depth matter |
-| **Routing rule** | Feature-based: `generateResponse` (chat, sync) → **8B triage**; `generateDailySummary` / `generatePersonalitySummary` (cron, async) → **70B frontier** |
-| **Expected cascade ratio** | ~95% triage / ~5% frontier (20-30 chat calls per group per match day vs 1 summary) |
-| **Transcreation** | Not needed at 10 users (unlikely to have non-Latin users in the initial group), but architecture should point to triage model when it is |
-
-**Cost consequence:** All $0. Same as today, but you get faster chat responses (8B is ~800 tokens/s vs 70B's ~500 tokens/s) and preserve 70B rate limits for when they matter.
+| Field | Value | Evidence |
+|---|---|---|
+| **Triage model** | **None.** No cascade exists. Only one primary model for all paths. | `config.js:12` — single `GROQ_MODEL` for everything |
+| **Frontier model** | **None.** Same model for chat, summaries, transcreation. | `groqEngine.js:317` — same `config.groq.model` for chat; `:598` same for summaries; `transcreationService.js:84` — same model via `config.transcreation.model ?? config.groq.model` |
+| **Primary model** | `llama-3.3-70b-versatile` via Groq | `config.js:12` and `render.yaml:23` |
+| **Judge model** | `llama-3.1-8b-instant` via Groq | `config.js:45` |
+| **Routing rule** | **None.** Every path → 70B. No feature-based routing. | One model, one judge, all traffic |
+| **Cascade ratio** | N/A (100% 70B) | — |
+| **Fallback (not cascade)** | `Qwen/Qwen2.5-7B-Instruct` via HuggingFace (only when Groq errors) | `groqEngine.js:359` — error fallback, not intelligence routing |
+| **Transcreation** | 70B Groq + 8B Judge retry loop | `transcreationService.js:82-145` — 1 transcreation call + up to 2 retries, each with a Judge call |
+| **Total AI COGS** | **$0/mo** (all free tier) | — |
 
 ### Future (100k users/month)
 
