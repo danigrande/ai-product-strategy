@@ -196,33 +196,34 @@ I'm selling a flat-rate pass but the COGS is usage-based. The only way that math
 
 ## Stress Tests
 
+Based on the self-hosted cascade architecture (8B triage on GPU + GPT-4o-mini for 4% of traffic).
+
 | Scenario | Impact on Margin | Response |
-|----------|-----------------|----------|
-| Inference costs 3x | | |
-| Heaviest segment doubles | | |
-| Model provider raises prices 50% | | |
+|---|---|---|
+| **1. Inference usage goes 3x** (users trigger the bot 3x more than projected) | **Low Impact.** With self-hosted 8B, marginal cost per message is near zero. A single GPU handles ~100+ req/s — 3x usage stays within capacity unless you're already near saturation. Cost impact: ~$0 if under capacity, or ~$500-1,000/mo if it forces a second GPU. Margin drops from ~94% to ~85-90% in the worst case. | **Monitor GPU utilization.** Add auto-scaling alerts at 70% sustained usage. The "Humor Cooldown" (bot says "Me voy al banquillo a beber agua" and ignores prompts for 15 min) is still a good UX safety net, but you'll likely never need it. |
+| **2. Heaviest segment doubles** (top 10% of groups chat 2x more than average) | **Medium Impact (Infrastructure).** Margin impact on inference is negligible (self-hosted GPU doesn't care). The real risk is MongoDB write contention during live matches — 2x chat volume from power users means 2x message saves, 2x AILog inserts, and potential WebSocket saturation for everyone. | **Aggressive RAG Caching:** Cache chatContext in memory for 60 seconds for heaviest groups. **Rate-limit DB writes during peak match minutes** (buffer messages in memory, flush every 5 seconds). **Socket.IO horizontal scaling** — if one Node process reaches ~10k connections, spin up a second. |
+| **3. Model provider raises prices 50%** | **Zero Impact.** This affects only the GPT-4o-mini calls (~4% of traffic). Self-hosted 8B is immune to API price hikes. Even if OpenAI doubles GPT-4o-mini pricing tomorrow (from $0.15/M in to $0.30/M in), total COGS increases by ~$200-350/mo at 100k users — less than 2% of revenue. | **Silent Switch:** The 8B triage is already self-hosted. For the 4% frontier traffic, swap GPT-4o-mini for Claude Haiku or Gemini Flash with one line of code. Users won't notice. |
 
 
 
-Here is the Stress Test Audit based on the "Admin-Sponsored Group Pass" pricing model ($4.99 per group) and your current AI architecture.
+The self-hosted cascade fundamentally shifts the risk from a **per-token API pricing**:
 
-Because your baseline AI COGS (Cost of Goods Sold) are incredibly low (roughly ~$0.35 total per group per month), your margins are highly resilient to pricing shocks.
+| Risk | Under per-token API | Under self-hosted cascade |
+|---|---|---|
+| **Usage spikes** | Cost scales linearly with every message | GPU is a fixed cost; more usage is free until capacity |
+| **Price hikes** | Directly hits every dollar of margin | Only affects 4% of traffic (GPT-4o-mini) |
+| **Provider lock-in** | Need to migrate API keys | Self-hosted 8B has no provider dependency |
 
-Scenario	Impact on Margin	Response
-1. Inference usage (tokens) goes 3x
+### Ultimate Conclusion on Pricing Risk
 
-(Users trigger the bot way more often than projected).	Low Impact.
-Inference cost per group jumps from ~$0.15 to ~$0.45. Total COGS increases to ~$0.65. Gross margin drops slightly from 93% to 87%. You are still highly profitable.	Implement a Humor Cooldown: Do not block the users with an ugly "Rate Limit" error. Have the bot reply: "¡Me voy al banquillo a beber agua!" (I'm going to the bench to drink water!) and automatically ignore prompts for the next 15 minutes to curb runaway token spam gracefully.
-2. Heaviest segment doubles
+The product is computationally cheap and self-hosting makes it **effectively immune to usage spikes and provider price changes**. The real risks at scale are:
+1. **MongoDB write contention during live matches** — this is the #1 threat
+2. **WebSocket connection limits** — a single Node process tops out around 10k concurrent sockets
+3. **GPU capacity planning** — you need to know when to scale from 1 GPU to 2
 
-(The top 10% of "power-user" groups chat 2x more than average).	Medium Impact (Infrastructure).
-Margin impact is minimal, but the real threat is database strain. If power-users double their WebSocket and MongoDB read/writes during a live match, your servers might crash for everyone.	Aggressive RAG Caching: For the heaviest groups, cache the chatContext locally in Redis or memory for 60 seconds rather than querying MongoDB on every single message. Rate-limit DB writes during peak match minutes.
-3. Model provider raises prices 50%
+None of these are pricing risks. The margins are structurally protected.
 
-(Groq suddenly hikes API prices).	Zero Impact.
-Inference cost increases from ~$0.15 to ~$0.22. Margin impact is less than 2%. It is virtually undetectable on your bottom line.	Silent Swap: Because you use open-source weights (Llama 3 / Qwen) and standard OpenAI-style message arrays, you simply change your API key and Base URL to a competitor (e.g., Together.ai, Fireworks, or DeepNova) hosting the exact same weights. The users won't notice a thing.
-The Ultimate Conclusion on Pricing Risk:
-Your product is computationally cheap but emotionally high-value. Because you are monetizing the fun of the game rather than selling raw AI utility, you have enormous buffer room. You could suffer a 10x spike in API costs and still be a profitable business. Your main focus should remain entirely on server stability (MongoDB/Websockets) during live match spikes, not on LLM API costs.
+---
 
 
 
