@@ -55,6 +55,41 @@
 | Monitoring & Observability | **$300-800** | Datadog/Grafana, Sentry, uptime monitoring, alerting at 100k users is mandatory. |
 | **Total AI COGS** | **$10,500-24,300/mo ($0.105-0.243/user)** |  HITL alone dominates at true enterprise scale. |
 
+## Enterprise (100,000 users/month) — Self-Hosted Cascade Architecture
+
+| Cost Category | Monthly Cost | Notes |
+|---|---|---|
+| **GPU inference** (8B triage + 8B judge + 8B fine-tuned transcreation) | **$600-900** | 1-2 cloud GPUs (A10G/L4) self-hosting all inference. vLLM serves 100+ req/s per GPU. No per-token pricing. Covers chat responses, quality gate, transcreation, RAG embeddings. |
+| **Frontier inference** (GPT-4o-mini, ~4% traffic) | **$200-500** | Only async summaries (daily + personality). ~15k calls/day at GPT-4o-mini prices ($0.15/M in, $0.60/M out). Immune to volume spikes. |
+| **Web Search** (Tavily) | **$150-300** | Scale plan. Could reduce by caching common football queries. |
+| **Email** (Brevo) | **$40-100** | Transactional emails (password resets, notifications). |
+| **Infrastructure** (servers + networking) | **$500-900** | 2-4 Node instances behind load balancer + Redis for Socket.IO scaling + bandwidth egress (~200-400k concurrent WebSocket connections). **Cheaper than all-API model because GPU does the heavy lifting — no need for expensive Render Pro instances.** |
+| **Data/storage** (MongoDB Atlas M30/M40) | **$600-1,000** | M30 (~$350) or M40 (~$700) + $150-250 for data transfer + backups. |
+| **RAG / Embeddings** | **$0** | Self-hosted on the same GPU. MiniLM-L12-v2 is tiny (~0.5GB VRAM, runs alongside the 8B model at no extra cost). |
+| **Human-in-the-loop** | **$5,000-15,000** | 3-5 moderators (LATAM contractors) reviewing bot responses, edge cases, and feedback. Still needed at 100k users; no architectural shortcut here. |
+| **Monitoring & Observability** | **$300-800** | Datadog or Grafana + Sentry + uptime monitoring. |
+| **Total OpEx** | **~$7,390-20,500/mo (~$0.074-0.205/user)** | |
+| **CapEx amortized** (12-month) | **~$2,250/mo** | $27k one-time (self-hosted setup + payments + gating + fine-tuning). |
+| **Total COGS (OpEx + amortized CapEx)** | **~$9,640-22,750/mo** | |
+
+### Comparison: API-only vs Self-hosted Cascade
+
+| Cost Category | API-only (old) | Self-hosted cascade (new) | Delta |
+|---|---|---|---|
+| Inference (all) | $3,900-6,200 | **$800-1,400** | **-77%** |
+| Infrastructure | $500-900 | **$500-900** | Same (GPU replaces Render Pro, not eliminates it) |
+| Data/storage | $600-900 | **$600-1,000** | Same |
+| RAG / Embeddings | $200-500 | **$0** (same GPU) | — |
+| HITL | $5,000-15,000 | **$5,000-15,000** | Same |
+| Monitoring | $300-800 | **$300-800** | Same |
+| Third-party APIs | $190-400 | **$190-400** | Same |
+| **Total OpEx** | **$10,690-23,700** | **~$7,390-20,500** | **~14-31% reduction** |
+| **Gross margin (pass rev only)** | 90-94% | **94-96%** | Improved |
+| **Provider lock-in risk** | High (per-token API) | **None** (self-hosted weights) | Eliminated |
+
+
+
+
 ---
 
 **Root causes of cost scale:**
