@@ -80,28 +80,13 @@
 5. **Transcreation** — 8 non-Latin languages require extra 70B calls per response.
 
 
-## Root causes of cost scale — for self-hosted cascade
+## Root causes of cost scale
 
-1. **Primary model cost (solved).** The original cost model assumed `llama-3.3-70b-versatile` for everything (~12x cost per token vs 8B). The self-hosted cascade replaces 96% of traffic with a self-hosted 8B on GPU — **marginal inference cost is near zero, not per-token.**
-
-2. **Double inference (mitigated, not eliminated).** Every response still has 2 LLM calls (primary 8B + judge 8B), plus up to 3 retries. But both run on the same GPU — **the cost is the GPU rental, not per-call pricing.** A single A10G handles both primary and judge simultaneously at 100+ req/s.
-
-3. **HITL at scale (unchanged).** Thumbs up/down replaces technical infrastructure but not the human cost of moderation. At 100k users, you need 3-5 moderators ($5,000-15,000/mo). **This is now the dominant cost line — ~68% of total OpEx in the self-hosted model.**
-
-4. **Transcreation (solved).** Originally required extra 70B API calls per non-Latin response. With a fine-tuned 8B model on the same GPU, transcreation is a single local inference pass. **Marginal cost of transcreation drops from $0.59/M tokens to ~$0.00 (amortized across GPU rental).**
-
-5. **Infrastructure risk profile (unchanged).** WebSocket scaling and MongoDB write contention during live matches remain the top non-monetary risks. These don't appear in the COGS line but can take the app down if not addressed.
-
-### Updated cost comparison
-
-| Factor | Old (API-only) | New (self-hosted cascade) |
-|---|---|---|
-| 96% of traffic (chat 8B + judge 8B) | ~$0.05-0.59/M tokens | **~$0.00 marginal** (fixed GPU cost) |
-| 4% of traffic (GPT-4o-mini summaries) | ~$0.15-0.60/M tokens | **Same** (unavoidable but trivial) |
-| Transcreation | Extra 70B call per response | **Same GPU, same cost** |
-| **Dominant cost line** | **Inference** (~$4,000-6,200/mo at 100k) | **HITL** (~$5,000-15,000/mo at 100k) |
-
-> **The self-hosted cascade inverts your cost structure.** Under the API-only model, inference was ~40% of OpEx. Under the cascade, inference drops to ~8% of OpEx, and HITL becomes the dominant cost at ~68%. Your pricing risk shifted from "how many tokens do users consume" to "how many moderators do we need."
+1. **70B ≠ 8B** — primary model is `llama-3.3-70b-versatile`, not the 8B version. ~12x cost per token on paid tiers. **Mitigated by self-hosted cascade: 96% of traffic moves to a self-hosted 8B GPU, eliminating per-token pricing.**
+2. **Double inference** — every response has 2 LLM calls (primary + judge), plus retries up to 3x. **Mitigated: both run on the same GPU at no extra marginal cost.**
+3. **HITL at scale** — Thumbs up/down replaces technical infrastructure but not the human cost of moderation at 100k users. **Unchanged: 3-5 moderators at $5,000-15,000/mo becomes the dominant cost line (~68% of OpEx).**
+4. **Transcreation** — 8 non-Latin languages require extra 70B calls per response. **Mitigated: fine-tuned 8B on the same GPU handles transcreation at zero marginal cost.**
+5. **Per-token API dependency (new)** — under the API-only model, every usage spike linearly increases cost. **Eliminated: self-hosted GPU is a fixed cost regardless of volume.**
 
 
 
