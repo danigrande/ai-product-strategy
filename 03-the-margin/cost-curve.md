@@ -70,17 +70,17 @@
 
 ### Current (10 users/month) — AS-IS TODAY
 
-| Field | Value | Evidence |
+| Field | Value | 
 |---|---|---|
-| **Triage model** | **None.** No cascade exists. Only one primary model for all paths. | `config.js:12` — single `GROQ_MODEL` for everything |
-| **Frontier model** | **None.** Same model for chat, summaries, transcreation. | `groqEngine.js:317` — same `config.groq.model` for chat; `:598` same for summaries; `transcreationService.js:84` — same model via `config.transcreation.model ?? config.groq.model` |
-| **Primary model** | `llama-3.3-70b-versatile` via Groq | `config.js:12` and `render.yaml:23` |
-| **Judge model** | `llama-3.1-8b-instant` via Groq | `config.js:45` |
-| **Routing rule** | **None.** Every path → 70B. No feature-based routing. | One model, one judge, all traffic |
+| **Triage model** | **None.** No cascade exists. Only one primary model for all paths. |
+| **Frontier model** | **None.** Same model for chat, summaries, transcreation. | 
+| **Primary model** | `llama-3.3-70b-versatile` via Groq |
+| **Judge model** | `llama-3.1-8b-instant` via Groq |
+| **Routing rule** | **None.** Every path → 70B. No feature-based routing. |
 | **Cascade ratio** | N/A (100% 70B) | — |
-| **Fallback (not cascade)** | `Qwen/Qwen2.5-7B-Instruct` via HuggingFace (only when Groq errors) | `groqEngine.js:359` — error fallback, not intelligence routing |
-| **Transcreation** | 70B Groq + 8B Judge retry loop | `transcreationService.js:82-145` — 1 transcreation call + up to 2 retries, each with a Judge call |
-| **Total AI COGS** | **$0/mo** (all free tier) | — |
+| **Fallback (not cascade)** | `Qwen/Qwen2.5-7B-Instruct` via HuggingFace (only when Groq errors) |
+| **Transcreation** | 70B Groq + 8B Judge retry loop | 
+| **Total AI COGS** | **$0/mo** (all free tier) | 
 
 ### Future (100k users/month)
 
