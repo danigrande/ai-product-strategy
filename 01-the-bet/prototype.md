@@ -22,6 +22,6 @@ Copilot
 The "AI product" is a gamified, multi-personality social chatbot called "Agente Mundial" (World Agent). It acts as a fun, dramatic, and highly contextual commentator for groups of friends competing in a 2026 World Cup Prediction Pool. 
 
 ## Kill Criteria
-<!-- When would you stop? What evidence would kill this bet? --> When the cost of infrastructure is higher than expected revenue.
-If the finantial loss exceeds 500 euros and there are no evidences of growth revenue.
+<!-- When would you stop? What evidence would kill this bet? -->
+If the finantial loss exceeds 2000 euros and there are no evidences of growth revenue.
 
