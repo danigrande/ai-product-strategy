@@ -42,7 +42,8 @@
 - **Top Encroachment Threat:** Attacker: Meta (WhatsApp) / Apple (Apple Intelligence) Vector: Native, multimodal AI agents embedded directly into the OS or default group chats. Vertical Competitor
 Attacker: Sleeper (or ESPN / Yahoo Fantasy) Vector: The incumbent in social fantasy sports. Adjacent Expansion
 Attacker: Telegram (via Mini-App / Bot Developers) Vector: Frictionless distribution. An indie developer builds your product as a "Telegram Mini App."
-- **Encroachment Defense:** 1.Platform Encroachment (Meta/Apple/Telegram): Dedicated UI + culturally unhinged personalities that brand-safe horizontal platforms literally cannot replicate due to RLHF constraints.
+- **Encroachment Defense:**
+1.Platform Encroachment (Meta/Apple/Telegram): Dedicated UI + culturally unhinged personalities that brand-safe horizontal platforms literally cannot replicate due to RLHF constraints.
 2. Vertical Competitor (Sleeper/ESPN/Yahoo): Your audience is Spanish-speaking football fans in WhatsApp groups, not the American multi-sport Sleeper user — and your personality anchors (Roncero, Pedrerol, Andrés Montes) are culturally specific to this audience in ways a general fantasy platform cannot replicate without building the same 7 personalities from scratch.
 3. Adjacent Expansion (Telegram indie dev): The scoring engine (bracket resolution, tiebreakers, exact hit calculation) plus the transcreation pipeline for 14 languages plus the 7 personality anchors is a multi-month build even for a skilled indie dev — and by the time they ship it, your golden dataset has already compounded beyond what a fresh clone can match.
 - **Vendor Portability:** 85% Ready
@@ -63,6 +64,16 @@ Attacker: Telegram (via Mini-App / Bot Developers) Vector: Frictionless distribu
 - **Cascading Strategy:**
 - **Net Margin Shift:**
 - **Break-even at:**
+
+
+- **Gross Margin (current):** 0% (free product, $0 revenue, $0 COGS on free tiers)
+- **Gross Margin (AI-adjusted):** 90-94% on pass revenue; ~55-65% blended with ads at 10% conversion
+- **Pricing Model:** Group-based (admin-sponsored $4.99 pass per group per tournament), though labeled seat-based in the doc
+- **Pricing Today → Tomorrow:** Free → $4.99 group pass + $0.75 CPM banner ads
+- **Total AI COGS / unit:** $0.30-0.50 per group per tournament ($0.03-0.05 per user)
+- **Cascading Strategy:** None today (100% 70B on Groq free) → Self-hosted 8B GPU (96% traffic) + GPT-4o-mini (4% async summaries)
+- **Net Margin Shift:** 0% (free un-monetizable utility) → 90-94% (premium entertainment with structural cost protection)
+- **Break-even at:** ~5,400 paid groups ($27k CapEx ÷ $4.99 gross pass rev). At 10% conversion, ~54,000 total groups needed. But the self-hosted OpEx ($900-1,700/mo) is covered by ~180-340 paid groups per month on pass revenue alone. The first tournament (40 days) likely breaks even on OpEx but does not recover the full CapEx — that requires 2-3 tournaments or hitting 100k users.
 
 → Details: [`03-the-margin/`](03-the-margin/)
 
