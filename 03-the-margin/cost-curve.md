@@ -71,7 +71,7 @@
 ### Current (10 users/month) — AS-IS TODAY
 
 | Field | Value | 
-|---|---|---|
+|---|---|
 | **Triage model** | **None.** No cascade exists. Only one primary model for all paths. |
 | **Frontier model** | **None.** Same model for chat, summaries, transcreation. | 
 | **Primary model** | `llama-3.3-70b-versatile` via Groq |
