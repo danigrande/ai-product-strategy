@@ -98,14 +98,15 @@ At this scale, Groq free tier is unusable. The cascade becomes a **pricing archi
 
 ### Summary table
 
-| | 10 users/mo | 100k users/mo |
+| | 10 users/mo (AS-IS TODAY) | 100k users/mo (PROPOSED) |
 |---|---|---|
-| **Triage** | Llama 3.1 8B (Groq free) | Self-hosted fine-tuned 8B (Qwen2.5-7B) |
-| **Frontier** | Llama 3.3 70B (Groq free) | GPT-4o-mini (API) |
-| **Routing rule** | Feature-based (sync/async) | Feature-based (sync/async) |
-| **Cascade ratio** | 95/5 | 96/4 |
-| **Transcreation** | Not active (no setup needed) | Integrated into triage (fine-tuned) |
-| **Total AI COGS** | **$0/mo** | **~$900-1,700/mo** |
+| **Triage model** | **None.** Single model for all paths: `llama-3.3-70b-versatile` | Self-hosted fine-tuned 8B (Qwen2.5-7B) for chat + transcreation |
+| **Frontier model** | **None.** Same 70B for chat, summaries, transcreation | GPT-4o-mini (API) for async summaries only |
+| **Routing rule** | **None.** All traffic → 70B. No feature-based or intelligence-based split | Feature-based: synchronous (chat + transcreation) → self-hosted 8B; asynchronous (summaries) → GPT-4o-mini |
+| **Cascade ratio** | N/A (100% 70B) | ~96% self-hosted 8B / ~4% GPT-4o-mini |
+| **Transcreation** | 70B Groq + 8B Judge retry loop (1-3 70B calls per non-Latin response) | Integrated into triage (fine-tuned 8B, same GPU) — 1 local call, no per-token cost |
+| **Judge** | `llama-3.1-8b-instant` (evaluates 70B output) | Same 8B Judge, could run on same GPU or be absorbed into fine-tuned model |
+| **Total AI COGS** | **$0/mo** (all Groq free tier) | **~$900-1,700/mo** (GPU rental + GPT-4o-mini API) |
 
 The jump from 10 to 100k users changes the **hosting** (API → self-hosted), not the **strategy** (triage/frontier split remains feature-based). The fine-tuned 8B is the key enabler — it keeps 96% of traffic off per-token APIs entirely.
 
