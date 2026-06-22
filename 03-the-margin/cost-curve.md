@@ -3,11 +3,6 @@
 ## Cost Model
 
 
-Here are the recreated tables with the verified corrections:
-
----
-
-## Corrected Cost Model
 
 ### MVP (10 users/month)
 
