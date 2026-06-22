@@ -114,11 +114,12 @@ The jump from 10 to 100k users changes the **hosting** (API → self-hosted), no
 ## Pricing Model
 
 
+
 ## Pricing Model
 
 ### 1. Current Pricing
 
-Right now, the app is **100% free** (pre-monetization). All API inference, database, and infrastructure costs are absorbed to build the user base. Standard for an MVP, but not sustainable at scale during the World Cup.
+The app is **100% free** (pre-monetization). All API inference, database, and infrastructure costs are absorbed to build the user base. Standard for an MVP, but not sustainable at scale during the World Cup.
 
 ### 2. Why Standard SaaS Models Fail
 
@@ -130,11 +131,11 @@ Right now, the app is **100% free** (pre-monetization). All API inference, datab
 
 ### 3. Proposed Pricing: The Admin-Sponsored Group Pass
 
-A **Freemium + Admin-Sponsored** model.
+A **Freemium + Admin-Sponsored + Ads** model with two revenue streams.
 
-**The Free Tier** — Any user creates a group, invites friends, enters predictions, sees the leaderboard for free. Zero friction for acquisition and viral growth. Free groups keep all engagement loops to generate chat data for AI training.
+**The Free Tier** — Any user creates a group, invites friends, enters predictions, sees the leaderboard for free. Zero friction for acquisition and viral growth. Free groups keep all engagement loops (push notifications, daily summaries, rich media, full history) to generate chat data for AI training. Banner ads shown on the leaderboard and chat.
 
-**The "Agente Mundial" Group Pass** — **$4.99 one-time fee per tournament.** The Group Admin pays once, unlocking premium features for the entire group for the tournament duration (~40 days, June 11 — July 20).
+**The "Agente Mundial" Group Pass** — **$4.99 one-time fee per tournament.** The Group Admin pays once, unlocking premium features for the entire group for the tournament duration (40 days, June 11 — July 20).
 
 ### 4. Feature Split
 
@@ -162,12 +163,32 @@ A **Freemium + Admin-Sponsored** model.
 
 Paid tier sells **personality** (more bot variety) and **polish** (cosmetics, no ads, real-time news) — not functionality gates that split the user base.
 
-### 5. Why This Works
+### 5. Revenue Model
+
+| Stream | Who pays | Amount | Notes |
+|---|---|---|---|
+| **Group Pass** | Group admin | $4.99 one-time | Per group, per tournament |
+| **Banner Ads** | Ad network (e.g., Google AdSense) |  approx. $1.50 CPM | Shown to free-tier users on leaderboard/chat |
+
+### 6. Projected Revenue at Scale
+
+Assumptions: 10 users/group, 10% pass conversion, 5 sessions/user/day, 40-day tournament.
+
+| Scale | Groups | Free users | Paid groups | Pass rev | Ad rev | **Total rev/tournament** |
+|---|---|---|---|---|---|---|
+| **100 users** | 10 | 90 | 1 | $5 | $20-35 | **$25-40** |
+| **1,000 users** | 100 | 900 | 10 | $50 | ~$200-280 |  **$250-330** |
+| **10,000 users** | 1,000 | 9,000 | 100 | $499 | $1,800-3,600 | approx. **$2,300-4,100** |
+| **100,000 users** | 10,000 | 90,000 | 1,000 | $4,990 | $18,000-36,000 | **$23,000-41,000** |
+
+### 7. Why This Works
 
 - **Zero friction for the masses** — 9 out of 10 users never hit a paywall. They click the invite link and play.
-- **Targets the highest-intent user** — The Group Admin organized the pool. They're highly likely to drop $5 (price of a beer) to make the group chat hilarious and polished.
-- **Free tier stays engaging** — Push notifications, daily summaries, rich media, and full history keep users coming back, generating more AILogs for model fine-tuning.
-- **Phenomenal margins** — With the proposed cascade architecture (self-hosted 8B triage + GPT-4o-mini frontier), the AI COGS for a group of 10 for the entire tournament is ~$0.30-0.50. At $4.99, that's a **90-94% gross margin**.
+- **Targets the highest-intent user** — The Group Admin organized the pool. They're highly likely to drop $5 (price of a beer) for a polished group experience.
+- **Free tier stays engaging** — All core loops are free, generating user retention + training data.
+- **Ads scale with free users** — At 100k users, ads generate ~5x more revenue than passes and cover infrastructure entirely.
+- **Phenomenal margins** — With the self-hosted cascade (8B triage + GPT-4o-mini frontier), AI COGS for a group of 10 for the full tournament is approx. $0.30-0.50. At $4.99, that's a **90-94% gross margin** on the pass revenue alone. Total blended gross margin including ads:  approx. **63-69%**.
+
 
 
 **Model:** seat-based 
