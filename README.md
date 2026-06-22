@@ -27,7 +27,7 @@
 - **Top Risk:** The app faces five distinct vulnerabilities, ordered by severity.
 - **Confidence:** M
 - **Prototype:** https://testflight.apple.com/join/dm43b6bp
-- **Kill Criteria:** When the cost of infrastructure is higher than expected revenue. If the finantial loss exceeds 500 euros and there are no evidences of growth revenue.
+- **Kill Criteria:** If the finantial loss exceeds 2000 euros and there are no evidences of growth revenue.
 
 → Details: [`01-the-bet/`](01-the-bet/)
 
