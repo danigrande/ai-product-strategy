@@ -56,16 +56,6 @@ Attacker: Telegram (via Mini-App / Bot Developers) Vector: Frictionless distribu
 
 **Will this make money or bleed it?**
 
-- **Gross Margin (current):**
-- **Gross Margin (AI-adjusted):**
-- **Pricing Model:** seat-based
-- **Pricing Today → Tomorrow:**
-- **Total AI COGS / unit:** $0
-- **Cascading Strategy:**
-- **Net Margin Shift:**
-- **Break-even at:**
-
-
 - **Gross Margin (current):** 0% (free product, $0 revenue, $0 COGS on free tiers)
 - **Gross Margin (AI-adjusted):** 90-94% on pass revenue; ~55-65% blended with ads at 10% conversion
 - **Pricing Model:** Group-based (admin-sponsored $4.99 pass per group per tournament), though labeled seat-based in the doc
