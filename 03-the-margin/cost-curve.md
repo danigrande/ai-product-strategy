@@ -255,8 +255,6 @@ None of these are pricing risks. The margins are structurally protected.
 ## Board One-Pager
 <!-- Before/After: Old SaaS revenue vs. AI usage revenue for your product -->
 
-## Board One-Pager
-
 **Before (Traditional Web2 / SaaS Model)**
 
 The Product: A static utility. A digital spreadsheet where users input predictions and view a math-based leaderboard.
