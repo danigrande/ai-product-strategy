@@ -38,22 +38,6 @@
 
 ---
 
-### Enterprise (100,000 users/month)
-
-| Cost Category | Per-User/Month | Notes |
-|---|---|---|
-| Inference (primary 70B) | **$3,000-4,500** | **~3x your estimate.** Llama-3.3-70B at $0.59/M in + $0.79/M out. Linear scaling from 1k users at 70B pricing, not 8B. Negotiated throughput helps but doesn't 10x the price. |
-| Inference (judge 8B) | **$500-800** | Judge 8B call per response + retries. Bulk pricing could reduce this, but still significant. |
-| Inference (daily summaries) | **$200-400** | ~500-1,000 groups × daily 70B calls. Could batch or use smaller model. |
-| Transcreation | **$200-500** | If serving global markets. Each non-Latin response requires an extra 70B call. |
-| Web Search (Tavily) | **$150-300** | Scale plan for 100k users querying football news. |
-| Email (Brevo) | **$40-100** | Brevo Enterprise or similar. Password resets, notifications, marketing. |
-| Infrastructure | **$300-500** | 4-6 Render Pro instances + load balancer + Redis for Socket.IO scaling. Add **~$200-400 for bandwidth egress** (WebSocket messages, file uploads). |
-| Data/storage | **$600-900** | MongoDB Atlas M30/M40 is ~$350-700/mo + **$150-250 for data transfer + backups**. Your range is slightly low. |
-| RAG / Embeddings | **$200-500** | Vector embeddings at scale require dedicated endpoints (not free HF). Atlas Search add-on costs apply. |
-| Human-in-the-loop | **$5,000-15,000** | At 100k users, auto-reviewing 20/day is useless. You need a real HITL team to review bot responses, feedback, and edge cases. Even a single part-time moderator is $500-1,000/mo. A small team of 3-5 in a low-cost market: $5,000-15,000/mo. |
-| Monitoring & Observability | **$300-800** | Datadog/Grafana, Sentry, uptime monitoring, alerting at 100k users is mandatory. |
-| **Total AI COGS** | **$10,500-24,300/mo ($0.105-0.243/user)** |  HITL alone dominates at true enterprise scale. |
 
 ## Enterprise (100,000 users/month) — Self-Hosted Cascade Architecture
 
@@ -87,9 +71,6 @@
 | **Gross margin (pass rev only)** | 90-94% | **94-96%** | Improved |
 | **Provider lock-in risk** | High (per-token API) | **None** (self-hosted weights) | Eliminated |
 
-
-
-
 ---
 
 **Root causes of cost scale:**
@@ -97,6 +78,30 @@
 2. **Double inference** — every response has 2 LLM calls (primary + judge), plus retries up to 3x.
 4. **Missing HITL at scale** — Thumbs up/down replaces *technical* infrastructure but not the *human* cost of moderation at 100k users.
 5. **Transcreation** — 8 non-Latin languages require extra 70B calls per response.
+
+
+## Root causes of cost scale — for self-hosted cascade
+
+1. **Primary model cost (solved).** The original cost model assumed `llama-3.3-70b-versatile` for everything (~12x cost per token vs 8B). The self-hosted cascade replaces 96% of traffic with a self-hosted 8B on GPU — **marginal inference cost is near zero, not per-token.**
+
+2. **Double inference (mitigated, not eliminated).** Every response still has 2 LLM calls (primary 8B + judge 8B), plus up to 3 retries. But both run on the same GPU — **the cost is the GPU rental, not per-call pricing.** A single A10G handles both primary and judge simultaneously at 100+ req/s.
+
+3. **HITL at scale (unchanged).** Thumbs up/down replaces technical infrastructure but not the human cost of moderation. At 100k users, you need 3-5 moderators ($5,000-15,000/mo). **This is now the dominant cost line — ~68% of total OpEx in the self-hosted model.**
+
+4. **Transcreation (solved).** Originally required extra 70B API calls per non-Latin response. With a fine-tuned 8B model on the same GPU, transcreation is a single local inference pass. **Marginal cost of transcreation drops from $0.59/M tokens to ~$0.00 (amortized across GPU rental).**
+
+5. **Infrastructure risk profile (unchanged).** WebSocket scaling and MongoDB write contention during live matches remain the top non-monetary risks. These don't appear in the COGS line but can take the app down if not addressed.
+
+### Updated cost comparison
+
+| Factor | Old (API-only) | New (self-hosted cascade) |
+|---|---|---|
+| 96% of traffic (chat 8B + judge 8B) | ~$0.05-0.59/M tokens | **~$0.00 marginal** (fixed GPU cost) |
+| 4% of traffic (GPT-4o-mini summaries) | ~$0.15-0.60/M tokens | **Same** (unavoidable but trivial) |
+| Transcreation | Extra 70B call per response | **Same GPU, same cost** |
+| **Dominant cost line** | **Inference** (~$4,000-6,200/mo at 100k) | **HITL** (~$5,000-15,000/mo at 100k) |
+
+> **The self-hosted cascade inverts your cost structure.** Under the API-only model, inference was ~40% of OpEx. Under the cascade, inference drops to ~8% of OpEx, and HITL becomes the dominant cost at ~68%. Your pricing risk shifted from "how many tokens do users consume" to "how many moderators do we need."
 
 
 
