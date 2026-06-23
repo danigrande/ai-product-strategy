@@ -1,4 +1,3 @@
-```markdown
 **Thesis (1 sentence):**
 We are building the easiest way for Spanish-speaking football fans to run World Cup prediction pools inside existing social groups, using personality-driven commentary to increase engagement and retention beyond what traditional bracket products deliver.
 
@@ -18,4 +17,3 @@ We are building the easiest way for Spanish-speaking football fans to run World 
 
 **The ask:**
 Approve a single-tournament validation phase with a defined success threshold. Fund one product owner/founder and the infrastructure required to remove free-tier dependency through the World Cup cycle. The objective is to answer three questions before expanding scope: (1) Can personality-driven commentary materially improve engagement? (2) Can at least 10% of groups convert to a €4.99 tournament pass? (3) Can post-tournament retention exceed 15% through replay and simulation features? Defer league expansion, custom personalities, and cross-group social features until those three questions are answered. Success earns investment into year-round leagues. Failure triggers shutdown under the existing kill criteria.
-```
