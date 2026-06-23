@@ -21,7 +21,7 @@
 
 **What we're building, for whom, why now.**
 
-- **Product:**
+- **Product: Worldcup pool**
 - **AI Value Archetype:** Copilot
 - **Vulnerability Scores:** _(Moat 2/5 · Data 2/5 · Platform 4/5)_
 - **Top Risk:** Post-Event Churn (Critical), Timing Vulnerability: No Data on Day One (High), Self-Hosted Infrastructure Risk (Medium), Revenue Model is Untested (Medium), LLM Unit Economics (Mitigated, Replaced by Infrastructure Risk).
