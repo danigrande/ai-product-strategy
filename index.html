@@ -136,7 +136,7 @@
     .glance-table tbody td { padding: 0.85rem 1.2rem; font-size: 0.9rem; border-bottom: 1px solid var(--gray-100); }
     .glance-table tbody tr:last-child td { border-bottom: none; }
     .glance-table tbody tr:hover { background: var(--gray-50); }
-    .glance-table .status-empty { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--gray-200); border-radius: 4px; vertical-align: middle; }
+    .glance-table .status-check { color: var(--green-600); vertical-align: middle; }
     .glance-table .mod-link { color: var(--green-700); text-decoration: none; font-weight: 500; }
     .glance-table .mod-link:hover { text-decoration: underline; }
 
@@ -275,12 +275,12 @@
           <tr><th>Component</th><th>Module</th><th>Status</th><th>Key Artifact</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>The Bet</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">What we're building, for whom, why now</span></td><td>M1</td><td><span class="status-empty"></span></td><td><a href="#the-bet" class="mod-link">01-the-bet/</a></td></tr>
-          <tr><td><strong>The Moat</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Why this won't get copied in 6 months</span></td><td>M2</td><td><span class="status-empty"></span></td><td><a href="#the-moat" class="mod-link">02-the-moat/</a></td></tr>
-          <tr><td><strong>The Margin</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Will this make money or bleed it?</span></td><td>M3</td><td><span class="status-empty"></span></td><td><a href="#the-margin" class="mod-link">03-the-margin/</a></td></tr>
-          <tr><td><strong>The Contract</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Why users trust a probabilistic system</span></td><td>M4</td><td><span class="status-empty"></span></td><td><a href="#the-contract" class="mod-link">04-the-contract/</a></td></tr>
-          <tr><td><strong>The Guardrails</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">What breaks at scale — and what compounds</span></td><td>M5</td><td><span class="status-empty"></span></td><td><a href="#the-guardrails" class="mod-link">05-the-guardrails/</a></td></tr>
-          <tr><td><strong>The Pitch</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Funding, shipping &amp; adoption narrative</span></td><td>M6</td><td><span class="status-empty"></span></td><td><a href="#the-pitch" class="mod-link">06-the-pitch/</a></td></tr>
+          <tr><td><strong>The Bet</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">What we're building, for whom, why now</span></td><td>M1</td><td><svg class="status-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></td><td><a href="#the-bet" class="mod-link">01-the-bet/</a></td></tr>
+          <tr><td><strong>The Moat</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Why this won't get copied in 6 months</span></td><td>M2</td><td><svg class="status-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></td><td><a href="#the-moat" class="mod-link">02-the-moat/</a></td></tr>
+          <tr><td><strong>The Margin</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Will this make money or bleed it?</span></td><td>M3</td><td><svg class="status-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></td><td><a href="#the-margin" class="mod-link">03-the-margin/</a></td></tr>
+          <tr><td><strong>The Contract</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Why users trust a probabilistic system</span></td><td>M4</td><td><svg class="status-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></td><td><a href="#the-contract" class="mod-link">04-the-contract/</a></td></tr>
+          <tr><td><strong>The Guardrails</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">What breaks at scale — and what compounds</span></td><td>M5</td><td><svg class="status-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></td><td><a href="#the-guardrails" class="mod-link">05-the-guardrails/</a></td></tr>
+          <tr><td><strong>The Pitch</strong><br><span style="font-size:0.8rem;color:var(--gray-400)">Funding, shipping &amp; adoption narrative</span></td><td>M6</td><td><svg class="status-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></td><td><a href="#the-pitch" class="mod-link">06-the-pitch/</a></td></tr>
         </tbody>
       </table>
     </section>
@@ -295,7 +295,6 @@
         </div>
       </div>
 
-      <!-- === Diagnostic Card === -->
       <div class="card">
         <div class="card-header">
           <h3>Three-Axis Vulnerability Diagnostic</h3>
@@ -320,20 +319,20 @@
           </div>
           <div class="score-card">
             <div class="label">Data Advantage</div>
-            <div class="value">5 <span style="font-size:1rem;font-weight:400;color:var(--gray-400)">/ 5</span></div>
-            <div class="bar"><div class="bar-fill" style="width:100%"></div></div>
+            <div class="value low">2 <span style="font-size:1rem;font-weight:400;color:var(--gray-400)">/ 5</span></div>
+            <div class="bar"><div class="bar-fill low" style="width:40%"></div></div>
             <div class="analysis-block" style="margin:0.6rem 0 0; text-align:left;">
-              Niche RLHF on social sports banter. Every 👍/👎 on AI messages captures prompt, RAG context, and user stats — a dataset no foundation model has. Compounds toward a <strong>DPO-fine-tuned open-source model</strong> that outperforms frontier models on this specific roast-your-friends task at a fraction of the cost.
+              The architecture captures a unique signal (social graph + game state <span style="font-style:italic;">→</span> humor), but the moat <strong>does not exist yet</strong>. You have zero user data at launch — the golden dataset (101 hand-crafted tests) validates the model but does not train it. Fine-tuning is Year 2; it cannot improve this World Cup.
               <br><br>
-              <strong>Risk:</strong> Relies on third-party APIs for live results.
+              <strong>Risk:</strong> Competitors have 4 years until the next World Cup to replicate the experience with standard APIs.
             </div>
           </div>
           <div class="score-card">
             <div class="label">Platform Exposure</div>
-            <div class="value low">5 <span style="font-size:1rem;font-weight:400;color:var(--gray-400)">/ 5</span></div>
-            <div class="bar"><div class="bar-fill low" style="width:100%"></div></div>
+            <div class="value low">4 <span style="font-size:1rem;font-weight:400;color:var(--gray-400)">/ 5</span></div>
+            <div class="bar"><div class="bar-fill" style="width:80%"></div></div>
             <div class="analysis-block" style="margin:0.6rem 0 0; text-align:left;">
-              Low encroachment risk: Apple/Google/OpenAI build horizontal platforms, not hyper-niche, culturally specific gamified social apps. The real threat is <strong>platform AI making it trivially easy for users to hack together a "good enough" solution</strong> inside WhatsApp/Telegram. Defense relies on dedicated UI, zero-friction tap-to-predict, and deterministic (non-hallucinating) game logic.
+              Low encroachment risk from Apple/Google/OpenAI — they build horizontal platforms, not culturally specific social apps. The real threat is <strong>users hacking together a "good enough" solution</strong> inside WhatsApp/Telegram. Score drops from 5 to 4 because self-hosting introduces operational risk: GPU downtime, fixed capacity, no burst scaling.
             </div>
           </div>
         </div>
@@ -341,24 +340,26 @@
         <div style="margin-bottom:1.5rem;">
           <h4 style="margin-bottom:0.5rem;">Top Vulnerabilities</h4>
           <div class="risk-block">
-            <strong>1. Post-Event Churn:</strong> The World Cup lasts one month. DAU drops ~100% the day after the final. Mitigation: treat the World Cup as top-of-funnel acquisition; roll groups into La Liga / Premier League / Champions League pools post-tournament.<br><br>
-            <strong>2. LLM Unit Economics:</strong> Noisy group chats can explode token usage. If 10 friends send 500 messages during a match and the bot analyzes each one, costs scale linearly with success. Mitigation: rate limiting, model routing (cheap Groq for banter, frontier for summaries), and the Admin-Sponsored Group Pass ($4.99).
+            <strong>1. Post-Event Churn (Critical):</strong> DAU drops ~100% the day after the final. The backend is hardcoded to the 2026 World Cup schedule. No secondary mode exists. "Pivot to La Liga" requires 4-6 weeks of engineering that must happen post-tournament when attention has peaked.<br><br>
+            <strong>2. No Data on Day One (High):</strong> On June 11, the training dataset is empty. The best version of the product exists for the next tournament, not this one. The self-hosted 8B with engineered prompts clears evals but is not fine-tuned — it cannot be, because there is no user data yet.<br><br>
+            <strong>3. Self-Hosted Infrastructure Risk (Medium):</strong> GPU downtime during a live match kills all bot responses. Capacity is fixed (a single A10G handles ~100 req/s). If 10,000 users trigger the bot during halftime, there is no burst scaling. The fine-tuned model can regress without an operational eval pipeline.<br><br>
+            <strong>4. Revenue Model Untested (Medium):</strong> Assumes 10% conversion at $4.99/group. 3-5% is more realistic for a first-time consumer social app, halving pass revenue and pushing CapEx payback from 18 months toward 36+.<br><br>
+            <strong>5. LLM Unit Economics (Mitigated, Replaced by Infrastructure Risk #3):</strong> API cost scaling is structurally solved by the self-hosted cascade. Fixed GPU cost means marginal cost per bot response is near zero. But the pricing problem has been traded for an infrastructure problem.
           </div>
         </div>
 
         <div class="detail-row">
           <div class="detail-item">
-            <label>Top Revenue Risk</label>
-            <p>Revenue strategy still undecided — Freemium with paid capabilities vs. free with ads + data exploitation.</p>
+            <label>Pricing Model</label>
+            <p>$4.99 Admin-Sponsored Group Pass per tournament + $0.75 CPM banner ads.</p>
           </div>
           <div class="detail-item">
             <label>Confidence Level</label>
-            <p><span class="pill pill-m">M</span> <span style="font-size:0.85rem;color:var(--gray-600);margin-left:0.5rem;">Medium</span></p>
+            <p><span class="pill pill-m">M</span> <span style="font-size:0.85rem;color:var(--gray-600);margin-left:0.5rem;">Medium — revenue model and data moat both unproven</span></p>
           </div>
         </div>
       </div>
 
-      <!-- === Prototype Card === -->
       <div class="card">
         <div class="card-header">
           <h3>The Prototype Bet</h3>
@@ -398,9 +399,7 @@
             Kill Criteria
           </h4>
           <ul class="kill-list">
-            <li>When infrastructure cost exceeds expected revenue with no path to profitability.</li>
-            <li>If financial loss exceeds €500 with no evidence of growing revenue.</li>
-            <li>If the user base is less than 2,000 after sufficient time with no clear traction.</li>
+            <li>If financial loss exceeds €2,000 and there is no evidence of growing revenue.</li>
           </ul>
         </div>
       </div>
@@ -428,44 +427,43 @@
             </thead>
             <tbody>
               <tr><td><strong>Correction</strong></td><td>Do users fix AI outputs? Is that signal captured and reused?</td><td>No capture</td><td>Automated retraining</td><td><strong>3</strong>/5</td></tr>
-              <tr><td><strong>Preference</strong></td><td>Does the product learn individual/team preferences over time?</td><td>Stateless</td><td>Deep personalization</td><td><strong>4</strong>/5</td></tr>
-              <tr><td><strong>Domain Context</strong></td><td>Does usage in one area improve quality in adjacent areas?</td><td>Siloed</td><td>Cross-domain transfer</td><td><strong>3</strong>/5</td></tr>
+              <tr><td><strong>Preference</strong></td><td>Does the product learn individual/team preferences over time?</td><td>Stateless</td><td>Deep personalization</td><td><strong>3</strong>/5</td></tr>
+              <tr><td><strong>Domain Context</strong></td><td>Does usage in one area improve quality in adjacent areas?</td><td>Siloed</td><td>Cross-domain transfer</td><td><strong>2</strong>/5</td></tr>
               <tr><td><strong>Network</strong></td><td>Does each new user/team make the product better for everyone?</td><td>Isolated</td><td>Strong network effects</td><td><strong>2</strong>/5</td></tr>
             </tbody>
           </table>
         </div>
 
         <div style="margin-top:1rem;display:flex;gap:2rem;flex-wrap:wrap;">
-          <div><strong>Total Flywheel Score:</strong> <strong>12</strong> / 20</div>
-          <div><strong>Weakest Loop:</strong> Network Loop <span style="font-size:0.8rem;color:var(--gray-400);">— users in siloed groups don't improve the AI for other groups</span></div>
+          <div><strong>Total Flywheel Score:</strong> <strong>10</strong> / 20</div>
+          <div><strong>Weakest Loop:</strong> Domain Context + Network (tied at 2/5)</div>
         </div>
 
         <div style="margin-top:1.5rem;">
           <h4 style="margin-bottom:0.5rem;">Correction Loop — 3/5</h4>
           <div class="analysis-block">
-            Users can 👍/👎 AI messages with an optional reason, securely logged to MongoDB (ChatbotFeedback). However, there is <strong>no automated retraining</strong> pipeline — signal is captured for manual review but not dynamically reused. To reach 4/5: implement dynamic few-shot prompting by injecting past upvoted interactions into the prompt.
+            Three capture mechanisms exist: thumbs up/down with reason (<code>ChatbotFeedback</code>), conversational correction detection (<code>messageHandler.js:69-127</code>), and HumanReview queue (<code>devDashboard.js:683-848</code>). However, <strong>all reuse is manual</strong> — a developer must open the queue, submit a verdict, and click "promote". No automated retraining pipeline exists.
           </div>
-          <p style="font-size:0.8rem;margin-top:0.25rem;"><strong>What you capture:</strong> Thumbs up/down on Agent messages + reason selection.</p>
+          <p style="font-size:0.8rem;margin-top:0.25rem;"><strong>What you capture:</strong> Thumbs up/down + reason + automatic correction detection + HITL queue.</p>
 
-          <h4 style="margin:1rem 0 0.5rem;">Preference Loop — 4/5</h4>
+          <h4 style="margin:1rem 0 0.5rem;">Preference Loop — 3/5</h4>
           <div class="analysis-block">
-            Static personalization via User.js (likes, dislikes, humor_style) plus short-term RAG memory of recent chat context. Repetition avoidance via <code>recentBotOutputs</code>. Next step: automated fact extraction — a cron job that analyzes daily chat logs and permanently updates user profiles with new preferences.
+            Static profile fields (likes, dislikes, humor_style) set manually by the user + short-term RAG memory (last 30 messages). <strong>No automated fact extraction</strong> — if a user says "I hate France" in chat, the bot remembers it via RAG for a few hours but does not permanently update the user's profile. Humor style and personality are set once during onboarding and never adjusted.
           </div>
-          <p style="font-size:0.8rem;margin-top:0.25rem;"><strong>What you capture:</strong> Last 100 messages per user via RAG + user-selected tone &amp; personality preferences.</p>
+          <p style="font-size:0.8rem;margin-top:0.25rem;"><strong>What you capture:</strong> Static profile fields + short-term RAG + recentBotOutputs anti-spam.</p>
 
-          <h4 style="margin:1rem 0 0.5rem;">Domain Context Loop — 3/5</h4>
+          <h4 style="margin:1rem 0 0.5rem;">Domain Context Loop — 2/5</h4>
           <div class="analysis-block">
-            Data flows unidirectionally: News (RSS) and Game state (leaderboard) feed into Chat, but chat output doesn't improve News or Game domains. Next step: tie the RSS feed engine to prediction data — if 80% of users bet on an underdog, auto-add that team to RSS keywords.
+            All flows are <strong>unidirectional</strong>. News (RSS) and Game state (leaderboard) feed into Chat, but chat output does not improve News or Game domains. RSS uses hardcoded keywords — it does not read group chat to identify which teams a group cares about. Data is fully siloed per group. To reach 3/5: add a cron job that analyzes chat for mentioned teams and updates per-group RSS keywords.
           </div>
 
           <h4 style="margin:1rem 0 0.5rem;">Network Loop — 2/5</h4>
           <div class="analysis-block">
-            Strong <strong>intra-group</strong> local effects (inviting friends makes a single group better) but zero <strong>inter-group</strong> global effects. A group in Argentina doesn't improve the experience for a group in Spain. Quick fix: add a "Wisdom of the Crowds" feature showing aggregate prediction data across all groups.
+            Strong <strong>intra-group</strong> effects (each new user makes the group better) but zero <strong>inter-group</strong> effects. 1,000 groups in Argentina and 1,000 in Spain are completely siloed. Fine-tuning will eventually create inter-group effects, but that requires 2,000+ quality entries and a post-tournament deployment — it does not help this World Cup.
           </div>
         </div>
       </div>
 
-      <!-- === Encroachment Card === -->
       <div class="card">
         <div class="card-header">
           <h3>Encroachment Threat Assessment</h3>
@@ -503,7 +501,6 @@
         </div>
       </div>
 
-      <!-- === 90-Day Plan Card === -->
       <div class="card">
         <div class="card-header">
           <h3>90-Day Encroachment Plan: Meta (WhatsApp)</h3>
@@ -518,7 +515,6 @@
         </ul>
       </div>
 
-      <!-- === Kill Switch Card === -->
       <div class="card">
         <div class="card-header">
           <h3>Kill Switch Audit</h3>
@@ -532,33 +528,33 @@
             <tbody>
               <tr>
                 <td><strong>Provider</strong></td>
-                <td>Groq (Primary) + HuggingFace (Fallback)</td>
+                <td>Groq (Primary) + HuggingFace (Fallback). Self-hosted GPU and GPT-4o-mini (planned).</td>
                 <td><span class="pill pill-l" style="background:var(--gold-pale);color:#8B7300;">L</span></td>
-                <td>Ensure HF API key is monitored. Identify 3rd backup (Together.ai).</td>
+                <td>Validate self-hosted vLLM endpoint matches OpenAI format before WC start.</td>
               </tr>
               <tr>
                 <td><strong>Abstraction</strong></td>
-                <td>Direct SDK imports hardcoded in <code>groqEngine.js</code></td>
+                <td>Direct SDK imports hardcoded in <code>groqEngine.js</code>. Self-hosted would use a different client.</td>
                 <td><span class="pill pill-m">M</span></td>
-                <td>Wrap LLM calls in a generic <code>callLLM(messages, provider)</code> interface.</td>
+                <td>Wrap all LLM calls in a generic <code>callLLM(messages, provider)</code> interface.</td>
               </tr>
               <tr>
                 <td><strong>Routing</strong></td>
-                <td>Hardcoded try/catch (HF → Groq fallback)</td>
+                <td>Hardcoded try/catch (Groq -> HuggingFace fallback). No dynamic routing.</td>
                 <td><span class="pill pill-m">M</span></td>
-                <td>Implement lightweight router (LiteLLM or internal switch) for dynamic routing.</td>
+                <td>Implement lightweight provider router (self-hosted -> Groq -> HF).</td>
               </tr>
               <tr>
                 <td><strong>Eval</strong></td>
-                <td>No automated evals. Flying blind on model swaps.</td>
-                <td><span class="pill pill-l" style="background:var(--red-light);color:var(--red);">H</span></td>
-                <td>Extract 50 upvoted interactions → create Golden Dataset to test new models.</td>
+                <td>Full automated eval system: <code>evalRunner.js</code> runs 101 golden tests, <code>EvalRun</code> persists results with regression detection and A/B comparison.</td>
+                <td><span class="pill pill-l" style="background:var(--gold-pale);color:#8B7300;">L</span></td>
+                <td>Optional: integrate eval runner into CI pipeline — currently CLI-only.</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div style="margin-top:1rem;">
-          <p><strong>Portability Score:</strong> 80% Ready — open-source weights (Llama/Qwen) on standard OpenAI-style message arrays. No lock-in to proprietary features.</p>
+          <p><strong>Portability Score:</strong> 85% Ready — open-source weights (Llama/Qwen) on standard OpenAI-style message arrays. GPT-4o-mini (4% of traffic) is the only proprietary dependency, with viable alternatives (Claude Haiku, Gemini Flash).</p>
           <div class="analysis-block" style="margin-top:0.5rem;">
             <strong>If Groq doubles pricing:</strong> Change base URL and API key to a cheaper provider hosting the same open-source weights. Users notice zero difference.<br>
             <strong>If Groq ships a competing product:</strong> They sell the engine; you own the car, the racetrack, and the drivers. Your defense is state + social graph data they can't replicate.
@@ -583,71 +579,94 @@
           <span class="badge">M3 · cost-curve.md</span>
         </div>
 
-        <h4 style="margin-bottom:0.75rem;">Cost Model — MVP (10 users)</h4>
+        <h4 style="margin-bottom:0.75rem;">Cost Model — MVP (10 users/month) — AS-IS TODAY</h4>
         <div class="data-table-wrap">
           <table class="data-table">
             <thead>
               <tr><th>Cost Category</th><th>Per-User/Month</th><th>Notes</th></tr>
             </thead>
             <tbody>
-              <tr><td>Inference (primary model)</td><td>$0</td><td>Llama 3.1 8B Instant — Groq free tier</td></tr>
-              <tr><td>Inference (cascading)</td><td>$0</td><td>Same free tier</td></tr>
-              <tr><td>Infrastructure</td><td>$0</td><td>Render free tier</td></tr>
-              <tr><td>Data/storage</td><td>$0</td><td>MongoDB Atlas free tier</td></tr>
-              <tr><td>HITL</td><td>$0</td><td>Eliminated via automated ChatbotFeedback</td></tr>
-              <tr style="font-weight:600; background:var(--gray-50);"><td><strong>Total AI COGS</strong></td><td><strong>$0</strong></td><td>Currently at zero cost</td></tr>
+              <tr><td>Inference (primary 70B)</td><td>$0</td><td><code>llama-3.3-70b-versatile</code> — Groq free tier</td></tr>
+              <tr><td>Inference (judge 8B)</td><td>$0</td><td><code>llama-3.1-8b-instant</code> — Groq free tier (2 calls per response, up to 3 retries)</td></tr>
+              <tr><td>Inference (daily summaries)</td><td>$0</td><td>Same 70B call per group at 08:45 daily</td></tr>
+              <tr><td>Infrastructure</td><td>$0</td><td>Render Free + Vercel Hobby</td></tr>
+              <tr><td>Data/storage</td><td>$0</td><td>MongoDB Atlas M0 free tier</td></tr>
+              <tr><td>Web Search (Tavily)</td><td>$0</td><td>1,000 free searches/mo</td></tr>
+              <tr style="font-weight:600; background:var(--gray-50);"><td><strong>Total AI COGS</strong></td><td><strong>$0</strong></td><td>All services fit within free tiers</td></tr>
             </tbody>
           </table>
         </div>
 
-        <h4 style="margin:1.5rem 0 0.75rem;">Cost Model — 1,000 users</h4>
+        <h4 style="margin:1.5rem 0 0.75rem;">Cost Model — 1,000 users/month</h4>
         <div class="data-table-wrap">
           <table class="data-table">
             <thead>
               <tr><th>Cost Category</th><th>Per 1K Users/Month</th><th>Notes</th></tr>
             </thead>
             <tbody>
-              <tr><td>Inference (primary)</td><td>$15</td><td>Llama 3 8B — cheap per-token pricing</td></tr>
-              <tr><td>Infrastructure</td><td>$7–14</td><td>Render Starter/Standard tier (24/7 WebSockets + RSS)</td></tr>
-              <tr><td>Data/storage</td><td>$9</td><td>MongoDB Atlas M2 (2GB, backups)</td></tr>
-              <tr><td>HITL</td><td>$0</td><td>Eliminated</td></tr>
-              <tr style="font-weight:600; background:var(--gray-50);"><td><strong>Total AI COGS</strong></td><td><strong>~$35</strong></td><td><strong>$0.035 per user/month</strong></td></tr>
+              <tr><td>Inference (primary 70B)</td><td>$25–35</td><td>Groq free tier throttles at 1k users. Partial move to paid Together.ai (Llama-3.3-70B: $0.59/M in, $0.79/M out).</td></tr>
+              <tr><td>Inference (judge 8B)</td><td>$5–10</td><td>Judge runs on every response — 2x call volume of primary</td></tr>
+              <tr><td>Inference (daily summaries)</td><td>$5</td><td>1 summary/group/day — 50-100 groups at 1k users</td></tr>
+              <tr><td>Web Search (Tavily)</td><td>$7</td><td>Free tier exceeded ($7/1K searches starter)</td></tr>
+              <tr><td>Infrastructure</td><td>$7–14</td><td>Render Standard — WebSockets + cron require paid plan</td></tr>
+              <tr><td>Data/storage</td><td>$9</td><td>MongoDB Atlas M2 (2GB) + ~$3/mo data transfer egress</td></tr>
+              <tr style="font-weight:600; background:var(--gray-50);"><td><strong>Total AI COGS</strong></td><td><strong>$55–95/mo</strong></td><td><strong>$0.055–0.095 per user/month</strong></td></tr>
             </tbody>
           </table>
         </div>
 
-        <h4 style="margin:1.5rem 0 0.75rem;">Cost Model — 100k users (Enterprise scale)</h4>
+        <h4 style="margin:1.5rem 0 0.75rem;">Cost Model — 100k users/month (Self-Hosted Cascade)</h4>
         <div class="data-table-wrap">
           <table class="data-table">
             <thead>
-              <tr><th>Cost Category</th><th>Per-User/Month</th><th>Notes</th></tr>
+              <tr><th>Cost Category</th><th>Monthly Cost</th><th>Notes</th></tr>
             </thead>
             <tbody>
-              <tr><td>Inference (Llama 3 8B)</td><td>~$1,200–1,500</td><td>Provisioned throughput tier for peak matches</td></tr>
-              <tr><td>Infrastructure (Node.js/Socket.io)</td><td>~$300–400</td><td>Load balancer + 4–6 Render Pro instances</td></tr>
-              <tr><td>Data/storage (MongoDB)</td><td>~$400–600</td><td>Dedicated cluster (M30/M40) for IOPS during match peaks</td></tr>
-              <tr><td>HITL</td><td>$0</td><td>Eliminated</td></tr>
-              <tr style="font-weight:600; background:var(--gray-50);"><td><strong>Total AI COGS</strong></td><td><strong>~$1,900–2,500</strong></td><td><strong>~$0.025 per user/month</strong> (economies of scale)</td></tr>
+              <tr><td><strong>GPU inference</strong> (8B triage + 8B judge + 8B fine-tuned transcreation)</td><td><strong>$600–900</strong></td><td>1-2 cloud GPUs (A10G/L4) self-hosting all inference. vLLM serves 100+ req/s per GPU. No per-token pricing.</td></tr>
+              <tr><td><strong>Frontier inference</strong> (GPT-4o-mini, ~4% traffic)</td><td><strong>$200–500</strong></td><td>Async summaries only. Immune to volume spikes.</td></tr>
+              <tr><td>Infrastructure (servers + networking)</td><td>$500–900</td><td>2-4 Node instances + load balancer + Redis for Socket.IO</td></tr>
+              <tr><td>Data/storage (MongoDB)</td><td>$600–1,000</td><td>M30/M40 dedicated cluster for IOPS during match peaks</td></tr>
+              <tr><td>Human-in-the-loop</td><td>$5,000–15,000</td><td>3-5 moderators (LATAM contractors) — becomes dominant cost at scale</td></tr>
+              <tr><td>Monitoring &amp; Observability</td><td>$300–800</td><td>Datadog/Grafana + Sentry</td></tr>
+              <tr><td>Web Search (Tavily)</td><td>$150–300</td><td>Scale plan</td></tr>
+              <tr style="font-weight:600; background:var(--gray-50);"><td><strong>Total OpEx</strong></td><td><strong>~$7,390–20,500/mo</strong></td><td></td></tr>
+              <tr><td><strong>CapEx amortized</strong> (12-month)</td><td><strong>~$2,250/mo</strong></td><td>$27k one-time (self-hosted setup + payments + gating + fine-tuning infrastructure)</td></tr>
+              <tr style="font-weight:600; background:var(--gray-50);"><td><strong>Total COGS</strong></td><td><strong>~$9,640–22,750/mo</strong></td><td><strong>~$0.074–0.205 per user/month</strong></td></tr>
             </tbody>
           </table>
         </div>
 
         <div style="margin-top:1.5rem;">
-          <h4 style="margin-bottom:0.5rem;">Cascading Strategy</h4>
-          <div class="analysis-block">
-            <strong>Triage model:</strong> Llama 3.1 8B (via Groq) — for real-time chat banter. Speed matters: 500+ tokens/sec.<br>
-            <strong>Frontier model:</strong> GPT-4o-mini or Claude 3.5 Haiku — for daily summaries and data extraction (accuracy-critical, async, latency-tolerant).<br>
-            <strong>Routing rule:</strong> Synchronous chat → triage. Asynchronous cron jobs (daily summaries) → frontier.<br>
-            <strong>Expected ratio:</strong> 95% triage / 5% frontier — blended COGS stays near open-source pricing.
+          <h4 style="margin-bottom:0.5rem;">Cascading Strategy — Current vs. Future</h4>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Dimension</th><th>Today (10 users)</th><th>Future (100k users)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Triage model</strong></td><td>None — single model for all paths: <code>llama-3.3-70b-versatile</code></td><td>Self-hosted fine-tuned 8B (Qwen2.5-7B) for chat + transcreation</td></tr>
+                <tr><td><strong>Frontier model</strong></td><td>None — same 70B for chat, summaries, transcreation</td><td>GPT-4o-mini (API) for async summaries only</td></tr>
+                <tr><td><strong>Routing rule</strong></td><td>None — all traffic → 70B</td><td>Feature-based: sync (chat) → self-hosted 8B; async (summaries) → GPT-4o-mini</td></tr>
+                <tr><td><strong>Cascade ratio</strong></td><td>N/A (100% 70B)</td><td>~96% self-hosted 8B / ~4% GPT-4o-mini</td></tr>
+                <tr><td><strong>Total AI COGS</strong></td><td>$0/mo (all free tier)</td><td>~$900–1,700/mo (GPU rental + GPT-4o-mini)</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
         <div style="margin-top:1.5rem;">
           <h4 style="margin-bottom:0.5rem;">Pricing Model: Admin-Sponsored Group Pass</h4>
           <div class="risk-block" style="border-left-color:var(--green-600);">
-            <strong>Free Tier:</strong> Create groups, invite friends, enter predictions, view leaderboard — zero friction.<br>
-            <strong>Group Pass ($4.99 one-time per tournament):</strong> The Group Admin pays once. Unlocks AI personalities, daily summaries, and breaking news RSS for the entire group for 30 days.<br>
-            <strong>Margins:</strong> AI COGS ~$0.35 per group per month → <strong>93% gross margin</strong> at $4.99.
+            <strong>Free Tier:</strong> Create groups, invite friends, enter predictions, view leaderboard, 4 AI personalities (2 ES + 2 EN), push notifications, daily AI summaries — zero friction. Banner ads shown on leaderboard and chat.<br><br>
+            <strong>Group Pass ($4.99 one-time per tournament):</strong> The Group Admin pays once. Unlocks all 7 AI personalities, no banner ads, breaking news RSS broadcasts, cosmetics (custom avatars, nickname colors, chat themes, animated effects) for the entire group for ~40 days.<br><br>
+            <strong>Margins:</strong> AI COGS ~$0.30–0.50 per group per tournament → <strong>90–94% gross margin</strong> on pass revenue. Blended gross margin including ads: ~55–65%. The $4.99 price point is structurally sound <em>only</em> because the self-hosted cascade caps marginal cost.
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+          <h4 style="margin-bottom:0.75rem;">Break-Even Analysis</h4>
+          <div class="analysis-block">
+            <strong>Payback at $27k CapEx:</strong> ~5,400 paid groups ($27,000 / $4.99 gross pass rev). At 10% conversion, ~54,000 total groups needed. Self-hosted OpEx ($900–1,700/mo) is covered by ~180–340 paid groups per month on pass revenue alone. The first tournament (40 days) likely breaks even on OpEx but does not recover the full CapEx — that requires 2-3 tournaments or hitting 100k users.
           </div>
         </div>
 
@@ -660,9 +679,9 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Inference costs 3x</td>
-                  <td>Low — margin drops ~93% → 87%</td>
-                  <td>"Humor cooldown" — bot self-limits gracefully instead of hard rate-limit</td>
+                  <td>Inference usage goes 3x</td>
+                  <td>Low — margin drops ~94% → 85–90% in worst case</td>
+                  <td>Monitor GPU utilization. Add auto-scaling alerts at 70% sustained usage.</td>
                 </tr>
                 <tr>
                   <td>Heaviest segment doubles usage</td>
@@ -672,7 +691,7 @@
                 <tr>
                   <td>Model provider raises prices 50%</td>
                   <td>Virtually zero (&lt;2% margin impact)</td>
-                  <td>Silent swap to another provider hosting the same open-source weights</td>
+                  <td>Only affects GPT-4o-mini (4% of traffic). Swap for Claude Haiku or Gemini Flash.</td>
                 </tr>
               </tbody>
             </table>
@@ -692,7 +711,7 @@
             </div>
           </div>
           <div style="margin-top:0.75rem; font-size:0.9rem;">
-            <strong>Net margin shift:</strong> Free un-monetizable utility → premium entertainment at <strong>&gt;90% gross margins</strong>. CAC decreases via shareable AI-generated content.
+            <strong>Net margin shift:</strong> Free un-monetizable utility → premium entertainment at <strong>90–94% gross margins</strong>. CAC decreases via shareable AI-generated content.
           </div>
         </div>
       </div>
@@ -714,36 +733,58 @@
           <span class="badge">M4 · golden-dataset.md</span>
         </div>
 
-        <h4 style="margin-bottom:0.75rem;">Reliability Contract</h4>
+        <h4 style="margin-bottom:0.75rem;">Golden Dataset Spec — 101 Test Cases</h4>
         <div class="data-table-wrap">
           <table class="data-table">
             <thead>
-              <tr><th>Metric</th><th>Target</th><th>Measurement</th><th>Alert Threshold</th></tr>
+              <tr><th>Dataset</th><th>Tests</th><th>What It Tests</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Intent classification</td><td>32</td><td>Query routing (ranking, my_status, help, greeting, factual, general) + boundary cases in Korean</td></tr>
+              <tr><td>Personality responses</td><td>29</td><td>Full pipeline: 7 personalities, ES/EN/KO, with golden reference responses</td></tr>
+              <tr><td>Language purity</td><td>16</td><td>Judge-only: contamination detection (Arabic, Hangul, CJK, Thai, Cyrillic), quality scoring, personality matching</td></tr>
+              <tr><td>Transcreation</td><td>8</td><td>Cultural adaptation to KO/AR/TH/JA across 4 personalities</td></tr>
+              <tr><td>Edge cases</td><td>10</td><td>Pipeline + judge-only: empty leaderboard, unregistered user, XSS injection, personality mismatch, transcreation fallback</td></tr>
+              <tr><td>Daily summaries</td><td>6</td><td>Summary generation for 4 personalities, including empty leaderboard</td></tr>
+              <tr style="font-weight:600; background:var(--gray-50);"><td><strong>Total</strong></td><td><strong>101</strong></td><td>Including 5 adversarial rows (script contamination, generic responses, perfect response baseline, wrong personality voice, empty response)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin:1.5rem 0 0.75rem;">Reliability Contract</h4>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Metric</th><th>Target</th><th>Measurement</th><th>Current Status</th><th>Alert Threshold</th></tr>
             </thead>
             <tbody>
               <tr>
                 <td><strong>Accuracy</strong></td>
                 <td>92%</td>
-                <td>Weekly · 300 golden rows · LLM-as-Judge (GPT-4o, accuracy rubric)</td>
-                <td>&lt;88% → page on-call</td>
+                <td><code>evalRunner.js --dataset all</code> — 101 golden tests, persisted to <code>EvalRun</code> with regression tracking</td>
+                <td><span style="color:var(--green-600);">Eval runner exists</span> — no automated scheduling (CLI-only)</td>
+                <td>&lt;88% → manual check</td>
               </tr>
               <tr>
                 <td><strong>Hallucination rate</strong></td>
                 <td>&lt;1%</td>
-                <td>Same weekly run · safety rubric flags fabricated policies/numbers</td>
-                <td>&gt;2% → auto-rollback to last good model</td>
+                <td>Real-time Judge on every response — language_purity (0-10) + quality (0-10), stored in <code>AILog.evalScores</code></td>
+                <td><span style="color:var(--green-600);">Every response judged</span> — no auto-rollback mechanism</td>
+                <td>&gt;2% → manual review</td>
               </tr>
               <tr>
                 <td><strong>Latency (p95)</strong></td>
                 <td>&lt;800ms</td>
-                <td>Continuous prod monitoring (Datadog) · p95 by endpoint</td>
-                <td>&gt;1,200ms for 5min → page on-call</td>
+                <td>Per-request latency captured in <code>AILog.latencyMs</code>. No external monitoring configured.</td>
+                <td><span style="color:var(--gold);">Data captured</span> — no real-time alerting or dashboard</td>
+                <td>&gt;1,200ms for 5min (requires external monitoring setup)</td>
               </tr>
               <tr>
                 <td><strong>Drift velocity</strong></td>
                 <td>&lt;0.5%/wk</td>
-                <td>4-week rolling accuracy trend vs. golden dataset</td>
-                <td>&gt;1% decay/wk → trigger gold-set audit</td>
+                <td><code>EvalRun.comparisonWithPrevious</code> tracks pass rate deltas between runs. Trend chart in dev dashboard.</td>
+                <td><span style="color:var(--green-600);">Comparison logic exists</span> — no weekly schedule</td>
+                <td>&gt;1% decay/wk → visual alert in dashboard</td>
               </tr>
             </tbody>
           </table>
@@ -751,17 +792,61 @@
 
         <div style="margin-top:1.5rem;">
           <h4 style="margin-bottom:0.5rem;">HITL Architecture</h4>
-          <div class="analysis-block">
-            <strong>Trigger:</strong> Confidence &lt;60% OR safety rubric flag fires on a customer-facing output.<br>
-            <strong>Reviewer:</strong> Rotating PM on-call (weekday 9–5 ET) · senior CSM after hours.<br>
-            <strong>Feedback loop:</strong> Reviewer corrections feed into weekly gold-set audit. 5+ corrections in a week triggers a model retrain candidate.
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Aspect</th><th>Detail</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Trigger</strong></td><td>Auto-created when: (1) user downvotes (rating 1-2), (2) user rates 4-5 but Judge disagreed (calibration signal), (3) quality gate force-approved after exhausting 3 retries</td></tr>
+                <tr><td><strong>Daily cap</strong></td><td>20 reviews/day (<code>config.hitl.maxDailyReviews: 20</code>)</td></tr>
+                <tr><td><strong>Deduplication</strong></td><td>Max 3 similar reviews per personality+language per 7-day window</td></tr>
+                <tr><td><strong>Reviewer</strong></td><td>Developer via dev dashboard UI at <code>/evals/hitl/pending</code>. No on-call rotation configured.</td></tr>
+                <tr><td><strong>Verdict</strong></td><td>Pass/fail + confidence (1-5) + free-text notes</td></tr>
+                <tr><td><strong>Promotion</strong></td><td>Manual click writes entry to <code>local_overrides.json</code> (gitignored — lost on redeploy)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="risk-block" style="margin-top:0.75rem;">
+            <strong>Gaps:</strong> No on-call rotation. No automated model retraining after N corrections. No auto-rollback on drift. <code>local_overrides.json</code> is gitignored — promoted entries are lost on redeploy.
           </div>
         </div>
 
         <div style="margin-top:1.5rem;">
           <h4 style="margin-bottom:0.75rem;">Confidence UX Design</h4>
-          <div class="placeholder-note">
-            Confidence tiers (high/medium/low), user control surface, and the Golden Dataset spec table are ready for completion.
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Confidence Level</th><th>What It Means</th><th>What Would Be Shown</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>High (&gt;90%)</strong></td>
+                  <td>Golden dataset pass rate maintained, Judge passed on first attempt with high scores</td>
+                  <td>No indicator — response delivered normally</td>
+                </tr>
+                <tr>
+                  <td><strong>Medium (70–90%)</strong></td>
+                  <td>Judge passed but with low scores (&lt;7) or required retries (2-3 attempts)</td>
+                  <td>Subtle indicator (e.g., faded "Powered by AI" badge)</td>
+                </tr>
+                <tr>
+                  <td><strong>Low (&lt;70%)</strong></td>
+                  <td>Force-approved after exhausting all retries, or Judge failed but delivered anyway</td>
+                  <td>Bot qualifies the response: "No estoy seguro, pero..." or "Según mis cálculos..."</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:0.85rem;color:var(--gray-600);margin-top:0.5rem;"><strong>Current state:</strong> Not implemented. Judge scores exist in AILog + dev dashboard but never shown to users. Thumbs up/down with 1-5 rating is already implemented.</p>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+          <h4 style="margin-bottom:0.5rem;">Red-Team Findings</h4>
+          <div class="analysis-block">
+            <strong>1. Golden dataset too small for statistical significance.</strong> 101 tests across 6 categories means the personality dataset (29 tests) can flag a regression but cannot measure it precisely. One failure drops the pass rate by ~3.4pp. Minimum viable size: ~200 tests per category.<br><br>
+            <strong>2. No latency SLO enforcement.</strong> p95 &lt;800ms target exists but latency is only logged to AILog. No alerting, no paging, no dashboard. If the self-hosted GPU degrades during a match, you won't know until users complain.<br><br>
+            <strong>3. No data freshness gate.</strong> The golden dataset is static hand-crafted JSON. No mechanism to automatically add new edge cases from production. The dataset grows only when a developer manually adds cases.
           </div>
         </div>
       </div>
@@ -779,25 +864,139 @@
 
       <div class="card">
         <div class="card-header">
-          <h3>Compounding System Design</h3>
+          <h3>Feedback Loops</h3>
           <span class="badge">M5 · compounding-system.md</span>
         </div>
 
         <div class="data-table-wrap">
           <table class="data-table">
             <thead>
-              <tr><th>Loop</th><th>Input</th><th>Output</th><th>Compounds?</th><th>Status</th></tr>
+              <tr><th>Loop</th><th>Iteration 1 → Iteration n</th><th>Compounds?</th><th>Status</th></tr>
             </thead>
             <tbody>
-              <tr><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td></tr>
-              <tr><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td></tr>
-              <tr><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td></tr>
+              <tr>
+                <td><strong>Quality Gate</strong></td>
+                <td>Judge gives feedback → response corrected. Feedback from n-1 injected as correction block in user prompt for n.</td>
+                <td><span style="color:var(--green-600);font-weight:700;">Yes</span></td>
+                <td>Live — each attempt (max 3) learns from the last</td>
+              </tr>
+              <tr>
+                <td><strong>HITL → Golden Dataset</strong></td>
+                <td>Human reviews force-approved or downvoted response → manually promotes to <code>local_overrides.json</code>. <code>local_overrides.json</code> is gitignored — lost on redeploy.</td>
+                <td><span style="color:var(--red);font-weight:700;">No</span></td>
+                <td>Manual — fully manual two-step with persistence gaps</td>
+              </tr>
+              <tr>
+                <td><strong>RAG Context</strong></td>
+                <td><code>vectorizeMessage()</code> stores embeddings on every message. <code>retrieveContextForPlayer()</code> uses <code>$regex</code> only — embeddings written but never read.</td>
+                <td><span style="color:var(--red);font-weight:700;">No</span></td>
+                <td>Limited — vector search is dead code</td>
+              </tr>
+              <tr>
+                <td><strong>Per-personality eval thresholds</strong></td>
+                <td>Global purity=8, quality=6 applied uniformly to all 7 personalities × 14 languages.</td>
+                <td><span style="color:var(--green-600);font-weight:700;">Yes*</span></td>
+                <td><span style="color:var(--gold);">Todo</span> — once implemented via <code>(personalityId, targetLanguage)</code> overrides in config</td>
+              </tr>
+              <tr>
+                <td><strong>Catchphrase → Prompt</strong></td>
+                <td>Full response texts stored in cross-group in-memory Map (max 3 per personalityId). Fed into bot as "RECENTLY USED catchphrases (AVOID)".</td>
+                <td><span style="color:var(--gold);font-weight:700;">Partial</span></td>
+                <td>In-memory only — FIFO eviction, no TTL, no banned list</td>
+              </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="placeholder-note" style="margin-top:1rem;">
-          <strong>Feedback loops, Context Connectivity, Governance Policy, Agent Topology,</strong> and <strong>Shadow AI Audit</strong> — all ready for completion.
+        <div style="margin-top:1rem;">
+          <p style="font-size:0.85rem;"><strong>Connectivity silos:</strong> 12 silos identified. Key ones: RAG vs Web Search are mutually exclusive branches, embeddings stored but never queried, Judge is stateless with global thresholds, no transcreation memory, no multi-turn memory beyond RAG.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Governance Policy</h3>
+          <span class="badge">M5 · compounding-system.md</span>
+        </div>
+
+        <h4 style="margin-bottom:0.5rem;">Autonomy Boundaries</h4>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>OK Solo</th><th>Needs Human</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Standard personality response (any of 7 personalities)</td><td>Force-approved response after 3 failed Judge retries → auto-enqueued to HITL</td></tr>
+              <tr><td>Web search for factual queries</td><td>User-downvoted response (rating 1-2) → auto-enqueued to HITL</td></tr>
+              <tr><td>Transcreation to KO/TH/AR/JA/RU/ZH/VI/HI (max 2 retries)</td><td>User rates 4-5 but Judge failed → calibration signal → HITL</td></tr>
+              <tr><td>Daily summaries at 08:45 AM Spain time</td><td>User reports message → Report record created (no moderation UI exists — gap)</td></tr>
+              <tr><td>RSS breaking news rebroadcast</td><td></td></tr>
+              <tr><td>User correction detection (LLM fire-and-forget to Correction model)</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin:1.5rem 0 0.5rem;">Escalation Triggers</h4>
+        <div class="analysis-block">
+          <strong>Existing:</strong> Judge scores &lt; thresholds → retry (max 3). Max retries exhausted → force-approve + HITL. User downvote (rating 1-2) → HITL. User rates 4-5 but Judge failed → calibration signal → HITL. User reports content → Report record. User blocks another user → chat filtered.<br><br>
+          <strong>Gaps:</strong> No profanity/toxicity detection, no PII leakage detection, no "talk to a human" transfer mechanism, no multi-turn conversation limits.
+        </div>
+
+        <h4 style="margin:1.5rem 0 0.5rem;">Audit Cadence</h4>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Cadence</th><th>Activity</th><th>Owner</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Weekly</td><td>Golden dataset eval run (manual CLI)</td><td>Developer</td><td>CLI-only, no cron</td></tr>
+              <tr><td>Daily (max 20)</td><td>HITL review of pending queue</td><td>Developer</td><td>Dev dashboard</td></tr>
+              <tr><td>Monthly</td><td>LangFlow feedback analysis → PRD</td><td>Developer</td><td>FLOW_ID not configured</td></tr>
+              <tr><td>Quarterly</td><td>Full policy review</td><td>CTO</td><td>Not implemented</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin:1.5rem 0 0.5rem;">Regulatory Exposure</h4>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Regime</th><th>Risk Tier</th><th>Key Gaps</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>EU AI Act</td><td>Minimal</td><td>No DPIA, no system documentation. Entertainment-only classification.</td></tr>
+              <tr><td>GDPR / LOPDGDD</td><td>Limited</td><td>No lawful basis documented, no processor register, no portability endpoint, incomplete account deletion, no retention policy</td></tr>
+              <tr><td>COPPA (Children)</td><td><span style="color:var(--red);font-weight:700;">High</span></td><td>No age gate, no parental consent likely required</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.85rem;color:var(--gray-600);margin-top:0.5rem;"><strong>Controls in place:</strong> bcrypt hashing, login rate limiting, EULA acceptance, no PII in LLM calls, no real-money transactions.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Shadow AI Audit</h3>
+          <span class="badge">M5 · compounding-system.md</span>
+        </div>
+        <p style="font-size:0.85rem;margin-bottom:1rem;">7 user workarounds found, ~$85/mo total adjacent spend. 4 Build, 1 Partner, 1 Govern, 1 Ignore.</p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>#</th><th>Workaround</th><th>Signal</th><th>Decision</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Screenshot leaderboard → ChatGPT for "what-if" sims &amp; trash talk</td><td>Workflow gap</td><td><strong>Build</strong> — native what-if sim + shareable leaderboard cards</td></tr>
+              <tr><td>2</td><td>Pipe bot responses through DeepL for FR/PT/IT/DE friends</td><td>Capability gap</td><td><strong>Build</strong> — add FR/PT/IT/DE as direct-generation languages</td></tr>
+              <tr><td>3</td><td>ChatGPT/Claude for pre-deadline match research &amp; prediction strategy</td><td>Capability gap</td><td><strong>Build</strong> — prediction strategy personality mode with team form analysis</td></tr>
+              <tr><td>4</td><td>Manual screenshots at intervals → AI to detect position changes</td><td>Workflow gap</td><td><strong>Build</strong> — native leaderboard history with position delta + sparkline</td></tr>
+              <tr><td>5</td><td>Custom scrapers polling unprotected API for personal dashboards</td><td>Capability gap</td><td><strong>Govern</strong> — add rate limiting + official webhook</td></tr>
+              <tr><td>6</td><td>ChatGPT to generate custom roasts for specific group members</td><td>Trust gap</td><td><strong>Partner</strong> — ship "roast my friend" prompt templates for ChatGPT</td></tr>
+              <tr><td>7</td><td>AI to create group viewing-party schedules from match fixtures</td><td>Workflow gap</td><td><strong>Build</strong> — match reminder notifications + ICS calendar export</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="analysis-block" style="margin-top:1rem;">
+          <strong>Dominant signal:</strong> Capability gap (3) + Workflow gap (3) — tied. <strong>Strongest near-term move:</strong> Add FR/PT/IT/DE direct-generation (already in language router, needs prompt variants) and leaderboard history with position delta (unlocks virality via shareable cards).
         </div>
       </div>
     </section>
@@ -818,66 +1017,145 @@
           <span class="badge">M6 · roadmap.md</span>
         </div>
 
-        <h4 style="margin-bottom:0.75rem;">Horizon 1 — Now (0–3 months)</h4>
-        <p style="font-size:0.8rem;color:var(--gray-400);font-style:italic;margin-bottom:0.75rem;">Quick wins. Ship with existing capabilities.</p>
+        <p style="font-size:0.85rem;color:var(--gray-600);font-style:italic;margin-bottom:1.5rem;">Context: June 1, 2026 — World Cup kicks off June 11. 50-day tournament ahead (June 11 — July 20).</p>
+
+        <h4 style="margin-bottom:0.75rem;">Horizon 1 — Ship (0-4 weeks: June 1 — June 29)</h4>
+        <p style="font-size:0.8rem;color:var(--gray-400);font-style:italic;margin-bottom:0.75rem;">High confidence. Ships before or during group stage. Earns H2 credibility.</p>
         <div class="data-table-wrap">
           <table class="data-table">
-            <thead><tr><th>Initiative</th><th>Metric</th><th>Confidence</th></tr></thead>
+            <thead><tr><th>Initiative</th><th>Strategy Component</th><th>Metric</th><th>Confidence</th></tr></thead>
             <tbody>
-              <tr><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td></tr>
-              <tr><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td></tr>
+              <tr><td>Per-personality eval thresholds (closes SILO #5)</td><td>Guardrails</td><td>Judge pass rate delta per personality</td><td><span class="pill pill-l" style="background:var(--green-600);color:white;">H</span></td></tr>
+              <tr><td>Leaderboard history with position delta + sparkline</td><td>Bet</td><td>DAU, share clicks</td><td><span class="pill pill-l" style="background:var(--green-600);color:white;">H</span></td></tr>
+              <tr><td>Add FR/PT/IT/DE as direct-generation languages</td><td>Moat</td><td>Transcreation bypass rate, user satisfaction</td><td><span class="pill pill-l" style="background:var(--green-600);color:white;">H</span></td></tr>
+              <tr><td>Match reminder notifications + ICS calendar export</td><td>Contract</td><td>Push notification CTR &gt;5%</td><td><span class="pill pill-m">M</span></td></tr>
             </tbody>
           </table>
         </div>
 
-        <h4 style="margin:1.5rem 0 0.75rem;">Horizon 2 — Next (3–9 months)</h4>
-        <p style="font-size:0.8rem;color:var(--gray-400);font-style:italic;margin-bottom:0.75rem;">Bets. Requires new capabilities or integrations.</p>
+        <h4 style="margin:1.5rem 0 0.75rem;">Horizon 2 — Validate (1-3 months: July — August)</h4>
+        <p style="font-size:0.8rem;color:var(--gray-400);font-style:italic;margin-bottom:0.75rem;">Medium confidence. Ships during knockout stage + immediate post-tournament. Named hypothesis + kill criteria.</p>
         <div class="data-table-wrap">
           <table class="data-table">
-            <thead><tr><th>Initiative</th><th>Metric</th><th>Confidence</th></tr></thead>
+            <thead><tr><th>Initiative</th><th>Hypothesis</th><th>Kill Criteria</th><th>Confidence</th></tr></thead>
             <tbody>
-              <tr><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td></tr>
-              <tr><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td></tr>
+              <tr><td>"What-if" simulation + bracket playback</td><td>Users return post-tournament to replay scenarios</td><td>&lt;15% of tournament users re-engage within 30 days post-final</td><td><span class="pill pill-m">M</span></td></tr>
+              <tr><td>Prediction strategy personality mode</td><td>Bot advisory drives higher prediction frequency</td><td>&lt;20% adoption among active users</td><td><span class="pill pill-m">M</span></td></tr>
+              <tr><td>Fix RAG embeddings (vector search in <code>retrieveContextForPlayer</code>)</td><td>Semantic retrieval improves relevance over regex-only</td><td>Golden dataset pass rate improvement &lt;3pp</td><td><span class="pill pill-m">M</span></td></tr>
+              <tr><td>Native what-if sim + shareable leaderboard cards</td><td>Viral sharing drives organic growth</td><td>Share conversion rate &lt;2%</td><td><span class="pill pill-m">M</span></td></tr>
             </tbody>
           </table>
         </div>
 
-        <h4 style="margin:1.5rem 0 0.75rem;">Horizon 3 — Bet (9–18 months)</h4>
-        <p style="font-size:0.8rem;color:var(--gray-400);font-style:italic;margin-bottom:0.75rem;">Moonshots. High uncertainty, high potential.</p>
+        <h4 style="margin:1.5rem 0 0.75rem;">Horizon 3 — Explore (3-6 months: September — December)</h4>
+        <p style="font-size:0.8rem;color:var(--gray-400);font-style:italic;margin-bottom:0.75rem;">Low confidence. Small investment. Builds toward secondary use case.</p>
         <div class="data-table-wrap">
           <table class="data-table">
-            <thead><tr><th>Initiative</th><th>Metric</th><th>Confidence</th></tr></thead>
+            <thead><tr><th>Initiative</th><th>What Must Be True First</th><th>Metric</th><th>Confidence</th></tr></thead>
             <tbody>
-              <tr><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td><td><span class="blank-inline">—</span></td></tr>
+              <tr><td>Generic league support (La Liga, Premier League)</td><td>Post-tournament retention proves year-round demand</td><td>&gt;30% of WC users activate a league within 90 days</td><td><span class="pill pill-l" style="background:var(--red-light);color:var(--red);">L</span></td></tr>
+              <tr><td>Custom personality creator / per-group anchor overrides</td><td>Personality is #1 engagement driver</td><td>Community-created personality adoption rate</td><td><span class="pill pill-l" style="background:var(--red-light);color:var(--red);">L</span></td></tr>
+              <tr><td>Cross-group leaderboard / global rankings</td><td>Multiple groups exist, users want broader comparison</td><td>Cross-group feature usage &gt;10%</td><td><span class="pill pill-l" style="background:var(--red-light);color:var(--red);">L</span></td></tr>
             </tbody>
           </table>
         </div>
 
         <div style="margin-top:2rem;padding-top:1.5rem;border-top:2px solid var(--gold-pale);">
           <h4 style="margin-bottom:1rem;">Board Pitch</h4>
-          <div class="detail-row">
-            <div class="detail-item" style="grid-column:1/-1;">
-              <label>Thesis (1 sentence)</label>
-              <p class="blank-inline">—</p>
+
+          <div class="card" style="background:var(--gold-pale);border-color:var(--gold-light);">
+            <div class="detail-item" style="margin-bottom:1rem;">
+              <label>Thesis</label>
+              <p style="font-size:0.9rem;font-style:italic;">"Personality-driven AI commentary turns a static World Cup prediction pool into a daily social ritual — and the 50-day tournament generates enough data to validate a year-round product before the next major event."</p>
+            </div>
+
+            <h5 style="font-size:0.9rem;margin-bottom:0.75rem;color:var(--green-800);">The Case</h5>
+
+            <div style="margin-bottom:0.75rem;">
+              <label style="font-size:0.75rem;text-transform:uppercase;color:var(--gray-400);font-weight:600;">1. Why Now</label>
+              <p style="font-size:0.85rem;">June 1 — 10 days before kickoff. The 2026 World Cup starts June 11. We have a live, tested application with 7 personalities, a Judge on every response, a 101-test golden dataset, and a HITL system ready. The gap is not the product — it's the $27k CapEx to ship monetization and the self-hosted GPU to survive 100k users. Every day of the tournament generates corrections and golden dataset entries that compound the moat.</p>
+            </div>
+
+            <div style="margin-bottom:0.75rem;">
+              <label style="font-size:0.75rem;text-transform:uppercase;color:var(--gray-400);font-weight:600;">2. What's Defensible</label>
+              <p style="font-size:0.85rem;">(1) 7 culturally-specific personality anchors with hardcoded catchphrases and forbidden patterns. (2) Golden dataset — 101 curated tests across 14 languages, growing daily via HITL. (3) User corrections — every correction is a labeled data point with full context. (4) Transcreation pipeline — 8 non-Latin scripts with cultural adaptation. (5) Feedback → PRD pipeline via LangFlow. None are un-copyable alone; together they create a 6-12 month head start. The true moat (fine-tuned model) is Year 2.</p>
+            </div>
+
+            <div style="margin-bottom:0.75rem;">
+              <label style="font-size:0.75rem;text-transform:uppercase;color:var(--gray-400);font-weight:600;">3. The Economics</label>
+              <div class="data-table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr><th>Item</th><th>Value</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Pricing</td><td>$4.99/group one-time pass (no ads + 7 personalities + cosmetics)</td></tr>
+                    <tr><td>Free tier</td><td>Banner ads at $0.75 CPM blended</td></tr>
+                    <tr><td>Conversion assumption</td><td>10% of groups</td></tr>
+                    <tr><td>CapEx required</td><td>$27k (feature gating + Stripe + provider router)</td></tr>
+                    <tr><td>OpEx at 100k users</td><td>$900–1,700/mo (self-hosted cascade: 1-2 A10G GPUs)</td></tr>
+                    <tr><td>Payback</td><td>~18 months at 10% conversion</td></tr>
+                    <tr><td>First tournament</td><td>Likely breakeven to slight loss — generates data and user base for year-round</td></tr>
+                    <tr><td>Post-tournament OpEx</td><td>$0/mo (scale back to Groq free tier for residual users)</td></tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-          <h5 style="font-size:0.9rem;margin-bottom:0.5rem;color:var(--green-800);">The Case</h5>
-          <div class="detail-row">
-            <div class="detail-item"><label>1. Why now</label><p class="blank-inline">—</p></div>
-            <div class="detail-item"><label>2. What's defensible</label><p class="blank-inline">—</p></div>
-            <div class="detail-item" style="grid-column:1/-1;"><label>3. The economics</label><p class="blank-inline">—</p></div>
+
+          <h5 style="font-size:0.9rem;margin:1.5rem 0 0.75rem;color:var(--green-800);">The Risks</h5>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Risk</th><th>Mitigation</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Trust / failure modes:</strong> Hallucination (wrong scores), offensive personality outputs, factual errors from web search</td>
+                  <td>Judge evaluates every response in real-time (purity 0-10 + quality 0-10). 3 retries with feedback injection before force-approve. HITL queue from downvotes. Golden dataset detects regressions.</td>
+                </tr>
+                <tr>
+                  <td><strong>Scale / governance:</strong> Groq free tier caps at 30 req/min, 500K tokens/day. No age verification. GDPR gaps.</td>
+                  <td>Self-hosted GPU must ship by round of 16 (June 28). Age gate + data retention policy (H2). Privacy policy update (needs legal counsel).</td>
+                </tr>
+                <tr>
+                  <td><strong>Competitive:</strong> A competitor launches a similar personality bot next tournament. Without fine-tuning, our advantage is prompt engineering + data — both copyable.</td>
+                  <td>Fine-tuning is Year 2. Near-term: deepen the data flywheel (corrections → golden dataset → eval improvement). Lock users with group pass — switching costs rise with every prediction saved.</td>
+                </tr>
+                <tr>
+                  <td><strong>Post-tournament cliff:</strong> After July 20, DAU drops 90%+. The product is seasonal.</td>
+                  <td>Generic league support (H3) is the bridge. Only funded if H2 re-engagement validates year-round demand. Kill criteria explicit: &lt;15% re-engagement in 30 days = don't build leagues.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <h5 style="font-size:0.9rem;margin:1rem 0 0.5rem;color:var(--green-800);">The Risks</h5>
-          <div class="detail-row">
-            <div class="detail-item"><label>1. Trust / failure modes</label><p class="blank-inline">—</p></div>
-            <div class="detail-item"><label>2. Scale / governance</label><p class="blank-inline">—</p></div>
-            <div class="detail-item"><label>3. Competitive</label><p class="blank-inline">—</p></div>
+
+          <div class="card" style="margin-top:1.5rem;background:var(--gold-pale);border-color:var(--gold-light);">
+            <h5 style="font-size:0.9rem;color:var(--green-800);margin-bottom:0.75rem;">The Ask</h5>
+            <p style="font-size:1.1rem;font-weight:700;color:var(--green-800);">$27k CapEx + $5k/month OpEx (3-month minimum = $15k) = <strong>$42k total</strong></p>
+            <ul class="pillar-list" style="margin-top:0.75rem;">
+              <li>By matchday 1 (June 11): feature gating + Stripe + provider router ships.</li>
+              <li>By round of 16 (June 28): self-hosted GPU cascade is live.</li>
+              <li>By final (July 20): H2 validation data decides whether to fund generic leagues or pivot.</li>
+            </ul>
           </div>
+
+          <div style="margin-top:1.5rem;padding:1rem;background:var(--gray-50);border-radius:var(--radius-sm);border-left:3px solid var(--green-600);">
+            <h5 style="font-size:0.85rem;color:var(--green-800);">Key Strategic Change</h5>
+            <p style="font-size:0.85rem;margin-top:0.25rem;">Dropped fine-tuning from all horizons. Reclassified Data Flywheel score from 5/5 to 2/5. Fine-tuning is Year 2 — it improves the next event, not this one. The near-term moat is prompt engineering + golden dataset compounding + HITL signal accumulation.</p>
+          </div>
+
           <div style="margin-top:1.5rem;padding:1rem;background:var(--gold-pale);border-radius:var(--radius-sm);">
             <h5 style="font-size:0.85rem;color:var(--green-800);">M1 Baseline vs. Now</h5>
             <div class="detail-row" style="margin-top:0.5rem;">
-              <div class="detail-item"><label>M1 Baseline</label><p class="blank-inline">—</p></div>
-              <div class="detail-item"><label>Now</label><p class="blank-inline">—</p></div>
+              <div class="detail-item">
+                <label>M1 Baseline</label>
+                <p style="font-size:0.85rem;">"We ship a World Cup prediction bot with AI personalities. It's free. Fine-tuning is how we win."</p>
+              </div>
+              <div class="detail-item">
+                <label>Now</label>
+                <p style="font-size:0.85rem;">"We ship personality-driven AI commentary with a quality gate on every response, a growing golden dataset, and HITL capturing feedback from day 1. Monetization funds the self-hosted GPU. Fine-tuning is Year 2 — it cannot improve this World Cup."</p>
+              </div>
             </div>
           </div>
         </div>
